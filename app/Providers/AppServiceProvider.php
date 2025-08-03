@@ -6,6 +6,8 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use App\Modules\Management\WarehouseManagement\WarehouseProductOut\Models\WareHouseProductOutProductModel as WarehouseProductOut;
 use App\Modules\Management\WarehouseManagement\WarehouseProductOut\Observer\WarehouseProductOutObserver;
+use Illuminate\Support\Facades\View;
+use App\Modules\Management\SettingManagement\WebsiteSettings\Models\Model as SettingTitleValue;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +26,13 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
         // WarehouseProductOut::observe(WarehouseProductOutObserver::class);
+
+        View::composer('*', function ($view) {
+            $app_settings = SettingTitleValue::get();
+            $GLOBALS['app_settings'] = $app_settings;
+            $view->with([
+                'app_settings' => $app_settings,
+            ]);
+        });
     }
 }
