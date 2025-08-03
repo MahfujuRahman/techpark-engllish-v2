@@ -70,16 +70,33 @@ This is an ecommerce project developed using **Laravel**, **Vue.js**, **Vuex**, 
 - Manage customers
 
 ## Contributors
+<br>
 
-> <img src="https://github.com/Md-shefat-masum.png" alt="Muhammad Shefat Ullah Masum" width="50" height="50">  
-> [Muhammad Shefat Ullah Masum](https://github.com/Md-shefat-masum)  
-> Software Engineer (Tech Park IT)
+> <br> 
+> <img src="https://github.com/Md-shefat-masum.png" alt="alt text" width="50" height="50" > <br> 
+> <a href="https://github.com/Md-shefat-masum">Muhammad Shefat Ullah Masum</a> <br>
+> Software Engineer ( Tech Park IT )
+> <br>
+> <br>
 
-> <img src="https://github.com/MahfujuRahman.png" alt="S. M. Mahfujur Rahman" width="50" height="50">  
-> [S. M. Mahfujur Rahman](https://github.com/MahfujuRahman)  
-> Software Engineer (Tech Park IT)
+<br>
 
-> <img src="https://github.com/Sajid-al-islam.png" alt="Sajid Al Islam" width="50" height="50">  
-> [Sajid Al Islam](https://github.com/Sajid-al-islam)  
-> Software Engineer (Tech Park IT)
+> <br>
+> <img src="https://github.com/MahfujuRahman.png" alt="alt text" width="50" height="50" > <br> 
+> <a href="https://github.com/MahfujuRahman">S. M. Mahfujur Rahman</a> <br>
+> Software Engineer ( Tech Park IT )
+> <br>
+> <br>
+
+> <br>
+> <img src="https://github.com/Sajid-al-islam.png" alt="alt text" width="50" height="50" > <br> 
+> <a href="https://github.com/Sajid-al-islam">Sajid Al Islam</a> <br>
+> Software Engineer ( Tech Park IT )
+> <br>
+> <br>
+
+<br>
+
+
+
 

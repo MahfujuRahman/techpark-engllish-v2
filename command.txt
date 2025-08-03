@@ -5,7 +5,7 @@
 |--------------------------------------------------------------------------
 */    
 php artisan make:table UserManagement/User/UserAddress [user_id:bigint,phone_number:json,address:text,country:string-255,city:string-255,state:string-255,post:string-255] --model
-php artisan make:table  UserManagement/User/UserSocialLink [user_id:bigint,media_name:string-100,link:string-100] --model
+php artisan make:table UserManagement/User/UserSocialLink [user_id:bigint,media_name:string-100,link:string-100] --model
 php artisan make:table UserManagement/User/UserLog [user_id:bigint,last_seen:string-255,log_details:json] --model
 
 /*
@@ -49,7 +49,7 @@ php artisan make:module CourseManagement/CourseModuleClassRoutine [course_id:big
 /*
 |--------------------------------------------------------------------------
 | Quiz
-|--------------------------------------------------------------------------
+|---------- ----------------------------------------------------------------
 */  
 php artisan make:module QuizManagement/QuizQuestionTopic [title:string-200] --vue
 
@@ -59,7 +59,7 @@ php artisan make:table QuizManagement/QuizQuestion/QuizQuestionOption [quiz_ques
 php artisan make:module QuizManagement/Quiz [title:string-255,description:text,total_question:int,exam_start_datetime:datetime,exam_end_datetime:datetime,total_mark:float,pass_mark:float,is_negative_marking:boolean,negative_value:float] --vue
 php artisan make:table QuizManagement/Quiz/QuizQuizQuestion [quiz_id:bigint,quiz_question_id:bigint] --model
 php artisan make:table QuizManagement/Quiz/QuizSubmission [user_id:bigint,quiz_id:bigint,quiz_question_id:bigint,quiz_question_option_id:json,course_module_class_id:bigint,is_correct:boolean] --model
-php artisan make:table QuizManagement/Quiz/QuizSubmissionResult [user_id:bigint,quiz_id:bigint,submission_no:tinyint,course_module_class_id:bigint,quiz_mark:float,obtain_mark:float,submission_datetime:datetime] --model
+php artisan make:module QuizManagement/QuizSubmissionResult [user_id:bigint,quiz_id:bigint{QuizManagement/Quiz},submission_no:tinyint,course_module_class_id:bigint{CourseManagement/CourseModuleClass},quiz_mark:float,obtain_mark:float,submission_datetime:datetime] --vue
 
 /*
 |--------------------------------------------------------------------------
