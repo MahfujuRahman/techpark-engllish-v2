@@ -35,12 +35,14 @@ use App\Models\Course\CourseModuleClassRoutines;
 use App\Models\Course\CourseModuleTaskCompleteByUsers;
 use App\Modules\Management\CourseManagement\CourseCategory\Models\Model as CourseCategory;
 use App\Modules\Management\WebsiteManagement\WebsiteBanner\Models\Model as Banner;
+use App\Modules\Management\WebsiteManagement\SubBanner\Models\Model as SubBanner;
 
 class WebsiteController extends Controller
 {
     public function index()
     {
         $banners = Banner::where('is_featured', 1)->where('status', 1)->orderBy('id', 'desc')->get();
+        $subBanners = SubBanner::where('status', 1)->orderBy('id', 'desc')->get();
 
 
         $course_categories = CourseCategory::where('status', 'active')->get();
@@ -62,7 +64,7 @@ class WebsiteController extends Controller
             'frontend.pages.home.home',
             [
                 'banners' => $banners,
-
+                'subBanners' => $subBanners,
 
                 'course_categories' => $course_categories,
                 'course_types' => $course_types,

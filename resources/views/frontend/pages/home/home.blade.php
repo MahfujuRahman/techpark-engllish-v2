@@ -9,15 +9,14 @@
 @endphp
 @extends('frontend.layouts.layout', $meta)
 @section('contents')
+
     <!-- banner_part start -->
     @include('frontend.pages.home.components.banner_section')
     <!-- banner_part end -->
 
-    <!-- course_item start -->
-    @include('frontend.pages.home.components.course_category_section', [
-        'categories' => $course_categories,
-    ])
-    <!-- course_item end -->
+    <!-- subBanner start -->
+    @include('frontend.pages.home.components.sub_banner_section')
+    <!-- subBanner end -->
 
     <!-- our_course area start -->
     @include('frontend.pages.home.components.course_section')
