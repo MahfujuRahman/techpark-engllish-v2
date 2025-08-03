@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     php artisan migrate --path='\App\Modules\Management\UserManagement\User\Database\create_user_logs_table.php'
+     php artisan migrate --path='/app/Modules/Management/UserManagement/User/Database/create_user_logs_table.php' 
      * Run the migrations.
      */
     public function up(): void
