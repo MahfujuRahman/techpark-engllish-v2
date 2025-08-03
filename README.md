@@ -1,18 +1,18 @@
 # Ecommerce Project
 
-This is an ecommerce project developed using **Laravel**, **Vue.js**, **Vuex**, and **Livewire**. Customers can browse and purchase products, while administrators manage products, categories, orders, accounts, and more.
+This is an LMS project developed using **Laravel**, **Vue.js**, **Pinia**, and **blade**. Customers can browse and purchase products, while administrators manage products, categories, orders, accounts, and more.
 
 ## Getting Started
 
 ### Tech Stack
 
-- PHP ^7.0
+- PHP ^8.2
 - MySQL
-- Laravel 8
+- Laravel 10
 - Composer
 - Node.js
 - Vue.js
-- Vuex
+- Pinia
 
 ### Installation
 
@@ -70,7 +70,6 @@ This is an ecommerce project developed using **Laravel**, **Vue.js**, **Vuex**, 
 - Manage customers
 
 ## Contributors
-<br>
 
 > <br> 
 > <img src="https://github.com/Md-shefat-masum.png" alt="alt text" width="50" height="50" > <br> 
@@ -79,13 +78,10 @@ This is an ecommerce project developed using **Laravel**, **Vue.js**, **Vuex**, 
 > <br>
 > <br>
 
-<br>
-
 > <br>
 > <img src="https://github.com/MahfujuRahman.png" alt="alt text" width="50" height="50" > <br> 
 > <a href="https://github.com/MahfujuRahman">S. M. Mahfujur Rahman</a> <br>
 > Software Engineer ( Tech Park IT )
-> <br>
 > <br>
 
 > <br>
@@ -94,7 +90,6 @@ This is an ecommerce project developed using **Laravel**, **Vue.js**, **Vuex**, 
 > Software Engineer ( Tech Park IT )
 > <br>
 > <br>
-
 <br>
 
 
