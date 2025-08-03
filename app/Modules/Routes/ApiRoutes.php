@@ -48,7 +48,6 @@ include_once base_path("app/Modules/Management/QuizManagement/QuizQuestionTopic/
 include_once base_path("app/Modules/Management/QuizManagement/QuizQuestion/Routes/Route.php");
 include_once base_path("app/Modules/Management/QuizManagement/Quiz/Routes/Route.php");
 include_once base_path("app/Modules/Management/QuizManagement/QuizSubmissionResult/Routes/Route.php");
-include_once base_path("app/Modules/Management/WebsiteManagement/WebsiteMWebsiteBanner/Routes/Route.php");
 include_once base_path("app/Modules/Management/WebsiteManagement/SubBanner/Routes/Route.php");
 include_once base_path("app/Modules/Management/WebsiteManagement/SuccssStories/Routes/Route.php");
 include_once base_path("app/Modules/Management/WebsiteManagement/OurSpeciality/Routes/Route.php");
@@ -73,3 +72,4 @@ include_once base_path("app/Modules/Management/SeminerManagement/SeminerParticip
 include_once base_path("app/Modules/Management/SeminerManagement/SeminerSubscribers/Routes/Route.php");
 include_once base_path("app/Modules/Management/SeminerManagement/SeminerReviews/Routes/Route.php");
 include_once base_path("app/Modules/Management/CommunicationManagement/ContactMessage/Routes/Route.php");
+include_once base_path("app/Modules/Management/WebsiteManagement/WebsiteBanner/Routes/Route.php");

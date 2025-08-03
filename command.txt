@@ -66,7 +66,7 @@ php artisan make:module QuizManagement/QuizSubmissionResult [user_id:bigint,quiz
 | WebsiteContent
 |--------------------------------------------------------------------------
 */  
-php artisan make:module WebsiteManagement/WebsiteMWebsiteBanner [title:string-255,subtitle:text,is_featured:boolean,image:string-255,btn_one_text:string-50,btn_one_url:string-255,btn_two_text:string-50,btn_two_url:string-255] --vue
+php artisan make:module WebsiteManagement/WebsiteBanner [title:string-255,subtitle:text,is_featured:boolean,image:file,btn_one_text:string-50,btn_one_url:string-255,btn_two_text:string-50,btn_two_url:string-255] --vue
 php artisan make:module WebsiteManagement/SubBanner [title:string-255,image:string-255] --vue
 php artisan make:module WebsiteManagement/SuccssStories [title:string-255,thumbnail_image:string-255,video_link:string-255] --vue
 php artisan make:module WebsiteManagement/OurSpeciality [title:string-255,image:string-255] --vue

@@ -7,6 +7,7 @@ import SettingsRoutes from "../Management/Settings/setup/routes.js";
 //UserRoutes
 import UserRoutes from "../Management/UserManagement/User/setup/routes.js";
 //routes
+import WebsiteBannerRoutes from '../../../GlobalManagement/WebsiteManagement/WebsiteBanner/setup/routes.js';
 import ContactMessageRoutes from '../../../GlobalManagement/CommunicationManagement/ContactMessage/setup/routes.js';
 import SeminerReviewsRoutes from '../../../GlobalManagement/SeminerManagement/SeminerReviews/setup/routes.js';
 import SeminerSubscribersRoutes from '../../../GlobalManagement/SeminerManagement/SeminerSubscribers/setup/routes.js';
@@ -31,7 +32,6 @@ import OurTrainerRoutes from '../../../GlobalManagement/WebsiteManagement/OurTra
 import OurSpecialityRoutes from '../../../GlobalManagement/WebsiteManagement/OurSpeciality/setup/routes.js';
 import SuccssStoriesRoutes from '../../../GlobalManagement/WebsiteManagement/SuccssStories/setup/routes.js';
 import SubBannerRoutes from '../../../GlobalManagement/WebsiteManagement/SubBanner/setup/routes.js';
-import WebsiteMWebsiteBannerRoutes from '../../../GlobalManagement/WebsiteManagement/WebsiteMWebsiteBanner/setup/routes.js';
 import QuizSubmissionResultRoutes from '../../../GlobalManagement/QuizManagement/QuizSubmissionResult/setup/routes.js';
 import QuizRoutes from '../../../GlobalManagement/QuizManagement/Quiz/setup/routes.js';
 import QuizQuestionRoutes from '../../../GlobalManagement/QuizManagement/QuizQuestion/setup/routes.js';
@@ -57,6 +57,7 @@ const routes = {
       name: "adminDashboard",
     },
     //management routes
+        WebsiteBannerRoutes,
         ContactMessageRoutes,
         SeminerReviewsRoutes,
         SeminerSubscribersRoutes,
@@ -81,7 +82,6 @@ const routes = {
         OurSpecialityRoutes,
         SuccssStoriesRoutes,
         SubBannerRoutes,
-        WebsiteMWebsiteBannerRoutes,
         QuizSubmissionResultRoutes,
         QuizRoutes,
         QuizQuestionRoutes,
