@@ -19,7 +19,7 @@ class Seeder extends SeederClass
 
         for ($i = 1; $i <= 100; $i++) {
             self::$model::create([                'title' => $faker->text(255),
-                'image' => $faker->text(255),
+                'image' => null,
             ]);
         }
     }

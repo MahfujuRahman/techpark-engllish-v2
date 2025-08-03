@@ -45,6 +45,10 @@ class WebsiteController extends Controller
         $subBanners = SubBanner::where('status', 1)->orderBy('id', 'desc')->get();
 
 
+        $our_speciality = OurSpeciality::where('status', 1)->orderBy('id', 'desc')->get();
+
+
+
         $course_categories = CourseCategory::where('status', 'active')->get();
 
         $all = $this->all_course();
@@ -54,7 +58,6 @@ class WebsiteController extends Controller
         $courseBatch = CourseBatches::active()->orderBy('id', 'DESC')->get();
 
         $seminar = Seminars::whereDate('date_time', '>', Carbon::today())->where('status', 'active')->get();
-        $course_speciality = OurSpeciality::get();
         $course_learning_steps = CourseOutcomeStepModel::get();
         $success_stories = SuccessStory::limit(6)->get();
 
@@ -66,13 +69,18 @@ class WebsiteController extends Controller
                 'banners' => $banners,
                 'subBanners' => $subBanners,
 
+
+                'our_speciality'=> $our_speciality,
+
+
+
+
                 'course_categories' => $course_categories,
                 'course_types' => $course_types,
 
                 'courses' => $courses,
                 "seminar" => $seminar,
 
-                'course_speciality' => $course_speciality,
                 'course_learning_steps' => $course_learning_steps,
                 'success_stories' => $success_stories,
                 // 'it_services' => $it_services

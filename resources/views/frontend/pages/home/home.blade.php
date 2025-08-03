@@ -19,32 +19,12 @@
     <!-- subBanner end -->
 
     <!-- our_course area start -->
-    @include('frontend.pages.home.components.course_section')
-
+    {{-- @include('frontend.pages.home.components.course_section') --}}
     <!-- our_course area end -->
 
     <!-- our_course_specialty area start -->
-    <section class="our_course_specialty" {{-- style="background-image: url(http://techparkit.org/frontend/assets/images/home_page_image/our_course_specialty/bg_img.png);" --}} style="background: #43a5c9">
-        <div class="container">
-            <div class="our_course_specialty_area_content">
-
-                <!--our_course_specialty_area_title start -->
-                <div class="our_course_specialty_area_title">
-                    <h2 class="area_title">
-                        OUR SPECIALITIES IN COURSES
-                    </h2>
-                </div>
-                <!-- our_course_specialty_area_title end -->
-
-                <!-- course_card_area start -->
-                @include('frontend.pages.home.components.course_speciality', [
-                    'course_speciality' => $course_speciality,
-                ])
-                <!-- course_card_area end -->
-
-            </div>
-        </div>
-    </section>
+    @include('frontend.pages.home.components.our_specialities')
+    <!-- our_course_specialty area end -->
 
     <!-- earning_area start -->
     <!-- কোর্স শেষেই আর্নিং শুরু করুন -->
