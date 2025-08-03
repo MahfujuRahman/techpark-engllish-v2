@@ -37,6 +37,7 @@ use App\Modules\Management\CourseManagement\CourseCategory\Models\Model as Cours
 use App\Modules\Management\WebsiteManagement\WebsiteBanner\Models\Model as Banner;
 use App\Modules\Management\WebsiteManagement\SubBanner\Models\Model as SubBanner;
 use App\Modules\Management\WebsiteManagement\OurTrainer\Models\Model as OurTrainer;
+use App\Modules\Management\WebsiteManagement\WebsiteBrand\Models\Model as Brand;
 
 class WebsiteController extends Controller
 {
@@ -49,7 +50,7 @@ class WebsiteController extends Controller
         $success_stories = SuccessStory::where('status', 1)->limit(6)->orderBy('id', 'desc')->get();
         $our_trainers = OurTrainer::where('status', 1)->orderBy('id', 'desc')->first();
         $seminars = Seminars::where('date_time', '>', Carbon::today())->where('status', 'active')->get();
-        $brands = \App\Modules\Management\WebsiteManagement\WebsiteBrand\Models\Model::where('status', 1)->get();
+        $brands = Brand::where('status', 1)->get();
 
         $course_categories = CourseCategory::where('status', 'active')->get();
 
@@ -62,15 +63,11 @@ class WebsiteController extends Controller
 
         $course_learning_steps = CourseOutcomeStepModel::get();
 
-
-        // $banners =
-        // $it_services = ItServices::get();
         return view(
             'frontend.pages.home.home',
             [
                 'banners' => $banners,
                 'subBanners' => $subBanners,
-
 
                 'our_speciality' => $our_speciality,
                 'success_stories' => $success_stories,
@@ -83,12 +80,7 @@ class WebsiteController extends Controller
                 'course_types' => $course_types,
 
                 'courses' => $courses,
-                
-
                 'course_learning_steps' => $course_learning_steps,
-
-                // 'it_services' => $it_services
-
                 'courseBatches' => $courseBatch
             ]
         );
