@@ -11,6 +11,12 @@ class StoreData
         try {
             $requestData = $request->validated();
 
+            // Process file uploads for specific fields
+                            if ($request->hasFile('thumbnail_image')) {
+                    $file = $request->file('thumbnail_image');
+                    $requestData['thumbnail_image'] = uploader($file, 'uploads/WebsiteManagement/SuccssStories');
+                }
+          
             if ($data = self::$model::query()->create($requestData)) {
                 return messageResponse('Item added successfully', $data, 201);
             }

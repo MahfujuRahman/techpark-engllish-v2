@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('succss_stories', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255)->nullable();
-            $table->string('thumbnail_image', 255)->nullable();
+            $table->string('thumbnail_image', 100)->nullable();
             $table->string('video_link', 255)->nullable();
 
             $table->bigInteger('creator')->unsigned()->nullable();

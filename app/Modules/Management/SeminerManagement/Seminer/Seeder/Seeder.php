@@ -20,7 +20,7 @@ class Seeder extends SeederClass
         for ($i = 1; $i <= 100; $i++) {
             self::$model::create([                'title' => $faker->text(255),
                 'description' => $faker->paragraph,
-                'poster' => $faker->text(255),
+                'poster' => null,
                 'whatsapp_group' => $faker->sentence,
                 'facebook_group' => $faker->text(255),
                 'telegram_group' => $faker->text(255),

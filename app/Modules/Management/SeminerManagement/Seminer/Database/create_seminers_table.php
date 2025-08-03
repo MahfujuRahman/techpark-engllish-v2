@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('title', 255)->nullable();
             $table->text('description')->nullable();
-            $table->string('poster', 255)->nullable();
+            $table->string('poster', 100)->nullable();
             $table->string('whatsapp_group', 100)->nullable();
             $table->string('facebook_group', 255)->nullable();
             $table->string('telegram_group', 255)->nullable();

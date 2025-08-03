@@ -9,7 +9,8 @@ export default [
 	{
 		name: "image",
 		label: "Enter your image",
-		type: "text",
+		type: "file",
+		multiple: "false",
 		value: "",
 	},
 ];

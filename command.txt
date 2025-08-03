@@ -69,11 +69,11 @@ php artisan make:module QuizManagement/QuizSubmissionResult [user_id:bigint,quiz
 php artisan make:module WebsiteManagement/WebsiteBanner [title:string-255,subtitle:text,is_featured:boolean,image:file,btn_one_text:string-50,btn_one_url:string-255,btn_two_text:string-50,btn_two_url:string-255] --vue
 php artisan make:module WebsiteManagement/SubBanner [title:string-255,image:file] --vue
 php artisan make:module WebsiteManagement/OurSpeciality [title:string-255,image:file] --vue
-php artisan make:module WebsiteManagement/SuccssStories [title:string-255,thumbnail_image:string-255,video_link:string-255] --vue
-php artisan make:module WebsiteManagement/OurTrainer [title:string-255,description:text,image:string-255] --vue
+php artisan make:module WebsiteManagement/SuccssStories [title:string-255,thumbnail_image:file,video_link:string-255] --vue
+php artisan make:module WebsiteManagement/OurTrainer [title:string-255,description:text,image:file] --vue
 
 php artisan make:module WebsiteManagement/AboutUs [title:string-255,description:text,image:string-255] --vue
-php artisan make:module WebsiteManagement/WebsiteBrand [title:string-255,image:string-255] --vue
+php artisan make:module WebsiteManagement/WebsiteBrand [title:string-255,image:file] --vue
 php artisan make:module WebsiteManagement/OurMoto [title:string-255,description:text,image:string-255] --vue
 php artisan make:module WebsiteManagement/OurMission [title:string-255,description:text,image:string-255] --vue
 php artisan make:module WebsiteManagement/OurVision [title:string-255,description:text,image:string-255] --vue
@@ -132,7 +132,7 @@ php artisan make:module EmailConfigures [host:string-255,port:int,email:string-2
 | Seminer Management
 |--------------------------------------------------------------------------
 */   
-php artisan make:module SeminerManagement/Seminer [title:string-255,description:text,poster:string-255,whatsapp_group:stringo-255,facebook_group:string-255,telegram_group:string-255,date_time:datetime,promo_video:text] --vue
+php artisan make:module SeminerManagement/Seminer [title:string-255,description:text,poster:file,whatsapp_group:stringo-255,facebook_group:string-255,telegram_group:string-255,date_time:datetime,promo_video:text] --vue
 php artisan make:module SeminerManagement/SeminerParticipant [seminar_id:bigint{SeminerManagement/Seminer},full_name:string-255,email:string-255,phone_number:string-20,address:string-255] --vue
 php artisan make:module SeminerManagement/SeminerSubscribers [seminar_id:bigint{SeminerManagement/Seminer},email:string-255] --vue
 php artisan make:module SeminerManagement/SeminerReviews [seminar_id:bigint{SeminerManagement/Seminer},comment:string-255,rating:float,comment_reply:json] --vue

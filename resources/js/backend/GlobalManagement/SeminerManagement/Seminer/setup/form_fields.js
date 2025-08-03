@@ -16,7 +16,8 @@ export default [
 	{
 		name: "poster",
 		label: "Enter your poster",
-		type: "text",
+		type: "file",
+		multiple: "false",
 		value: "",
 	},
 

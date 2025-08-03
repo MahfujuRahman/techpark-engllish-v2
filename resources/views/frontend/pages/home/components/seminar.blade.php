@@ -24,7 +24,7 @@
                     <!-- free_seminar_area sub_title end -->
 
                     <!-- date_line_area start -->
-                    @foreach ($seminar as $item)
+                    @foreach ($seminars as $item)
                         @php
                             $date1 = \Carbon\Carbon::now();
                             $date2 = \Carbon\Carbon::parse($item->date_time);
@@ -82,7 +82,7 @@
             <div class="col-xs-12 col-md-12 col-lg-6">
                 <div class="right_area">
                     <div class="free_seminar_image">
-                        <img src="/frontend/assets/images/home_page_image/free_seminar_area/img.png"
+                        <img src="{{ asset('frontend') }}/assets/images/seminar.png"
                             alt="seminar_image tech park it">
                     </div>
                 </div>

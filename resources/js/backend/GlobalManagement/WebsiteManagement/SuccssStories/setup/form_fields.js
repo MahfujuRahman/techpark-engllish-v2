@@ -9,7 +9,8 @@ export default [
 	{
 		name: "thumbnail_image",
 		label: "Enter your thumbnail image",
-		type: "text",
+		type: "file",
+		multiple: "false",
 		value: "",
 	},
 

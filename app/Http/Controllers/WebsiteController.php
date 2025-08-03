@@ -36,6 +36,7 @@ use App\Models\Course\CourseModuleTaskCompleteByUsers;
 use App\Modules\Management\CourseManagement\CourseCategory\Models\Model as CourseCategory;
 use App\Modules\Management\WebsiteManagement\WebsiteBanner\Models\Model as Banner;
 use App\Modules\Management\WebsiteManagement\SubBanner\Models\Model as SubBanner;
+use App\Modules\Management\WebsiteManagement\OurTrainer\Models\Model as OurTrainer;
 
 class WebsiteController extends Controller
 {
@@ -44,10 +45,11 @@ class WebsiteController extends Controller
         $banners = Banner::where('is_featured', 1)->where('status', 1)->orderBy('id', 'desc')->get();
         $subBanners = SubBanner::where('status', 1)->orderBy('id', 'desc')->get();
 
-
         $our_speciality = OurSpeciality::where('status', 1)->orderBy('id', 'desc')->get();
-
-
+        $success_stories = SuccessStory::where('status', 1)->limit(6)->orderBy('id', 'desc')->get();
+        $our_trainers = OurTrainer::where('status', 1)->orderBy('id', 'desc')->first();
+        $seminars = Seminars::where('date_time', '>', Carbon::today())->where('status', 'active')->get();
+        $brands = \App\Modules\Management\WebsiteManagement\WebsiteBrand\Models\Model::where('status', 1)->get();
 
         $course_categories = CourseCategory::where('status', 'active')->get();
 
@@ -57,9 +59,9 @@ class WebsiteController extends Controller
 
         $courseBatch = CourseBatches::active()->orderBy('id', 'DESC')->get();
 
-        $seminar = Seminars::whereDate('date_time', '>', Carbon::today())->where('status', 'active')->get();
+
         $course_learning_steps = CourseOutcomeStepModel::get();
-        $success_stories = SuccessStory::limit(6)->get();
+
 
         // $banners =
         // $it_services = ItServices::get();
@@ -70,19 +72,21 @@ class WebsiteController extends Controller
                 'subBanners' => $subBanners,
 
 
-                'our_speciality'=> $our_speciality,
-
-
+                'our_speciality' => $our_speciality,
+                'success_stories' => $success_stories,
+                'our_trainers' => $our_trainers,
+                "seminars" => $seminars,
+                'brands' => $brands,
 
 
                 'course_categories' => $course_categories,
                 'course_types' => $course_types,
 
                 'courses' => $courses,
-                "seminar" => $seminar,
+                
 
                 'course_learning_steps' => $course_learning_steps,
-                'success_stories' => $success_stories,
+
                 // 'it_services' => $it_services
 
                 'courseBatches' => $courseBatch
