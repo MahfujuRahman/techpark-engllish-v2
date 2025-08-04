@@ -90,6 +90,10 @@ export default [
         children: [
             {
                 path: '',
+                redirect: { name: 'AllCourses' }
+            },
+            {
+                path: 'all-courses',
                 name: 'AllCourses',
                 component: AllCourse,
             },
@@ -110,6 +114,10 @@ export default [
                 children: [
                     {
                         path: '',
+                        redirect: 'overview'
+                    },
+                    {
+                        path: 'overview',
                         name: 'CourseDetails',
                         component: CourseOverview,
                     },

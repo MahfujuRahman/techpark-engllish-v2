@@ -13,7 +13,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseOverview', params: { id: currentCourse.slug } }" 
+                            :to="{ name: 'CourseDetails', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -459,12 +459,12 @@ export default {
     margin: 0 0 5px 0;
     font-size: 1.5rem;
     font-weight: 600;
-    color: #495057;
+    color: #fff;
 }
 
 .course-type {
     margin: 0 0 10px 0;
-    color: #6c757d;
+    color: #fff;
     font-size: 0.9rem;
 }
 
@@ -476,11 +476,11 @@ export default {
 
 .breadcrumb-item + .breadcrumb-item::before {
     content: ">";
-    color: #6c757d;
+    color: #ffffff;
 }
 
 .breadcrumb-item a {
-    color: #007bff;
+    color: #ffffff;
     text-decoration: none;
 }
 
@@ -489,7 +489,7 @@ export default {
 }
 
 .breadcrumb-item.active {
-    color: #6c757d;
+    color: #fff;
 }
 
 .loading-container {
