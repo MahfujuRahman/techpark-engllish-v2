@@ -319,12 +319,12 @@ export default {
 .setting_management {
     display: flex;
     height: 100vh;
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
 }
 
 .navs {
     width: 300px;
-    background-color: #fff;
+    /* background-color: #fff; */
     border-right: 1px solid #dee2e6;
     overflow-y: auto;
 }
@@ -343,13 +343,13 @@ export default {
     display: flex;
     align-items: center;
     padding: 15px 20px;
-    color: #495057;
     text-decoration: none;
     transition: all 0.3s ease;
+    color: #fff;
 }
 
 .nav-item:hover {
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
     color: #007bff;
     text-decoration: none;
 }
@@ -374,7 +374,7 @@ export default {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
-    background-color: #fff;
+    /* background-color: #fff; */
 }
 
 .custom_scroll {
@@ -396,7 +396,7 @@ export default {
 }
 
 .course-header {
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
     padding: 20px;
     border-radius: 8px;
     border: 1px solid #dee2e6;
