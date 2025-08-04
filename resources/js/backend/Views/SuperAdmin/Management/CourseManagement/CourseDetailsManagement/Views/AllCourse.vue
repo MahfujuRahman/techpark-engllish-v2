@@ -19,11 +19,11 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>চিত্র</th>
-                                        <th>শিরোনাম</th>
-                                        <th>ধরন</th>
-                                        <th>স্ট্যাটাস</th>
-                                        <th>কার্যক্রম</th>
+                                        <th>Image</th>
+                                        <th>Title</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody v-if="store.courses?.data?.length">

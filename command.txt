@@ -13,7 +13,7 @@ php artisan make:table UserManagement/User/UserLog [user_id:bigint,last_seen:str
 | Course
 |--------------------------------------------------------------------------
 */ 
-php artisan make:module CourseManagement/CourseCategory [title:string-200,image:string-100] --vue
+php artisan make:module CourseManagement/CourseCategory [title:string-200] --vue
 php artisan make:table CourseManagement/CourseCategory/CourseCourseCategory [course_category_id:bigint,course_id:bigint] --model
 
 php artisan make:module CourseManagement/CourseInstructors [user_id:bigint,course_id:bigint,cover_photo:string-255,image:string-255,full_name:string-100,designation:string-100,short_description:text,description:longtext] --vue
