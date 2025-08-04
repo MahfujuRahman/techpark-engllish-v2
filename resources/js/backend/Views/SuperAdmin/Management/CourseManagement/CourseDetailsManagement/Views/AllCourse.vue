@@ -60,14 +60,14 @@
                                                 </router-link>
                                                 <button 
                                                     @click="editCourse(course)" 
-                                                    class="btn btn-sm btn-outline-warning"
+                                                    class="btn btn-sm btn-outline-warning ml-2"
                                                     title="সম্পাদনা"
                                                 >
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                                 <button 
                                                     @click="deleteCourse(course)" 
-                                                    class="btn btn-sm btn-outline-danger"
+                                                    class="btn btn-sm btn-outline-danger ml-2"
                                                     title="মুছে ফেলুন"
                                                 >
                                                     <i class="fas fa-trash"></i>
@@ -270,6 +270,10 @@ export default {
 .course-details-management {
     position: relative;
 }
+.card-header{
+    display: flex;
+    justify-content: space-between;
+}
 
 .no-data-container {
     display: flex;
@@ -347,7 +351,7 @@ export default {
 }
 
 .table th {
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
     font-weight: 600;
     border-top: none;
 }

@@ -56,7 +56,7 @@ export default {
 
 .alert-info {
     border-left: 4px solid #17a2b8;
-    background-color: #d1ecf1;
+    /* background-color: #d1ecf1; */
     border-color: #bee5eb;
 }
 

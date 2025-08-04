@@ -175,7 +175,7 @@ export default {
 }
 
 .learning-item {
-    background: #f8f9fa;
+    /* background: #f8f9fa; */
     border: 1px solid #e9ecef;
     border-radius: 8px;
     margin-bottom: 15px;
@@ -230,7 +230,7 @@ export default {
 }
 
 .empty-state {
-    background: #f8f9fa;
+    /* background: #f8f9fa; */
     border: 2px dashed #dee2e6;
     border-radius: 8px;
     margin: 20px 0;

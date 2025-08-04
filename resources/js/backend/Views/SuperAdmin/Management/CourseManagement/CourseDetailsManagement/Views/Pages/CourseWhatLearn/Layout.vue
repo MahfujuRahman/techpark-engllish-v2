@@ -61,7 +61,7 @@ export default {
 
 .navs {
     min-width: 250px;
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
     border-right: 1px solid #dee2e6;
     padding: 20px 0;
 }
@@ -80,7 +80,7 @@ export default {
     display: flex;
     align-items: center;
     padding: 12px 20px;
-    color: #495057;
+    color: #ffffff;
     text-decoration: none;
     transition: all 0.3s ease;
     border-left: 3px solid transparent;
@@ -88,7 +88,7 @@ export default {
 
 .nav-item:hover,
 .nav-item.router-link-active {
-    background-color: #e3f2fd;
+    /* background-color: #e3f2fd; */
     color: #1976d2;
     text-decoration: none;
     border-left-color: #1976d2;
@@ -102,7 +102,7 @@ export default {
 .setting_body {
     flex: 1;
     padding: 30px;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
 }
 
 .custom_scroll {
@@ -116,13 +116,13 @@ export default {
 }
 
 .content-title {
-    color: #495057;
+    color: #ffffff;
     font-weight: 600;
     margin-bottom: 8px;
 }
 
 .content-description {
-    color: #6c757d;
+    color: #ffffff;
     margin-bottom: 0;
     font-size: 0.95rem;
 }

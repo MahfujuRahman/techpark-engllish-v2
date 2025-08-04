@@ -56,14 +56,14 @@ export default {
 
 .alert-info {
     border-left: 4px solid #17a2b8;
-    background-color: #d1ecf1;
+    /* background-color: #d1ecf1; */
     border-color: #bee5eb;
 }
 
 .placeholder-content {
     text-align: center;
     padding: 40px 20px;
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
     border-radius: 8px;
     margin-top: 20px;
 }

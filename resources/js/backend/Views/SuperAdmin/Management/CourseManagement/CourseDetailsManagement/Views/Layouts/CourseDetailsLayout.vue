@@ -335,18 +335,20 @@ export default {
 <style scoped>
 .course-details-layout {
     height: 100%;
+    background: transparent !important;
+    color: white !important;
 }
 
 .setting_management {
     display: flex;
     height: 100vh;
-    /* background-color: #f8f9fa; */
+    background: transparent !important;
 }
 
 .navs {
     width: 300px;
-    /* background-color: #fff; */
-    border-right: 1px solid #dee2e6;
+    background: transparent !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
     overflow-y: auto;
 }
 
@@ -357,7 +359,7 @@ export default {
 }
 
 .navs li {
-    border-bottom: 1px solid #f1f1f1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-item {
@@ -366,41 +368,45 @@ export default {
     padding: 15px 20px;
     text-decoration: none;
     transition: all 0.3s ease;
-    color: #fff;
+    color: white !important;
+    background: transparent !important;
 }
 
 .nav-item:hover {
-    /* background-color: #f8f9fa; */
-    color: #007bff;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #007bff !important;
     text-decoration: none;
 }
 
 .nav-item.router-link-active,
 .nav-item.router-link-exact-active {
-    background-color: #007bff;
-    color: white;
+    background-color: #007bff !important;
+    color: white !important;
 }
 
 .nav-item i {
     margin-right: 8px;
     font-size: 0.9rem;
+    color: inherit;
 }
 
 .nav-item div {
     font-size: 0.9rem;
     line-height: 1.3;
+    color: inherit;
 }
 
 .setting_body {
     flex: 1;
     padding: 20px;
     overflow-y: auto;
-    /* background-color: #fff; */
+    background: transparent !important;
+    color: white !important;
 }
 
 .custom_scroll {
     scrollbar-width: thin;
-    scrollbar-color: #c1c1c1 transparent;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
 
 .custom_scroll::-webkit-scrollbar {
@@ -412,15 +418,16 @@ export default {
 }
 
 .custom_scroll::-webkit-scrollbar-thumb {
-    background-color: #c1c1c1;
+    background-color: rgba(255, 255, 255, 0.3);
     border-radius: 3px;
 }
 
 .course-header {
-    /* background-color: #f8f9fa; */
+    background: transparent !important;
     padding: 20px;
     border-radius: 8px;
-    border: 1px solid #dee2e6;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white !important;
 }
 
 .course-info {
@@ -438,7 +445,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #e9ecef;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .course-image img {
@@ -448,7 +455,7 @@ export default {
 }
 
 .no-image {
-    color: #6c757d;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .course-details {
@@ -459,28 +466,28 @@ export default {
     margin: 0 0 5px 0;
     font-size: 1.5rem;
     font-weight: 600;
-    color: #fff;
+    color: white !important;
 }
 
 .course-type {
     margin: 0 0 10px 0;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.8) !important;
     font-size: 0.9rem;
 }
 
 .breadcrumb {
-    background-color: transparent;
+    background-color: transparent !important;
     padding: 0;
     margin: 0;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
     content: ">";
-    color: #ffffff;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .breadcrumb-item a {
-    color: #ffffff;
+    color: #007bff !important;
     text-decoration: none;
 }
 
@@ -489,7 +496,7 @@ export default {
 }
 
 .breadcrumb-item.active {
-    color: #fff;
+    color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .loading-container {
@@ -501,6 +508,19 @@ export default {
 
 .alert {
     margin-bottom: 20px;
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white !important;
+}
+
+.alert-danger {
+    border-color: rgba(220, 53, 69, 0.5) !important;
+    background: rgba(220, 53, 69, 0.1) !important;
+}
+
+.alert-success {
+    border-color: rgba(40, 167, 69, 0.5) !important;
+    background: rgba(40, 167, 69, 0.1) !important;
 }
 
 .badge {
@@ -528,5 +548,191 @@ export default {
         margin-right: 0;
         margin-bottom: 15px;
     }
+}
+
+/* Global styles for all course management components */
+/* These styles will affect all child components */
+:deep(.card) {
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+:deep(.card-header) {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    display: flex;
+    justify-content: space-between;
+}
+
+:deep(.card-body) {
+    background: transparent !important;
+    color: white !important;
+}
+
+:deep(.card-footer) {
+    background: transparent !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+:deep(.table) {
+    background: transparent !important;
+    color: white !important;
+}
+
+:deep(.table th) {
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+:deep(.table td) {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+:deep(.table-hover tbody tr:hover) {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+}
+
+:deep(.form-control) {
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+}
+
+:deep(.form-control:focus) {
+    background: transparent !important;
+    border-color: #007bff !important;
+    color: white !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+}
+
+:deep(.form-control::placeholder) {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+:deep(.btn) {
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+:deep(.btn-primary) {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    color: white !important;
+}
+
+:deep(.btn-outline-primary) {
+    background: transparent !important;
+    border-color: #007bff !important;
+    color: #007bff !important;
+}
+
+:deep(.btn-outline-warning) {
+    background: transparent !important;
+    border-color: #ffc107 !important;
+    color: #ffc107 !important;
+}
+
+:deep(.btn-outline-danger) {
+    background: transparent !important;
+    border-color: #dc3545 !important;
+    color: #dc3545 !important;
+}
+
+:deep(.pagination .page-link) {
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: white !important;
+}
+
+:deep(.pagination .page-item.active .page-link) {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+    color: white !important;
+}
+
+:deep(.pagination .page-item.disabled .page-link) {
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+:deep(label) {
+    color: white !important;
+}
+
+:deep(.text-muted) {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+:deep(.text-dark) {
+    color: white !important;
+}
+
+:deep(h1), :deep(h2), :deep(h3), :deep(h4), :deep(h5), :deep(h6) {
+    color: white !important;
+}
+
+:deep(p) {
+    color: white !important;
+}
+
+:deep(.no-data-container) {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+:deep(.no-data-text h5) {
+    color: white !important;
+}
+
+:deep(.no-data-text p) {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+:deep(.pagination-info) {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+:deep(.per-page-selector label) {
+    color: white !important;
+}
+
+:deep(select.form-control) {
+    background: transparent !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+:deep(select.form-control option) {
+    background: #343a40 !important;
+    color: white !important;
+}
+
+:deep(.modal-content) {
+    background: rgba(33, 37, 41, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+:deep(.modal-header) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+:deep(.modal-footer) {
+    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+:deep(.close) {
+    color: white !important;
+    opacity: 0.8;
+}
+
+:deep(.close:hover) {
+    color: white !important;
+    opacity: 1;
 }
 </style>
