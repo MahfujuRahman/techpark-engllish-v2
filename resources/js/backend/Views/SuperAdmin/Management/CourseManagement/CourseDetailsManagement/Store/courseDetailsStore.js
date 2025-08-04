@@ -43,6 +43,9 @@ export const useCourseDetailsStore = defineStore('courseDetails', {
         courseModules: {},
         courseRoutines: {},
         
+        // Categories data
+        categories: [],
+        
         // Selected items for bulk actions
         selectedItems: [],
         allItemsSelected: false,
@@ -509,6 +512,22 @@ export const useCourseDetailsStore = defineStore('courseDetails', {
             this.errorMessage = '';
             this.successMessage = '';
         },
+
+        // ====================
+        // CATEGORIES ACTIONS
+        // ====================
+        
+        async fetchCategories() {
+            try {
+                // Assuming categories API endpoint exists
+                // You may need to adjust this endpoint based on your actual API
+                const response = await axios.get('/api/v1/categories');
+                this.categories = response.data.data || response.data || [];
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+                this.categories = [];
+            }
+        },
         
         // ====================
         // UTILITY ACTIONS
@@ -538,6 +557,7 @@ export const useCourseDetailsStore = defineStore('courseDetails', {
             this.courses = {};
             this.currentCourse = null;
             this.courseDetails = {};
+            this.categories = [];
             this.clearSelectedItems();
             this.clearErrors();
             this.clearMessages();

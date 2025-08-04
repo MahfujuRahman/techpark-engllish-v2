@@ -193,12 +193,12 @@ export default [
                                 component: CourseWhatLearnCreate,
                             },
                             {
-                                path: 'edit/:id',
+                                path: 'edit/:itemId',
                                 name: 'CourseWhatLearnEdit',
                                 component: CourseWhatLearnEdit,
                             },
                             {
-                                path: 'details/:id',
+                                path: 'details/:itemId',
                                 name: 'CourseWhatLearnDetails',
                                 component: CourseWhatLearnDetails,
                             },
@@ -226,12 +226,12 @@ export default [
                                 component: CourseJobPositionCreate,
                             },
                             {
-                                path: 'edit/:id',
+                                path: 'edit/:itemId',
                                 name: 'CourseJobPositionEdit',
                                 component: CourseJobPositionEdit,
                             },
                             {
-                                path: 'details/:id',
+                                path: 'details/:itemId',
                                 name: 'CourseJobPositionDetails',
                                 component: CourseJobPositionDetails,
                             },
@@ -259,12 +259,12 @@ export default [
                                 component: CourseForWhomCreate,
                             },
                             {
-                                path: 'edit/:id',
+                                path: 'edit/:itemId',
                                 name: 'CourseForWhomEdit',
                                 component: CourseForWhomEdit,
                             },
                             {
-                                path: 'details/:id',
+                                path: 'details/:itemId',
                                 name: 'CourseForWhomDetails',
                                 component: CourseForWhomDetails,
                             },
@@ -292,12 +292,12 @@ export default [
                                 component: CourseWhyLearnCreate,
                             },
                             {
-                                path: 'edit/:id',
+                                path: 'edit/:itemId',
                                 name: 'CourseWhyLearnEdit',
                                 component: CourseWhyLearnEdit,
                             },
                             {
-                                path: 'details/:id',
+                                path: 'details/:itemId',
                                 name: 'CourseWhyLearnDetails',
                                 component: CourseWhyLearnDetails,
                             },
@@ -389,12 +389,12 @@ export default [
                                 component: CourseFaqCreate,
                             },
                             {
-                                path: 'edit/:id',
+                                path: 'edit/:itemId',
                                 name: 'CourseFaqEdit',
                                 component: CourseFaqEdit,
                             },
                             {
-                                path: 'details/:id',
+                                path: 'details/:itemId',
                                 name: 'CourseFaqDetails',
                                 component: CourseFaqDetails,
                             },

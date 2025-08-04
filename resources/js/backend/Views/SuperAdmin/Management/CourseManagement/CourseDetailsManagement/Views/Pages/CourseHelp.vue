@@ -95,7 +95,7 @@ export default {
             this.clearErrors();
             
             if (!this.editor) {
-                this.$toast.error('এডিটর লোড হয়নি, অনুগ্রহ করে পেজ রিফ্রেশ করুন');
+                console.error('এডিটর লোড হয়নি, অনুগ্রহ করে পেজ রিফ্রেশ করুন');
                 return;
             }
             
@@ -111,7 +111,7 @@ export default {
                 this.$toast.success('কোর্স সাহায্য কন্টেন্ট সফলভাবে আপডেট হয়েছে!');
                 
             } catch (error) {
-                this.$toast.error('কোর্স সাহায্য কন্টেন্ট আপডেট করতে ত্রুটি হয়েছে!');
+                console.error('কোর্স সাহায্য কন্টেন্ট আপডেট করতে ত্রুটি হয়েছে!', error);
                 console.error('Error saving help content:', error);
             }
         },
@@ -160,14 +160,14 @@ export default {
                 }
             } catch (error) {
                 console.error('Error initializing CKEditor:', error);
-                this.$toast.error('এডিটর লোড করতে ত্রুটি হয়েছে');
+                console.error('এডিটর লোড করতে ত্রুটি হয়েছে', error);
             }
         },
     },
     
     async mounted() {
         if (!this.currentCourse) {
-            this.$toast.error('কোর্স তথ্য পাওয়া যায়নি');
+            console.error('কোর্স তথ্য পাওয়া যায়নি');
             return;
         }
         

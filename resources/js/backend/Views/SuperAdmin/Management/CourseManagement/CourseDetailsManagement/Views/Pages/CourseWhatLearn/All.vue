@@ -44,13 +44,13 @@
                             </div>
                             <div class="item-actions">
                                 <router-link 
-                                    :to="{ name: 'CourseWhatLearnEdit', params: { id: $route.params.id, id: item.id } }"
+                                    :to="{ name: 'CourseWhatLearnEdit', params: { id: $route.params.id, itemId: item.id } }"
                                     class="btn btn-sm btn-outline-primary"
                                 >
                                     <i class="fas fa-edit"></i>
                                 </router-link>
                                 <router-link 
-                                    :to="{ name: 'CourseWhatLearnDetails', params: { id: $route.params.id, id: item.id } }"
+                                    :to="{ name: 'CourseWhatLearnDetails', params: { id: $route.params.id, itemId: item.id } }"
                                     class="btn btn-sm btn-outline-info ml-1"
                                 >
                                     <i class="fas fa-eye"></i>
@@ -123,7 +123,7 @@ export default {
                 ];
                 
             } catch (error) {
-                this.$toast.error('শিক্ষণীয় বিষয় লোড করতে ত্রুটি হয়েছে!');
+                console.error('শিক্ষণীয় বিষয় লোড করতে ত্রুটি হয়েছে!', error);
                 console.error('Error fetching learning items:', error);
             } finally {
                 this.loading = false;
@@ -145,10 +145,10 @@ export default {
                 // Remove from local array
                 this.learningItems = this.learningItems.filter(item => item.id !== itemId);
                 
-                this.$toast.success('আইটেম সফলভাবে মুছে ফেলা হয়েছে!');
+                console.log('আইটেম সফলভাবে মুছে ফেলা হয়েছে!');
                 
             } catch (error) {
-                this.$toast.error('আইটেম মুছে ফেলতে ত্রুটি হয়েছে!');
+                console.error('আইটেম মুছে ফেলতে ত্রুটি হয়েছে!', error);
                 console.error('Error deleting item:', error);
             }
         },

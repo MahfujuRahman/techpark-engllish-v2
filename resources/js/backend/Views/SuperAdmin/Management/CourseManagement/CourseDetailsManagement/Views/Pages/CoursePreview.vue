@@ -377,6 +377,9 @@ export default {
         },
         
         getCategoryName(categoryId) {
+            if (!this.categories || !Array.isArray(this.categories)) {
+                return 'ক্যাটেগরি লোড হচ্ছে...';
+            }
             const category = this.categories.find(cat => cat.id === categoryId);
             return category?.name || 'ক্যাটেগরি নির্বাচিত নয়';
         },
@@ -432,7 +435,7 @@ export default {
     },
     
     async mounted() {
-        if (!this.categories.length) {
+        if (!this.categories || !this.categories.length) {
             await this.fetchCategories();
         }
     },

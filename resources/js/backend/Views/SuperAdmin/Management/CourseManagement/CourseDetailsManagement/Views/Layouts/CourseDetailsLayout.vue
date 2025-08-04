@@ -13,7 +13,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseOverview', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseOverview', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -23,7 +23,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseHelp', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseHelp', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -33,7 +33,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseBatch', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseBatch', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -43,7 +43,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseWhatLearn', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseWhatLearn', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -53,7 +53,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseJobPosition', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseJobPosition', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -63,7 +63,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseForWhom', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseForWhom', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -73,7 +73,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseWhyLearn', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseWhyLearn', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -83,7 +83,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseModuleText', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseModuleText', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -93,7 +93,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseBanner', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseBanner', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -103,7 +103,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CoursePreview', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CoursePreview', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -113,7 +113,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseModule', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseModule', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -123,7 +123,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseClassQuiz', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseClassQuiz', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -133,7 +133,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseTrainer', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseTrainer', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -143,7 +143,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseRoutines', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseRoutines', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -153,7 +153,7 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseFaq', params: { id: currentCourse.id } }" 
+                            :to="{ name: 'CourseFaq', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
@@ -170,10 +170,11 @@
                     <div class="course-info">
                         <div class="course-image">
                             <img 
-                                v-if="currentCourse.image" 
-                                :src="`/${currentCourse.image}`" 
+                                v-if="currentCourse.image && !imageError" 
+                                :src="`/storage/uploads/courses/${currentCourse.image}`" 
                                 :alt="currentCourse.title"
                                 class="img-fluid rounded"
+                                @error="handleImageError"
                             >
                             <div v-else class="no-image">
                                 <i class="fas fa-graduation-cap fa-2x"></i>
@@ -233,6 +234,7 @@
     </div>
 </template>
 <script>
+import { ref } from 'vue';
 import { useCourseDetailsStore } from '../../Store/courseDetailsStore.js';
 
 export default {
@@ -240,7 +242,12 @@ export default {
     
     setup() {
         const store = useCourseDetailsStore();
-        return { store };
+        const imageError = ref(false);
+        
+        return { 
+            store,
+            imageError
+        };
     },
     
     computed: {
@@ -285,7 +292,6 @@ export default {
     },
     
     watch: {
-    watch: {
         '$route.params.id': {
             async handler(newSlug, oldSlug) {
                 if (newSlug && newSlug !== oldSlug) {
@@ -300,6 +306,22 @@ export default {
                 }
             },
             immediate: false
+        },
+        
+        currentCourse() {
+            // Reset image error when course changes
+            this.imageError = false;
+        }
+    },
+    
+    methods: {
+        clearMessages() {
+            this.store.clearMessages();
+        },
+        
+        handleImageError() {
+            this.imageError = true;
+            console.log('Course image failed to load');
         }
     },
     
@@ -307,7 +329,6 @@ export default {
         // Clear messages when leaving the component
         this.store.clearMessages();
     }
-}
 };
 </script>
 

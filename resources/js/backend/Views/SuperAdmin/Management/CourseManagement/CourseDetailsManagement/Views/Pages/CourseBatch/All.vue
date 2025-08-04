@@ -127,14 +127,27 @@ export default {
         ...mapActions(useCourseDetailsStore, ['clearMessages']),
         
         async getCourseBatches() {
-            const courseId = this.$route.params.id;
-            if (!courseId) return;
+            const courseSlug = this.$route.params.id;
+            if (!courseSlug) return;
             
             try {
-                const response = await axios.get(`/api/v1/course-batch/all?course_id=${courseId}`);
+                // First ensure we have the current course loaded
+                const store = useCourseDetailsStore();
+                if (!store.currentCourse) {
+                    await store.getCourseDetails(courseSlug);
+                }
+                
+                const courseId = store.currentCourse?.id;
+                if (!courseId) {
+                    console.error('Course ID not found');
+                    return;
+                }
+                
+                console.log('Fetching batches for course ID:', courseId);
+                const response = await axios.get(`course-batch/all?course_id=${courseId}`);
                 this.batches = response.data.data || [];
             } catch (error) {
-                this.$toast.error('ব্যাচ তালিকা লোড করতে ত্রুটি হয়েছে');
+                console.error('ব্যাচ তালিকা লোড করতে ত্রুটি হয়েছে:', error);
                 console.error('Error fetching course batches:', error);
             }
         },
@@ -142,11 +155,11 @@ export default {
         async deleteBatch(batch) {
             if (await this.$confirm('আপনি কি নিশ্চিত যে আপনি এই ব্যাচটি মুছে ফেলতে চান?')) {
                 try {
-                    await axios.post('/api/v1/course-batch/soft-delete', { id: batch.id });
-                    this.$toast.success('ব্যাচ সফলভাবে মুছে ফেলা হয়েছে!');
+                    await axios.post('course-batch/soft-delete', { id: batch.id });
+                    console.log('ব্যাচ সফলভাবে মুছে ফেলা হয়েছে!');
                     await this.getCourseBatches();
                 } catch (error) {
-                    this.$toast.error('ব্যাচ মুছে ফেলতে ত্রুটি হয়েছে!');
+                    console.error('ব্যাচ মুছে ফেলতে ত্রুটি হয়েছে!', error);
                     console.error('Error deleting batch:', error);
                 }
             }
