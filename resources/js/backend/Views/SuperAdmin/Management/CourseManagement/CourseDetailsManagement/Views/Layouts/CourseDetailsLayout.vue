@@ -7,7 +7,7 @@
                     <li>
                         <router-link :to="{ name: 'AllCourses' }" class="nav-item">
                             <i class="far fa-circle mr-1"></i>
-                            <div>সকল কোর্স</div>
+                            <div>All Course</div>
                         </router-link>
                     </li>
                     
@@ -17,17 +17,7 @@
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
-                            <div>কোর্স ওভারভিউ</div>
-                        </router-link>
-                    </li>
-                    
-                    <li v-if="currentCourse">
-                        <router-link 
-                            :to="{ name: 'CourseHelp', params: { id: currentCourse.slug } }" 
-                            class="nav-item"
-                        >
-                            <i class="far fa-circle mr-1"></i>
-                            <div>এই কোর্সটি আপনাকে কিভাবে সাহায্য করবে</div>
+                            <div>Course Overview</div>
                         </router-link>
                     </li>
                     
@@ -195,7 +185,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <router-link :to="{ name: 'AllCourses' }">সকল কোর্স</router-link>
+                                <router-link :to="{ name: 'AllCourses' }">All Courses</router-link>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 {{ currentCourse.title }}
@@ -487,7 +477,7 @@ export default {
 }
 
 .breadcrumb-item a {
-    color: #007bff !important;
+    color: #ffffff !important;
     text-decoration: none;
 }
 

@@ -4,7 +4,7 @@
             <div class="card-header">
                 <h5 class="card-title mb-0">
                     <i class="fas fa-eye mr-2"></i>
-                    কোর্স ওভারভিউ
+                    Course Overview
                 </h5>
             </div>
             <div class="card-body">
@@ -233,15 +233,7 @@
                             <i v-else class="fas fa-save mr-1"></i>
                             {{ submitting ? 'Updating...' : 'Update Course' }}
                         </button>
-                        
-                        <button 
-                            type="button" 
-                            @click="resetForm"
-                            class="btn btn-secondary ml-2"
-                        >
-                            <i class="fas fa-undo mr-1"></i>
-                            Reset
-                        </button>
+
                     </div>
                 </form>
 
@@ -468,23 +460,6 @@ export default {
                 }
                 console.error('Error saving course overview:', error);
             }
-        },
-        
-        resetForm() {
-            if (this.currentCourse) {
-                this.populateFormWithCourse(this.currentCourse);
-                this.imagePreview = null;
-            }
-            
-            // Clear Summernote editors
-            if ($('#what_is_this_course').length && $('#what_is_this_course').summernote) {
-                $('#what_is_this_course').summernote('code', this.currentCourse?.what_is_this_course || '');
-            }
-            if ($('#why_is_this_course').length && $('#why_is_this_course').summernote) {
-                $('#why_is_this_course').summernote('code', this.currentCourse?.why_is_this_course || '');
-            }
-            
-            this.clearErrors();
         },
         
         setImagePreview() {

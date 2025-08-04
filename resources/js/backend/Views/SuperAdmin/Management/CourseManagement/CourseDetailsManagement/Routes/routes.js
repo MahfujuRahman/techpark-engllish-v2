@@ -6,7 +6,6 @@ import CourseManagementLayout from '../Views/Layouts/CourseManagementLayout.vue'
 
 // Course Details Pages
 import CourseOverview from '../Views/Pages/CourseOverview.vue';
-import CourseHelp from '../Views/Pages/CourseHelp.vue';
 import CourseBanner from '../Views/Pages/CourseBanner.vue';
 import CourseModuleText from '../Views/Pages/CourseModuleText.vue';
 import CoursePreview from '../Views/Pages/CoursePreview.vue';
@@ -130,11 +129,6 @@ export default [
                         path: 'course-banner',
                         name: 'CourseBanner',
                         component: CourseBanner,
-                    },
-                    {
-                        path: 'course-help',
-                        name: 'CourseHelp',
-                        component: CourseHelp,
                     },
                     {
                         path: 'course-module-text',
