@@ -52,6 +52,9 @@ class DataStoreValidation extends FormRequest
             'why_is_this_course' => 'required | sometimes',
             'type' => 'required | sometimes',
             'status' => ['sometimes', Rule::in(['active', 'inactive'])],
+            'meta_title' => 'sometimes',
+            'meta_description' => 'sometimes',
+            'meta_keywords' => 'sometimes',
         ];
     }
 }

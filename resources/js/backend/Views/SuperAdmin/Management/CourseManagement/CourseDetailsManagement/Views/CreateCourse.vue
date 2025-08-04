@@ -21,14 +21,14 @@
                             </div>
 
                             <!-- Course Slug -->
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="slug" class="form-label">Slug</label>
                                 <input type="text" id="slug" v-model="formData.slug" class="form-control"
                                     placeholder="course-slug" readonly>
                                 <small class="form-text text-muted ">
                                     URL: {{ baseUrl }}/course/{{ formData.slug || 'course-slug' }}
                                 </small>
-                            </div>
+                            </div> -->
 
                             <!-- What is this Course -->
                             <div class="form-group">
@@ -433,6 +433,26 @@ export default {
                     $('#why_is_this_course').summernote('code', courseData.why_is_this_course);
                 }
             }, 2000); // Wait for Summernote to initialize
+        },
+
+        setImagePreview(courseData) {
+            // Set image preview for existing course
+            console.log('Setting image preview for course data:', courseData);
+            console.log('Course image:', courseData.image);
+            
+            if (courseData.image) {
+                // If the image is a full URL, use it directly
+                if (courseData.image.startsWith('http')) {
+                    this.imagePreview = courseData.image;
+                    console.log('Using full URL for image:', this.imagePreview);
+                } else {
+                    // If it's a relative path, construct the full URL
+                    this.imagePreview = `${window.location.origin}/${courseData.image}`;
+                    console.log('Constructed image URL:', this.imagePreview);
+                }
+            } else {
+                console.log('No image found in course data');
+            }
         }
     },
 
@@ -443,6 +463,9 @@ export default {
                 const response = await this.store.getCourseDetails(this.id);
                 if (response && response.data) {
                     this.store.populateFormWithCourse(response.data);
+
+                    // Set image preview for existing course
+                    this.setImagePreview(response.data);
 
                     // Set editor content after initialization
                     await this.$nextTick();
