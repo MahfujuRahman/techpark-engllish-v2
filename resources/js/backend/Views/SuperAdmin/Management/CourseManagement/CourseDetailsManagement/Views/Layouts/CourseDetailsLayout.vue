@@ -27,7 +27,7 @@
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
-                            <div>কোর্স ইনফরমেশন</div>
+                            <div>Course Information</div>
                         </router-link>
                     </li>
                     
@@ -548,7 +548,7 @@ export default {
     color: white !important;
 }
 
-:deep(.card-header) {
+.card-header{
     background: transparent !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
     color: white !important;

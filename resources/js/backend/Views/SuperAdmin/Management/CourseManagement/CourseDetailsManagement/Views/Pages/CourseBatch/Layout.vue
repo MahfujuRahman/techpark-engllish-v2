@@ -3,7 +3,7 @@
         <div class="course-batch-header">
             <h5 class="section-title">
                 <i class="fas fa-calendar-alt mr-2"></i>
-                কোর্স ব্যাচ ম্যানেজমেন্ট
+                Batch Management
             </h5>
         </div>
         

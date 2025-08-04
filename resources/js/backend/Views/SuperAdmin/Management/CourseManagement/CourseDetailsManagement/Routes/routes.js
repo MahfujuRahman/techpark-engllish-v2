@@ -13,8 +13,7 @@ import CoursePreview from '../Views/Pages/CoursePreview.vue';
 // Course Batch
 import CourseBatchLayout from '../Views/Pages/CourseBatch/Layout.vue';
 import CourseBatchAll from '../Views/Pages/CourseBatch/All.vue';
-import CourseBatchCreate from '../Views/Pages/CourseBatch/Create.vue';
-import CourseBatchEdit from '../Views/Pages/CourseBatch/Edit.vue';
+import CourseBatchForm from '../Views/Pages/CourseBatch/Form.vue';
 import CourseBatchDetails from '../Views/Pages/CourseBatch/Details.vue';
 
 // Course What Will Learn
@@ -159,12 +158,12 @@ export default [
                             {
                                 path: 'create',
                                 name: 'CourseBatchCreate',
-                                component: CourseBatchCreate,
+                                component: CourseBatchForm,
                             },
                             {
                                 path: 'edit/:batch_id',
                                 name: 'CourseBatchEdit',
-                                component: CourseBatchEdit,
+                                component: CourseBatchForm,
                             },
                             {
                                 path: 'details/:batch_id',

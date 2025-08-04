@@ -5,7 +5,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0">
                         <i class="fas fa-info-circle mr-2"></i>
-                        ব্যাচের বিস্তারিত তথ্য
+                        Batch Details
                     </h5>
                     <div class="header-actions">
                         <router-link 
@@ -13,7 +13,7 @@
                             class="btn btn-sm btn-primary"
                         >
                             <i class="fas fa-edit mr-1"></i>
-                            সম্পাদনা
+                            Edit
                         </router-link>
                     </div>
                 </div>
@@ -21,9 +21,9 @@
             <div class="card-body">
                 <div v-if="loading" class="text-center py-5">
                     <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">লোড হচ্ছে...</span>
+                        <span class="sr-only">Loading...</span>
                     </div>
-                    <p class="mt-2 text-muted">ব্যাচের তথ্য লোড হচ্ছে...</p>
+                    <p class="mt-2 text-muted">Loading batch information...</p>
                 </div>
 
                 <div v-else-if="batch" class="batch-details">
@@ -31,20 +31,20 @@
                     <div class="details-section">
                         <h6 class="section-title">
                             <i class="fas fa-info mr-2"></i>
-                            মূল তথ্য
+                            Basic Information
                         </h6>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="detail-item">
-                                    <strong>ব্যাচের নাম:</strong>
+                                    <strong>Batch Name:</strong>
                                     <span>{{ batch.batch_name }}</span>
                                 </div>
                                 <div class="detail-item">
-                                    <strong>ব্যাচ কোড:</strong>
-                                    <span>{{ batch.batch_code || 'নির্ধারিত নয়' }}</span>
+                                    <strong>Student Limit:</strong>
+                                    <span>{{ batch.batch_student_limit || 'Not set' }}</span>
                                 </div>
                                 <div class="detail-item">
-                                    <strong>অবস্থা:</strong>
+                                    <strong>Status:</strong>
                                     <span :class="getStatusClass(batch.status)">
                                         {{ getStatusLabel(batch.status) }}
                                     </span>
@@ -52,16 +52,16 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="detail-item">
-                                    <strong>সর্বোচ্চ শিক্ষার্থী:</strong>
-                                    <span>{{ batch.max_students || 'নির্ধারিত নয়' }}</span>
+                                    <strong>Seats Booked:</strong>
+                                    <span>{{ batch.seat_booked || 0 }}</span>
                                 </div>
                                 <div class="detail-item">
-                                    <strong>বর্তমান শিক্ষার্থী:</strong>
-                                    <span>{{ batch.enrolled_students || 0 }}</span>
+                                    <strong>Available Seats:</strong>
+                                    <span>{{ (batch.batch_student_limit || 0) - (batch.seat_booked || 0) }}</span>
                                 </div>
                                 <div class="detail-item">
-                                    <strong>খালি আসন:</strong>
-                                    <span>{{ (batch.max_students || 0) - (batch.enrolled_students || 0) }}</span>
+                                    <strong>Booking Percentage:</strong>
+                                    <span>{{ batch.booked_percent || 0 }}%</span>
                                 </div>
                             </div>
                         </div>
@@ -71,40 +71,68 @@
                     <div class="details-section">
                         <h6 class="section-title">
                             <i class="fas fa-calendar mr-2"></i>
-                            তারিখের তথ্য
+                            Date Information
                         </h6>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="detail-item">
-                                    <strong>শুরুর তারিখ:</strong>
-                                    <span>{{ formatDate(batch.start_date) }}</span>
+                                    <strong>Admission Start:</strong>
+                                    <span>{{ formatDateTime(batch.admission_start_date) }}</span>
                                 </div>
                                 <div class="detail-item">
-                                    <strong>শেষের তারিখ:</strong>
-                                    <span>{{ formatDate(batch.end_date) }}</span>
+                                    <strong>Admission End:</strong>
+                                    <span>{{ formatDateTime(batch.admission_end_date) }}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>First Class Date:</strong>
+                                    <span>{{ formatDateTime(batch.first_class_date) }}</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="detail-item">
-                                    <strong>তৈরি হয়েছে:</strong>
-                                    <span>{{ formatDateTime(batch.created_at) }}</span>
+                                    <strong>Class Days:</strong>
+                                    <span>{{ batch.class_days || 'Not set' }}</span>
                                 </div>
                                 <div class="detail-item">
-                                    <strong>সর্বশেষ আপডেট:</strong>
-                                    <span>{{ formatDateTime(batch.updated_at) }}</span>
+                                    <strong>Class Time:</strong>
+                                    <span v-if="batch.class_start_time && batch.class_end_time">
+                                        {{ formatTime(batch.class_start_time) }} - {{ formatTime(batch.class_end_time) }}
+                                    </span>
+                                    <span v-else>Not set</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>Show Percentage:</strong>
+                                    <span>{{ batch.show_percentage_on_cards === 'yes' ? 'Yes' : 'No' }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Description -->
-                    <div v-if="batch.description" class="details-section">
+                    <!-- Price Information -->
+                    <div class="details-section">
                         <h6 class="section-title">
-                            <i class="fas fa-align-left mr-2"></i>
-                            বিবরণ
+                            <i class="fas fa-dollar-sign mr-2"></i>
+                            Price Information
                         </h6>
-                        <div class="description-content">
-                            <p>{{ batch.description }}</p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="detail-item">
+                                    <strong>Course Price:</strong>
+                                    <span>{{ formatCurrency(batch.course_price) }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="detail-item">
+                                    <strong>Discount:</strong>
+                                    <span>{{ batch.course_discount || 0 }}%</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="detail-item">
+                                    <strong>Final Price:</strong>
+                                    <span class="text-success font-weight-bold">{{ formatCurrency(batch.after_discount_price) }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -112,7 +140,7 @@
                     <div class="details-section">
                         <h6 class="section-title">
                             <i class="fas fa-chart-pie mr-2"></i>
-                            পরিসংখ্যান
+                            Statistics
                         </h6>
                         <div class="row">
                             <div class="col-md-3 col-6">
@@ -121,8 +149,8 @@
                                         <i class="fas fa-users"></i>
                                     </div>
                                     <div class="stat-info">
-                                        <h4>{{ batch.enrolled_students || 0 }}</h4>
-                                        <p>নিবন্ধিত শিক্ষার্থী</p>
+                                        <h4>{{ batch.seat_booked || 0 }}</h4>
+                                        <p>Enrolled Students</p>
                                     </div>
                                 </div>
                             </div>
@@ -133,7 +161,7 @@
                                     </div>
                                     <div class="stat-info">
                                         <h4>{{ batch.completed_students || 0 }}</h4>
-                                        <p>সম্পন্নকারী</p>
+                                        <p>Completed</p>
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +172,7 @@
                                     </div>
                                     <div class="stat-info">
                                         <h4>{{ batch.active_students || 0 }}</h4>
-                                        <p>চলমান শিক্ষার্থী</p>
+                                        <p>Active Students</p>
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +183,7 @@
                                     </div>
                                     <div class="stat-info">
                                         <h4>{{ batch.dropped_students || 0 }}</h4>
-                                        <p>বাদ পড়া শিক্ষার্থী</p>
+                                        <p>Dropped Students</p>
                                     </div>
                                 </div>
                             </div>
@@ -170,7 +198,7 @@
                                 class="btn btn-primary"
                             >
                                 <i class="fas fa-edit mr-1"></i>
-                                ব্যাচ সম্পাদনা করুন
+                                Edit Batch
                             </router-link>
                             
                             <button 
@@ -180,7 +208,7 @@
                             >
                                 <i v-if="submitting" class="fas fa-spinner fa-spin mr-1"></i>
                                 <i v-else class="fas fa-trash mr-1"></i>
-                                ব্যাচ মুছে ফেলুন
+                                Delete Batch
                             </button>
                             
                             <router-link 
@@ -188,7 +216,7 @@
                                 class="btn btn-secondary ml-2"
                             >
                                 <i class="fas fa-arrow-left mr-1"></i>
-                                ফিরে যান
+                                Back to List
                             </router-link>
                         </div>
                     </div>
@@ -196,8 +224,8 @@
 
                 <div v-else class="text-center py-5">
                     <i class="fas fa-exclamation-triangle text-warning fa-3x mb-3"></i>
-                    <h4>ব্যাচ তথ্য পাওয়া যায়নি</h4>
-                    <p class="text-muted">দয়া করে পুনরায় চেষ্টা করুন</p>
+                    <h4>Batch information not found</h4>
+                    <p class="text-muted">Please try again</p>
                 </div>
             </div>
         </div>
@@ -225,26 +253,33 @@ export default {
                 // Simulate API call
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
-                // Simulate loaded data
+                // Simulate loaded data based on schema
                 this.batch = {
                     id: this.$route.params.batch_id,
-                    batch_name: 'ব্যাচ ১',
-                    batch_code: 'BATCH001',
-                    start_date: '2024-01-01',
-                    end_date: '2024-06-30',
-                    max_students: 50,
-                    enrolled_students: 35,
+                    batch_name: 'Batch 1',
+                    admission_start_date: '2024-01-01T00:00:00Z',
+                    admission_end_date: '2024-01-31T23:59:59Z',
+                    batch_student_limit: 50,
+                    seat_booked: 35,
+                    booked_percent: 70,
+                    course_price: 5000,
+                    course_discount: 10,
+                    after_discount_price: 4500,
+                    first_class_date: '2024-02-01T10:00:00Z',
+                    class_days: 'Sunday, Tuesday, Thursday',
+                    class_start_time: '10:00',
+                    class_end_time: '12:00',
+                    show_percentage_on_cards: 'yes',
+                    status: 'active',
                     active_students: 30,
                     completed_students: 5,
                     dropped_students: 2,
-                    status: 'active',
-                    description: 'এটি একটি নমুনা ব্যাচ যা প্রদর্শনের জন্য তৈরি করা হয়েছে।',
                     created_at: '2024-01-01T00:00:00Z',
                     updated_at: '2024-01-15T10:30:00Z',
                 };
                 
             } catch (error) {
-                this.$toast.error('ব্যাচ তথ্য লোড করতে ত্রুটি হয়েছে!');
+                this.$toast.error('Failed to load batch information!');
                 console.error('Error fetching batch:', error);
             } finally {
                 this.loading = false;
@@ -252,7 +287,7 @@ export default {
         },
         
         async deleteBatch() {
-            if (!confirm('আপনি কি নিশ্চিত যে এই ব্যাচটি মুছে ফেলতে চান?')) {
+            if (!confirm('Are you sure you want to delete this batch?')) {
                 return;
             }
             
@@ -265,7 +300,7 @@ export default {
                 // Simulate API call
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
-                this.$toast.success('ব্যাচ সফলভাবে মুছে ফেলা হয়েছে!');
+                this.$toast.success('Batch deleted successfully!');
                 
                 // Navigate back to all batches
                 this.$router.push({ 
@@ -274,7 +309,7 @@ export default {
                 });
                 
             } catch (error) {
-                this.$toast.error('ব্যাচ মুছে ফেলতে ত্রুটি হয়েছে!');
+                this.$toast.error('Failed to delete batch!');
                 console.error('Error deleting batch:', error);
             } finally {
                 this.submitting = false;
@@ -283,11 +318,11 @@ export default {
         
         getStatusLabel(status) {
             const labels = {
-                'active': 'সক্রিয়',
-                'inactive': 'নিষ্ক্রিয়',
-                'completed': 'সম্পন্ন'
+                'active': 'Active',
+                'inactive': 'Inactive',
+                'completed': 'Completed'
             };
-            return labels[status] || 'অজানা';
+            return labels[status] || 'Unknown';
         },
         
         getStatusClass(status) {
@@ -300,13 +335,46 @@ export default {
         },
         
         formatDate(date) {
-            if (!date) return 'নির্ধারিত নয়';
-            return new Date(date).toLocaleDateString('bn-BD');
+            if (!date) return 'Not set';
+            return new Date(date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
         },
         
         formatDateTime(date) {
-            if (!date) return 'নির্ধারিত নয়';
-            return new Date(date).toLocaleString('bn-BD');
+            if (!date) return 'Not set';
+            return new Date(date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        },
+        
+        formatTime(time) {
+            if (!time) return 'Not set';
+            // Assuming time is in HH:MM format
+            const [hours, minutes] = time.split(':');
+            const date = new Date();
+            date.setHours(parseInt(hours), parseInt(minutes));
+            
+            return date.toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+        },
+        
+        formatCurrency(amount) {
+            if (!amount) return '$0';
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0
+            }).format(amount);
         },
     },
     
