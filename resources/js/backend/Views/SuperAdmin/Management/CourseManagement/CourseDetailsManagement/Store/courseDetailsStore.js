@@ -257,12 +257,12 @@ export const useCourseDetailsStore = defineStore('courseDetails', {
             }
         },
         
-        async deleteCourse(id) {
+        async deleteCourse(slug) {
             this.loading = true;
             this.errorMessage = '';
             
             try {
-                const response = await axios.post('courses/soft-delete', { id });
+                const response = await axios.post('courses/soft-delete', { slug: slug });
                 this.successMessage = 'কোর্স সফলভাবে মুছে ফেলা হয়েছে!';
                 
                 return response.data;
@@ -293,12 +293,12 @@ export const useCourseDetailsStore = defineStore('courseDetails', {
             }
         },
         
-        async destroyCourse(id) {
+        async destroyCourse(slug) {
             this.loading = true;
             this.errorMessage = '';
             
             try {
-                const response = await axios.post('courses/destroy', { id });
+                const response = await axios.post(`courses/destroy/${slug}`);
                 this.successMessage = 'কোর্স স্থায়ীভাবে মুছে ফেলা হয়েছে!';
                 
                 return response.data;

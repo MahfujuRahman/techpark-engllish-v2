@@ -210,7 +210,7 @@ export default {
         async deleteCourse(course) {
             if (await this.confirmAction('আপনি কি নিশ্চিত যে আপনি এই কোর্সটি মুছে ফেলতে চান?')) {
                 try {
-                    await this.store.deleteCourse(course.id);
+                    await this.store.deleteCourse(course.slug);
                     this.showSuccessMessage('কোর্স সফলভাবে মুছে ফেলা হয়েছে!');
                     await this.store.getCourses();
                 } catch (error) {
