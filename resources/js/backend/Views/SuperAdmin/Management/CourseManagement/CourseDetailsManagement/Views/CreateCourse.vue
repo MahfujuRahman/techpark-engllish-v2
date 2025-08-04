@@ -15,20 +15,15 @@
                         <div class="col-md-7">
                             <!-- Course Title -->
                             <div class="form-group">
-                                <label for="title" class="form-label required">Course Title</label>
+                                <label for="title" class="form-label ">Course Title</label>
                                 <input 
                                     type="text" 
                                     id="title"
                                     v-model="formData.title"
                                     class="form-control"
-                                    :class="{ 'is-invalid': errors.title }"
                                     placeholder="Enter course title"
                                     @input="generateSlug"
-                                    required
                                 >
-                                <div v-if="errors.title" class="invalid-feedback">
-                                    {{ errors.title[0] }}
-                                </div>
                             </div>
 
                             <!-- Course Slug -->
@@ -39,16 +34,12 @@
                                     id="slug"
                                     v-model="formData.slug"
                                     class="form-control"
-                                    :class="{ 'is-invalid': errors.slug }"
                                     placeholder="course-slug"
                                     readonly
                                 >
-                                <small class="form-text text-muted">
+                                <small class="form-text text-muted ">
                                     URL: {{ baseUrl }}/course/{{ formData.slug || 'course-slug' }}
                                 </small>
-                                <div v-if="errors.slug" class="invalid-feedback">
-                                    {{ errors.slug[0] }}
-                                </div>
                             </div>
 
                             <!-- What is this Course -->
@@ -57,9 +48,6 @@
                                 <div class="mt-1 mb-3">
                                     <text-editor name="what_is_this_course" />
                                 </div>
-                                <div v-if="errors.what_is_this_course" class="invalid-feedback d-block">
-                                    {{ errors.what_is_this_course[0] }}
-                                </div>
                             </div>
 
                             <!-- Why this Course -->
@@ -67,9 +55,6 @@
                                 <label for="why_is_this_course" class="form-label">Why this Course</label>
                                 <div class="mt-1 mb-3">
                                     <text-editor name="why_is_this_course" />
-                                </div>
-                                <div v-if="errors.why_is_this_course" class="invalid-feedback d-block">
-                                    {{ errors.why_is_this_course[0] }}
                                 </div>
                             </div>
 
@@ -81,13 +66,14 @@
                               
                             <course-category-drop-down-el 
                                 :name="'course_category_id'" 
+                                :module_name="''"
                                 :multiple="false" 
                                 :value="formData.course_category_id" 
                             />
 
                             <!-- Course Image -->
                             <div class="form-group">
-                                <label for="image" class="form-label required">Course Image</label>
+                                <label for="image" class="form-label ">Course Image</label>
                                 <div class="image-upload-container">
                                     <div v-if="imagePreview" class="current-image">
                                         <img 
@@ -115,47 +101,36 @@
                                         @change="handleImageUpload"
                                         class="d-none"
                                         accept="image/*"
-                                        required
                                     >
-                                </div>
-                                <div v-if="errors.image" class="invalid-feedback d-block">
-                                    {{ errors.image[0] }}
                                 </div>
                             </div>
 
                             <!-- Intro Video -->
                             <div class="form-group">
-                                <label for="intro_video" class="form-label">Intro Video URL</label>
+                                <label for="intro_video" class="form-label ">Intro Video URL</label>
                                 <input 
                                     type="url" 
                                     id="intro_video"
                                     v-model="formData.intro_video"
                                     class="form-control"
-                                    :class="{ 'is-invalid': errors.intro_video }"
                                     placeholder="https://youtube.com/watch?v=..."
                                 >
-                                <div v-if="errors.intro_video" class="invalid-feedback">
-                                    {{ errors.intro_video[0] }}
-                                </div>
                             </div>
 
                             <!-- Published Date -->
                             <div class="form-group">
-                                <label for="published_at" class="form-label">Published Date</label>
+                                <label for="published_at" class="form-label ">Published Date</label>
                                 <input 
                                     type="date" 
                                     id="published_at"
                                     v-model="formData.published_at"
                                     class="form-control"
-                                    :class="{ 'is-invalid': errors.published_at }"
                                 >
-                                <div v-if="errors.published_at" class="invalid-feedback">
-                                    {{ errors.published_at[0] }}
-                                </div>
                             </div>
 
                             <!-- Is Published -->
                             <div class="form-group">
+                                <label class="form-label ">Publication Status</label>
                                 <div class="form-check">
                                     <input 
                                         type="checkbox" 
@@ -178,14 +153,10 @@
                                     id="status"
                                     v-model="formData.status"
                                     class="form-control"
-                                    :class="{ 'is-invalid': errors.status }"
                                 >
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                 </select>
-                                <div v-if="errors.status" class="invalid-feedback">
-                                    {{ errors.status[0] }}
-                                </div>
                             </div>
 
                             <!-- SEO Section -->
@@ -197,12 +168,8 @@
                                         id="meta_title"
                                         v-model="formData.meta_title"
                                         class="form-control"
-                                        :class="{ 'is-invalid': errors.meta_title }"
                                         placeholder="SEO Meta Title"
                                     >
-                                    <div v-if="errors.meta_title" class="invalid-feedback">
-                                        {{ errors.meta_title[0] }}
-                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -211,13 +178,9 @@
                                         id="meta_description"
                                         v-model="formData.meta_description"
                                         class="form-control"
-                                        :class="{ 'is-invalid': errors.meta_description }"
                                         rows="2"
                                         placeholder="SEO Meta Description"
                                     ></textarea>
-                                    <div v-if="errors.meta_description" class="invalid-feedback">
-                                        {{ errors.meta_description[0] }}
-                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -227,13 +190,9 @@
                                         id="meta_keywords"
                                         v-model="formData.meta_keywords"
                                         class="form-control"
-                                        :class="{ 'is-invalid': errors.meta_keywords }"
                                         placeholder="keyword1, keyword2, keyword3"
                                     >
                                     <small class="form-text text-muted">Separate keywords with commas</small>
-                                    <div v-if="errors.meta_keywords" class="invalid-feedback">
-                                        {{ errors.meta_keywords[0] }}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -342,18 +301,6 @@ export default {
         handleImageUpload(event) {
             const file = event.target.files[0];
             if (file) {
-                // Validate file size (2MB)
-                if (file.size > 2 * 1024 * 1024) {
-                    console.error('Image size must be less than 2MB');
-                    return;
-                }
-                
-                // Validate file type
-                if (!file.type.startsWith('image/')) {
-                    console.error('Only image files can be uploaded');
-                    return;
-                }
-                
                 // Create preview
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -380,27 +327,46 @@ export default {
                 
                 // Add text fields
                 Object.keys(this.formData).forEach(key => {
-                    if (key !== 'image' && this.formData[key] !== null && this.formData[key] !== '') {
-                        formData.append(key, this.formData[key]);
+                    if (key !== 'image') {
+                        let value = this.formData[key];
+                        
+                        // Handle checkbox values properly
+                        if (key === 'is_published') {
+                            value = value ? '1' : '0';
+                        } else if (value === null || value === undefined) {
+                            value = '';
+                        }
+                        
+                        formData.append(key, value);
                     }
                 });
                 
                 // Add image file if selected
                 if (this.formData.image) {
                     formData.append('image', this.formData.image);
+                } else {
+                    // Send empty for validation
+                    formData.append('image', '');
                 }
                 
                 // Add description from editors
                 if (this.editor) {
                     formData.append('description', this.editor.getData());
+                } else {
+                    formData.append('description', '');
                 }
                 
-                // Add content from Summernote editors
+                // Add content from Summernote editors (always send, even if empty)
                 if ($('#what_is_this_course').length && $('#what_is_this_course').summernote) {
                     formData.append('what_is_this_course', $('#what_is_this_course').summernote('code'));
+                } else {
+                    formData.append('what_is_this_course', '');
                 }
+                
                 if ($('#why_is_this_course').length && $('#why_is_this_course').summernote) {
                     formData.append('why_is_this_course', $('#why_is_this_course').summernote('code'));
+                } else {
+                    formData.append('why_is_this_course', '');
                 }
                 
                 let response;
@@ -409,31 +375,32 @@ export default {
                 if (this.isEditMode) {
                     // Update existing course
                     response = await this.store.updateCourse(this.id, formData);
-                    successMessage = 'Course updated successfully!';
+                    successMessage = 'Data successfully updated';
                 } else {
                     // Create new course
                     response = await this.store.createCourse(formData);
-                    successMessage = 'Course created successfully!';
+                    successMessage = 'Data Successfully Created';
                 }
                 
-                this.showSuccessMessage(successMessage);
-                
-                // Redirect to course details
-                if (response && response.data) {
-                    this.$router.push({ 
-                        name: 'CourseDetails', 
-                        params: { id: response.data.slug } 
-                    });
-                } else {
-                    // Redirect to all courses
-                    this.$router.push({ name: 'CourseDetailsManagement' });
+                if ([200, 201].includes(response.status)) {
+                    window.s_alert(successMessage);
+                    
+                    // Redirect to course details
+                    if (response && response.data) {
+                        this.$router.push({ 
+                            name: 'CourseDetails', 
+                            params: { id: response.data.slug } 
+                        });
+                    } else {
+                        // Redirect to all courses
+                        this.$router.push({ name: 'CourseDetailsManagement' });
+                    }
                 }
                 
             } catch (error) {
-                const errorMessage = this.isEditMode 
-                    ? 'Error updating course!' 
-                    : 'Error creating course!';
-                this.showErrorMessage(errorMessage);
+                if (error.response?.status === 422) {
+                    window.s_alert('Fill the  input fields.', 'error');
+                }
                 console.error('Error saving course:', error);
             }
         },
@@ -496,23 +463,6 @@ export default {
                     $('#why_is_this_course').summernote('code', courseData.why_is_this_course);
                 }
             }, 2000); // Wait for Summernote to initialize
-        },
-        
-        // Utility Methods
-        showSuccessMessage(message) {
-            if (window.toaster) {
-                window.toaster(message, 'success');
-            } else {
-                console.log('Success:', message);
-            }
-        },
-
-        showErrorMessage(message) {
-            if (window.toaster) {
-                window.toaster(message, 'error');
-            } else {
-                console.error('Error:', message);
-            }
         }
     },
     
@@ -534,10 +484,10 @@ export default {
                     // Set Summernote content
                     this.setSummernoteContent(response.data);
                 } else {
-                    this.showErrorMessage('Error loading course data');
+                    window.s_alert('Error loading course data', 'error');
                 }
             } catch (error) {
-                this.showErrorMessage('Error loading course data');
+                window.s_alert('Error loading course data', 'error');
                 console.error('Error loading course:', error);
             }
         } else {
@@ -571,7 +521,7 @@ export default {
     max-width: 100%;
 }
 
-.form-label.required::after {
+.form-label.::after {
     content: " *";
     color: #dc3545;
 }

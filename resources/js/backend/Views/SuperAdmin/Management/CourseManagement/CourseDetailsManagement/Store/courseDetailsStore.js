@@ -211,7 +211,7 @@ export const useCourseDetailsStore = defineStore('courseDetails', {
                     this.errorMessage = 'কোর্স তৈরি করতে ত্রুটি হয়েছে';
                 }
                 console.error('Error creating course:', error);
-                throw error;
+                return error.response;
             } finally {
                 this.submitting = false;
             }
@@ -246,7 +246,7 @@ export const useCourseDetailsStore = defineStore('courseDetails', {
                     this.errorMessage = 'কোর্স আপডেট করতে ত্রুটি হয়েছে';
                 }
                 console.error('Error updating course:', error);
-                throw error;
+                return error.response;
             } finally {
                 this.submitting = false;
             }
