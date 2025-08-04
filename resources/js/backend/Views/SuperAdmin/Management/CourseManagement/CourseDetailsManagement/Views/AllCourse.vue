@@ -29,7 +29,7 @@
                                 <tbody v-if="store.courses?.data?.length">
                                     <tr v-for="(course, index) in store.courses.data" :key="course.id">
                                         <td>{{ ((store.courses.current_page - 1) * store.courses.per_page) + index + 1 }}</td>
-                                        <td>
+                                        <td class="text-center">
                                             <img 
                                                 v-if="course.image" 
                                                 :src="`/${course.image}`" 

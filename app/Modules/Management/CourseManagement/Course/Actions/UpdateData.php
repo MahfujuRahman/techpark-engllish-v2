@@ -7,7 +7,7 @@ class UpdateData
     static $model = \App\Modules\Management\CourseManagement\Course\Models\Model::class;
 
     public static function execute($request, $slug)
-    {dd($request->all());
+    {
         try {
             if (!$data = self::$model::query()->where('slug', $slug)->first()) {
                 return messageResponse('Data not found...', $data, 404, 'error');
@@ -15,7 +15,7 @@ class UpdateData
             $requestData = $request->validated();
 
             // Handle image upload
-            if ($request->hasFile('image')) {
+            if ($request->hasFile('image') && $request->image !== null) {
                 $image = $request->file('image');
                 $requestData['image'] = uploader($image, 'uploads/course');
             }

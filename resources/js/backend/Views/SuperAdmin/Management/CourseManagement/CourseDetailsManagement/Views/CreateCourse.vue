@@ -267,12 +267,9 @@ export default {
                     }
                 });
 
-                // Add image file if selected
+                // Add image file if selected (don't send if null to preserve existing image)
                 if (this.formData.image) {
                     formData.append('image', this.formData.image);
-                } else {
-                    // Send empty for validation
-                    formData.append('image', '');
                 }
 
                 // Get course_category_id from the hidden input created by dropdown

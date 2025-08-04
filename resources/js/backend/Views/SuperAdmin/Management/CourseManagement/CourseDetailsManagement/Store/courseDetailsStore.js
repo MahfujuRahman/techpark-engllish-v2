@@ -464,10 +464,12 @@ export const useCourseDetailsStore = defineStore('courseDetails', {
                 course_category_id: course.course_category_id || null,
                 title: course.title || '',
                 slug: course.slug || '',
-                image: null, // Always null for file inputs
+                image: null, // Always null for file inputs - preserves existing image
                 intro_video: course.intro_video || '',
                 published_at: course.published_at || null,
                 is_published: course.is_published !== undefined ? course.is_published : 0,
+                what_is_this_course: course.what_is_this_course || '',
+                why_is_this_course: course.why_is_this_course || '',
                 status: course.status || 'active',
                 meta_title: course.meta_title || '',
                 meta_description: course.meta_description || '',
