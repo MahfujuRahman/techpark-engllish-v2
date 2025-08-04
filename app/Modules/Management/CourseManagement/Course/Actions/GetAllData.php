@@ -18,7 +18,9 @@ class GetAllData
             $start_date = request()->input('start_date');
             $end_date = request()->input('end_date');
 
-                            $with = [];
+            $with = [
+                'course_category:id,title'
+            ];
 
             $condition = [];
 
@@ -27,29 +29,28 @@ class GetAllData
             if (request()->has('search') && request()->input('search')) {
                 $searchKey = request()->input('search');
                 $data = $data->where(function ($q) use ($searchKey) {
-    $q->where('course_category_id', 'like', '%' . $searchKey . '%');    
+                    $q->where('course_category_id', 'like', '%' . $searchKey . '%');
 
-    $q->orWhere('title', 'like', '%' . $searchKey . '%');    
+                    $q->orWhere('title', 'like', '%' . $searchKey . '%');
 
-    $q->orWhere('image', 'like', '%' . $searchKey . '%');    
+                    $q->orWhere('image', 'like', '%' . $searchKey . '%');
 
-    $q->orWhere('intro_video', 'like', '%' . $searchKey . '%');    
+                    $q->orWhere('intro_video', 'like', '%' . $searchKey . '%');
 
-    $q->orWhere('published_at', 'like', '%' . $searchKey . '%');    
+                    $q->orWhere('published_at', 'like', '%' . $searchKey . '%');
 
-    $q->orWhere('is_published', 'like', '%' . $searchKey . '%');    
+                    $q->orWhere('is_published', 'like', '%' . $searchKey . '%');
 
-    $q->orWhere('what_is_this_course', 'like', '%' . $searchKey . '%');    
+                    $q->orWhere('what_is_this_course', 'like', '%' . $searchKey . '%');
 
-    $q->orWhere('why_is_this_course', 'like', '%' . $searchKey . '%');    
+                    $q->orWhere('why_is_this_course', 'like', '%' . $searchKey . '%');
 
-    $q->orWhere('type', 'like', '%' . $searchKey . '%');              
-
+                    $q->orWhere('type', 'like', '%' . $searchKey . '%');
                 });
             }
 
             if ($start_date && $end_date) {
-                 if ($end_date > $start_date) {
+                if ($end_date > $start_date) {
                     $data->whereBetween('created_at', [$start_date . ' 00:00:00', $end_date . ' 23:59:59']);
                 } elseif ($end_date == $start_date) {
                     $data->whereDate('created_at', $start_date);
@@ -69,7 +70,7 @@ class GetAllData
                     ->limit($pageLimit)
                     ->orderBy($orderByColumn, $orderByType)
                     ->get();
-                     return entityResponse($data);
+                return entityResponse($data);
             } else if ($status == 'trased') {
                 $data = $data
                     ->with($with)
@@ -93,7 +94,6 @@ class GetAllData
                 "inactive_data_count" => self::$model::inactive()->count(),
                 "trased_data_count" => self::$model::trased()->count(),
             ]);
-
         } catch (\Exception $e) {
             return messageResponse($e->getMessage(), [], 500, 'server_error');
         }

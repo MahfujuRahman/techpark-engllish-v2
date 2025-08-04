@@ -41,12 +41,12 @@
                                             </div>
                                         </td>
                                         <td>{{ course.title || 'N/A' }}</td>
-                                        <td>{{ course.type || 'N/A' }}</td>
+                                        <td>{{ course.course_category?.title || 'N/A' }}</td>
                                         <td>
                                             <span 
                                                 :class="['badge', course.status === 'active' ? 'badge-success' : 'badge-danger']"
                                             >
-                                                {{ course.status === 'active' ? 'সক্রিয়' : 'নিষ্ক্রিয়' }}
+                                                {{ course.status === 'active' ? 'active' : 'inactive' }}
                                             </span>
                                         </td>
                                         <td>

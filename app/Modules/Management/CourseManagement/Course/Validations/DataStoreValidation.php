@@ -44,7 +44,7 @@ class DataStoreValidation extends FormRequest
         return [
             'course_category_id' => 'required | sometimes',
             'title' => 'required | sometimes',
-            'image' => 'required | sometimes',
+            'image' => 'nullable | sometimes',
             'intro_video' => 'required | sometimes',
             'published_at' => 'required | sometimes',
             'is_published' => 'required | sometimes',

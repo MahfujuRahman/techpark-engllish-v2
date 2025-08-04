@@ -171,7 +171,7 @@
                         <div class="course-image">
                             <img 
                                 v-if="currentCourse.image && !imageError" 
-                                :src="`/storage/uploads/courses/${currentCourse.image}`" 
+                                :src="`/${currentCourse.image}`" 
                                 :alt="currentCourse.title"
                                 class="img-fluid rounded"
                                 @error="handleImageError"

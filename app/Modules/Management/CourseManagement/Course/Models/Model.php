@@ -12,7 +12,7 @@ class Model extends EloquentModel
     protected $table = "courses";
     protected $guarded = [];
 
-   public static $course_batch = \App\Modules\Management\CourseManagement\CourseBatch\Models\Model::class;
+    public static $course_batch = \App\Modules\Management\CourseManagement\CourseBatch\Models\Model::class;
     protected static function booted()
     {
         static::created(function ($data) {
@@ -41,6 +41,10 @@ class Model extends EloquentModel
     public function scopeTrased($q)
     {
         return $q->onlyTrashed();
+    }
+    public function course_category()
+    {
+        return $this->belongsTo("App\Modules\Management\CourseManagement\CourseCategory\Models\Model", "course_category_id");
     }
     public function course_batch()
     {

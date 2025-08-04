@@ -232,8 +232,6 @@ export const useCourseDetailsStore = defineStore('courseDetails', {
                 
                 const response = await axios.post(`courses/update/${slug}`, formData, config);
                 
-                this.successMessage = 'কোর্স সফলভাবে আপডেট হয়েছে!';
-                
                 // Update current course
                 this.currentCourse = response.data.data;
                 localStorage.setItem('current_course', JSON.stringify(this.currentCourse));

@@ -12,101 +12,66 @@
                 <form @submit.prevent="saveOverview" v-if="currentCourse">
                     <div class="row">
                         <!-- Left Column -->
-                        <div class="col-md-8">
+                        <div class="col-md-7">
                             <!-- Course Title -->
                             <div class="form-group">
-                                <label for="title" class="form-label required">কোর্সের শিরোনাম</label>
+                                <label for="title" class="form-label">Course Title</label>
                                 <input 
                                     type="text" 
                                     id="title"
                                     v-model="formData.title"
                                     class="form-control"
                                     :class="{ 'is-invalid': errors.title }"
-                                    placeholder="কোর্সের শিরোনাম লিখুন"
+                                    placeholder="Enter course title"
                                     @input="generateSlug"
-                                    required
                                 >
                                 <div v-if="errors.title" class="invalid-feedback">
                                     {{ errors.title[0] }}
                                 </div>
                             </div>
 
-                            <!-- Course Slug -->
+                            <!-- What is this Course -->
                             <div class="form-group">
-                                <label for="slug" class="form-label">স্লাগ</label>
-                                <input 
-                                    type="text" 
-                                    id="slug"
-                                    v-model="formData.slug"
-                                    class="form-control"
-                                    :class="{ 'is-invalid': errors.slug }"
-                                    placeholder="course-slug"
-                                    readonly
-                                >
-                                <small class="form-text text-muted">
-                                    URL: {{ baseUrl }}/course/{{ formData.slug || 'course-slug' }}
-                                </small>
-                                <div v-if="errors.slug" class="invalid-feedback">
-                                    {{ errors.slug[0] }}
+                                <label for="what_is_this_course" class="form-label">What is this Course</label>
+                                <div class="text-editor-wrapper" :class="{ 'is-invalid': errors.what_is_this_course }">
+                                    <text-editor name="what_is_this_course" />
+                                </div>
+                                <div v-if="errors.what_is_this_course" class="invalid-feedback d-block">
+                                    {{ errors.what_is_this_course[0] }}
                                 </div>
                             </div>
 
-                            <!-- Course Short Description -->
-                            <div class="form-group">
-                                <label for="short_description" class="form-label">সংক্ষিপ্ত বিবরণ</label>
-                                <textarea 
-                                    id="short_description"
-                                    v-model="formData.short_description"
-                                    class="form-control"
-                                    :class="{ 'is-invalid': errors.short_description }"
-                                    rows="3"
-                                    placeholder="কোর্সের সংক্ষিপ্ত বিবরণ লিখুন..."
-                                ></textarea>
-                                <div v-if="errors.short_description" class="invalid-feedback">
-                                    {{ errors.short_description[0] }}
-                                </div>
-                            </div>
+                            
 
-                            <!-- Course Description -->
+                            <!-- Why this Course -->
                             <div class="form-group">
-                                <label for="description" class="form-label">বিস্তারিত বিবরণ</label>
-                                <div 
-                                    id="description"
-                                    ref="editor"
-                                    class="ck-editor-container"
-                                    :class="{ 'is-invalid': errors.description }"
-                                ></div>
-                                <div v-if="errors.description" class="invalid-feedback">
-                                    {{ errors.description[0] }}
+                                <label for="why_is_this_course" class="form-label">Why this Course</label>
+                                <div class="text-editor-wrapper" :class="{ 'is-invalid': errors.why_is_this_course }">
+                                    <text-editor name="why_is_this_course" />
                                 </div>
-                            </div>
-
-                            <!-- Course Prerequisites -->
-                            <div class="form-group">
-                                <label for="prerequisites" class="form-label">পূর্বশর্ত</label>
-                                <textarea 
-                                    id="prerequisites"
-                                    v-model="formData.prerequisites"
-                                    class="form-control"
-                                    :class="{ 'is-invalid': errors.prerequisites }"
-                                    rows="3"
-                                    placeholder="কোর্সের পূর্বশর্ত লিখুন..."
-                                ></textarea>
-                                <div v-if="errors.prerequisites" class="invalid-feedback">
-                                    {{ errors.prerequisites[0] }}
+                                <div v-if="errors.why_is_this_course" class="invalid-feedback d-block">
+                                    {{ errors.why_is_this_course[0] }}
                                 </div>
                             </div>
                         </div>
 
                         <!-- Right Column -->
-                        <div class="col-md-4">
+                        <div class="col-md-5">
+                            <!-- Course Category -->
+                            <course-category-drop-down-el 
+                                :name="'course_category_id'" 
+                                :module_name="''"
+                                :multiple="false" 
+                                :value="formData.course_category_id" 
+                            />
+
                             <!-- Course Image -->
                             <div class="form-group">
-                                <label for="image" class="form-label">কোর্সের ছবি</label>
+                                <label for="image" class="form-label">Course Image</label>
                                 <div class="image-upload-container">
-                                    <div v-if="imagePreview || currentCourse.image" class="current-image">
+                                    <div v-if="imagePreview" class="current-image">
                                         <img 
-                                            :src="imagePreview || `/${currentCourse.image}`" 
+                                            :src="imagePreview" 
                                             alt="Course Image"
                                             class="img-fluid rounded"
                                         >
@@ -120,7 +85,7 @@
                                     </div>
                                     <div v-else class="upload-placeholder" @click="$refs.imageInput.click()">
                                         <i class="fas fa-cloud-upload-alt fa-3x"></i>
-                                        <p>ছবি আপলোড করুন</p>
+                                        <p>Upload Image</p>
                                         <small>JPG, PNG, GIF (Max 2MB)</small>
                                     </div>
                                     <input 
@@ -137,122 +102,121 @@
                                 </div>
                             </div>
 
-                            <!-- Course Type -->
+                            <!-- Intro Video -->
                             <div class="form-group">
-                                <label for="type" class="form-label required">কোর্সের ধরন</label>
-                                <select 
-                                    id="type"
-                                    v-model="formData.type"
+                                <label for="intro_video" class="form-label">Intro Video URL</label>
+                                <input 
+                                    type="url" 
+                                    id="intro_video" 
+                                    v-model="formData.intro_video" 
                                     class="form-control"
-                                    :class="{ 'is-invalid': errors.type }"
-                                    required
+                                    :class="{ 'is-invalid': errors.intro_video }"
+                                    placeholder="https://youtube.com/watch?v=..."
                                 >
-                                    <option value="">কোর্সের ধরন নির্বাচন করুন</option>
-                                    <option value="online">অনলাইন</option>
-                                    <option value="offline">অফলাইন</option>
-                                    <option value="hybrid">হাইব্রিড</option>
-                                </select>
-                                <div v-if="errors.type" class="invalid-feedback">
-                                    {{ errors.type[0] }}
+                                <div v-if="errors.intro_video" class="invalid-feedback">
+                                    {{ errors.intro_video[0] }}
                                 </div>
                             </div>
 
-                            <!-- Course Level -->
+                            <!-- Published Date -->
                             <div class="form-group">
-                                <label for="level" class="form-label">কোর্সের স্তর</label>
-                                <select 
-                                    id="level"
-                                    v-model="formData.level"
+                                <label for="published_at" class="form-label">Published Date</label>
+                                <input 
+                                    type="date" 
+                                    id="published_at" 
+                                    v-model="formData.published_at"
                                     class="form-control"
-                                    :class="{ 'is-invalid': errors.level }"
+                                    :class="{ 'is-invalid': errors.published_at }"
                                 >
-                                    <option value="beginner">শুরুর স্তর</option>
-                                    <option value="intermediate">মধ্যম স্তর</option>
-                                    <option value="advanced">উন্নত স্তর</option>
-                                </select>
-                                <div v-if="errors.level" class="invalid-feedback">
-                                    {{ errors.level[0] }}
+                                <div v-if="errors.published_at" class="invalid-feedback">
+                                    {{ errors.published_at[0] }}
                                 </div>
                             </div>
 
-                            <!-- Course Duration -->
+                            <!-- Is Published -->
                             <div class="form-group">
-                                <label for="duration" class="form-label">কোর্সের মেয়াদ</label>
-                                <div class="input-group">
-                                    <input 
-                                        type="number" 
-                                        id="duration"
-                                        v-model="formData.duration"
-                                        class="form-control"
-                                        :class="{ 'is-invalid': errors.duration }"
-                                        placeholder="৬"
-                                        min="1"
-                                    >
-                                    <div class="input-group-append">
-                                        <select 
-                                            v-model="formData.duration_type"
-                                            class="form-control"
-                                        >
-                                            <option value="days">দিন</option>
-                                            <option value="weeks">সপ্তাহ</option>
-                                            <option value="months">মাস</option>
-                                            <option value="years">বছর</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div v-if="errors.duration" class="invalid-feedback">
-                                    {{ errors.duration[0] }}
-                                </div>
-                            </div>
-
-                            <!-- Course Language -->
-                            <div class="form-group">
-                                <label for="language" class="form-label">ভাষা</label>
-                                <select 
-                                    id="language"
-                                    v-model="formData.language"
-                                    class="form-control"
-                                    :class="{ 'is-invalid': errors.language }"
-                                >
-                                    <option value="bengali">বাংলা</option>
-                                    <option value="english">ইংরেজি</option>
-                                    <option value="both">উভয়</option>
-                                </select>
-                                <div v-if="errors.language" class="invalid-feedback">
-                                    {{ errors.language[0] }}
-                                </div>
-                            </div>
-
-                            <!-- Certificate -->
-                            <div class="form-group">
+                                <label class="form-label">Publication Status</label>
                                 <div class="form-check">
                                     <input 
                                         type="checkbox" 
-                                        id="certificate"
-                                        v-model="formData.certificate"
-                                        class="form-check-input"
+                                        id="is_published" 
+                                        v-model="formData.is_published"
+                                        class="form-check-input" 
+                                        :true-value="1" 
+                                        :false-value="0"
                                     >
-                                    <label for="certificate" class="form-check-label">
-                                        সার্টিফিকেট প্রদান করা হবে
+                                    <label for="is_published" class="form-check-label">
+                                        Publish this course
                                     </label>
+                                </div>
+                                <div v-if="errors.is_published" class="invalid-feedback d-block">
+                                    {{ errors.is_published[0] }}
                                 </div>
                             </div>
 
                             <!-- Course Status -->
                             <div class="form-group">
-                                <label for="status" class="form-label">স্ট্যাটাস</label>
+                                <label for="status" class="form-label">Status</label>
                                 <select 
                                     id="status"
                                     v-model="formData.status"
                                     class="form-control"
                                     :class="{ 'is-invalid': errors.status }"
                                 >
-                                    <option value="active">সক্রিয়</option>
-                                    <option value="inactive">নিষ্ক্রিয়</option>
-                                    <option value="draft">খসড়া</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
                                 </select>
                                 <div v-if="errors.status" class="invalid-feedback">
                                     {{ errors.status[0] }}
+                                </div>
+                            </div>
+
+                            <!-- SEO Section -->
+                            <div class="seo-section">
+                                <div class="form-group">
+                                    <label for="meta_title" class="form-label">Meta Title</label>
+                                    <input 
+                                        type="text" 
+                                        id="meta_title" 
+                                        v-model="formData.meta_title"
+                                        class="form-control" 
+                                        :class="{ 'is-invalid': errors.meta_title }"
+                                        placeholder="SEO Meta Title"
+                                    >
+                                    <div v-if="errors.meta_title" class="invalid-feedback">
+                                        {{ errors.meta_title[0] }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="meta_description" class="form-label">Meta Description</label>
+                                    <textarea 
+                                        id="meta_description" 
+                                        v-model="formData.meta_description"
+                                        class="form-control" 
+                                        :class="{ 'is-invalid': errors.meta_description }"
+                                        rows="2" 
+                                        placeholder="SEO Meta Description"
+                                    ></textarea>
+                                    <div v-if="errors.meta_description" class="invalid-feedback">
+                                        {{ errors.meta_description[0] }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="meta_keywords" class="form-label">Meta Keywords</label>
+                                    <input 
+                                        type="text" 
+                                        id="meta_keywords" 
+                                        v-model="formData.meta_keywords"
+                                        class="form-control" 
+                                        :class="{ 'is-invalid': errors.meta_keywords }"
+                                        placeholder="keyword1, keyword2, keyword3"
+                                    >
+                                    <small class="form-text text-muted">Separate keywords with commas</small>
+                                    <div v-if="errors.meta_keywords" class="invalid-feedback">
+                                        {{ errors.meta_keywords[0] }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -267,7 +231,7 @@
                         >
                             <i v-if="submitting" class="fas fa-spinner fa-spin mr-1"></i>
                             <i v-else class="fas fa-save mr-1"></i>
-                            {{ submitting ? 'সংরক্ষণ হচ্ছে...' : 'সংরক্ষণ করুন' }}
+                            {{ submitting ? 'Updating...' : 'Update Course' }}
                         </button>
                         
                         <button 
@@ -276,7 +240,7 @@
                             class="btn btn-secondary ml-2"
                         >
                             <i class="fas fa-undo mr-1"></i>
-                            রিসেট করুন
+                            Reset
                         </button>
                     </div>
                 </form>
@@ -295,9 +259,16 @@
 <script>
 import { mapState, mapActions } from 'pinia';
 import { useCourseDetailsStore } from '@/Views/SuperAdmin/Management/CourseManagement/CourseDetailsManagement/Store/courseDetailsStore.js';
+import TextEditor from '../../../../../../../GlobalComponents/FormComponents/TextEditor.vue';
+import CourseCategoryDropDownEl from '../../../../../../../GlobalManagement/CourseManagement/CourseCategory/components/dropdown/DropDownEl.vue';
 
 export default {
     name: 'CourseOverview',
+    
+    components: {
+        TextEditor,
+        CourseCategoryDropDownEl
+    },
     
     data() {
         return {
@@ -338,13 +309,25 @@ export default {
             if (file) {
                 // Validate file size (2MB)
                 if (file.size > 2 * 1024 * 1024) {
-                    this.$toast.error('ছবির সাইজ ২MB এর কম হতে হবে');
+                    if (typeof window.s_alert === 'function') {
+                        window.s_alert('Image size must be less than 2MB', 'error');
+                    } else if (this.$toast) {
+                        this.$toast.error('Image size must be less than 2MB');
+                    } else {
+                        alert('Image size must be less than 2MB');
+                    }
                     return;
                 }
                 
                 // Validate file type
                 if (!file.type.startsWith('image/')) {
-                    this.$toast.error('শুধুমাত্র ছবি ফাইল আপলোড করা যাবে');
+                    if (typeof window.s_alert === 'function') {
+                        window.s_alert('Only image files are allowed', 'error');
+                    } else if (this.$toast) {
+                        this.$toast.error('Only image files are allowed');
+                    } else {
+                        alert('Only image files are allowed');
+                    }
                     return;
                 }
                 
@@ -352,6 +335,13 @@ export default {
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     this.imagePreview = e.target.result;
+                    console.log('New image preview set from file upload');
+                };
+                reader.onerror = () => {
+                    console.error('Error reading file');
+                    if (typeof window.s_alert === 'function') {
+                        window.s_alert('Error reading image file', 'error');
+                    }
                 };
                 reader.readAsDataURL(file);
                 
@@ -363,7 +353,14 @@ export default {
         removeImage() {
             this.imagePreview = null;
             this.setFormData({ image: null });
-            this.$refs.imageInput.value = '';
+            if (this.$refs.imageInput) {
+                this.$refs.imageInput.value = '';
+            }
+            
+            // Also clear the current course image reference if we're removing it
+            if (this.currentCourse && this.currentCourse.image) {
+                console.log('Image removed, clearing preview');
+            }
         },
         
         async saveOverview() {
@@ -372,29 +369,106 @@ export default {
             try {
                 const formData = new FormData();
                 
-                // Add text fields
+                // Add text fields (excluding rich text fields first)
                 Object.keys(this.formData).forEach(key => {
-                    if (key !== 'image' && this.formData[key] !== null) {
-                        formData.append(key, this.formData[key]);
+                    if (key !== 'image' && key !== 'what_is_this_course' && key !== 'why_is_this_course') {
+                        let value = this.formData[key];
+
+                        // Handle checkbox values properly
+                        if (key === 'is_published') {
+                            value = value ? '1' : '0';
+                        } else if (value === null || value === undefined) {
+                            value = '';
+                        }
+
+                        formData.append(key, value);
                     }
                 });
-                
+
                 // Add image file if selected
                 if (this.formData.image) {
                     formData.append('image', this.formData.image);
+                } else {
+                    // Send empty for validation
+                    formData.append('image', '');
                 }
-                
-                // Add description from editor
-                if (this.editor) {
-                    formData.append('description', this.editor.getData());
+
+                // Get course_category_id from the hidden input created by dropdown
+                const categoryInput = document.getElementById('course_category_id');
+                if (categoryInput && categoryInput.value) {
+                    formData.set('course_category_id', categoryInput.value);
                 }
+
+                // Add content from Summernote editors (always send, even if empty)
+                const whatCourseEditor = $('#what_is_this_course');
+                if (whatCourseEditor.length && whatCourseEditor.summernote) {
+                    const whatCourseContent = whatCourseEditor.summernote('code');
+                    console.log('What is this course content:', whatCourseContent);
+                    formData.append('what_is_this_course', whatCourseContent || '');
+                } else {
+                    // Fallback: try to get content directly from the div
+                    const fallbackContent = whatCourseEditor.html() || '';
+                    console.log('What is this course fallback content:', fallbackContent);
+                    formData.append('what_is_this_course', fallbackContent);
+                }
+
+                const whyCourseEditor = $('#why_is_this_course');
+                if (whyCourseEditor.length && whyCourseEditor.summernote) {
+                    const whyCourseContent = whyCourseEditor.summernote('code');
+                    console.log('Why this course content:', whyCourseContent);
+                    formData.append('why_is_this_course', whyCourseContent || '');
+                } else {
+                    // Fallback: try to get content directly from the div
+                    const fallbackContent = whyCourseEditor.html() || '';
+                    console.log('Why this course fallback content:', fallbackContent);
+                    formData.append('why_is_this_course', fallbackContent);
+                }
+
+                // Debug: Log all form data entries
+                console.log('=== FormData Debug ===');
+                for (let [key, value] of formData.entries()) {
+                    console.log(`${key}:`, value);
+                }
+                console.log('======================');
+
+                const response = await this.updateCourse(this.currentCourse.slug, formData);
                 
-                await this.updateCourse(this.currentCourse.id, formData);
-                
-                this.$toast.success('কোর্স ওভারভিউ সফলভাবে আপডেট হয়েছে!');
+                console.log('API Response:', response);
+                console.log('Response status:', response.status);
+                console.log('Response statusCode:', response.statusCode);
+                console.log('Response message:', response.message);
+
+                // Check statusCode specifically (it's a number), not status (which is a string)
+                if ([200, 201].includes(response.statusCode)) {
+                    // Show success message
+                    const message = response.message || 'Course overview successfully updated';
+                    console.log('Showing success message:', message);
+                    
+                    // Try both window.s_alert and regular alert for debugging
+                    if (typeof window.s_alert === 'function') {
+                        window.s_alert(message, 'success');
+                    } else {
+                        console.error('window.s_alert is not available');
+                        this.$toast.success(message); // Fallback to toast
+                    }
+                } else {
+                    console.log('Unexpected response statusCode:', response.statusCode);
+                    // Handle unexpected response
+                    if (typeof window.s_alert === 'function') {
+                        window.s_alert('Unexpected response from server', 'error');
+                    } else {
+                        this.$toast.error('Unexpected response from server');
+                    }
+                }
                 
             } catch (error) {
-                this.$toast.error('কোর্স ওভারভিউ আপডেট করতে ত্রুটি হয়েছে!');
+                if (error.response?.status === 422) {
+                    if (typeof window.s_alert === 'function') {
+                        window.s_alert('Fill the input fields.', 'error');
+                    } else {
+                        this.$toast.error('Fill the input fields.');
+                    }
+                }
                 console.error('Error saving course overview:', error);
             }
         },
@@ -403,71 +477,102 @@ export default {
             if (this.currentCourse) {
                 this.populateFormWithCourse(this.currentCourse);
                 this.imagePreview = null;
-                if (this.editor) {
-                    this.editor.setData(this.currentCourse.description || '');
-                }
             }
+            
+            // Clear Summernote editors
+            if ($('#what_is_this_course').length && $('#what_is_this_course').summernote) {
+                $('#what_is_this_course').summernote('code', this.currentCourse?.what_is_this_course || '');
+            }
+            if ($('#why_is_this_course').length && $('#why_is_this_course').summernote) {
+                $('#why_is_this_course').summernote('code', this.currentCourse?.why_is_this_course || '');
+            }
+            
             this.clearErrors();
         },
         
-        async initializeCKEditor() {
-            try {
-                if (window.ClassicEditor) {
-                    this.editor = await window.ClassicEditor.create(this.$refs.editor, {
-                        placeholder: 'কোর্সের বিস্তারিত বিবরণ লিখুন...',
-                        toolbar: [
-                            'heading', '|',
-                            'bold', 'italic', 'link', '|',
-                            'bulletedList', 'numberedList', '|',
-                            'outdent', 'indent', '|',
-                            'blockQuote', 'insertTable', '|',
-                            'undo', 'redo'
-                        ],
-                        heading: {
-                            options: [
-                                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
-                            ]
-                        }
-                    });
-                    
-                    // Set initial content
-                    if (this.currentCourse && this.currentCourse.description) {
-                        this.editor.setData(this.currentCourse.description);
-                    }
+        setImagePreview() {
+            if (this.currentCourse && this.currentCourse.image) {
+                console.log('Setting image preview for course image:', this.currentCourse.image);
+                
+                // Check if it's a full URL or relative path
+                if (this.currentCourse.image.startsWith('http')) {
+                    this.imagePreview = this.currentCourse.image;
+                } else if (this.currentCourse.image.startsWith('/')) {
+                    // Already has /storage/ prefix
+                    this.imagePreview = `${window.location.origin}${this.currentCourse.image}`;
+                } else {
+                    // Construct full URL for relative paths
+                    this.imagePreview = `${window.location.origin}/${this.currentCourse.image}`;
                 }
-            } catch (error) {
-                console.error('Error initializing CKEditor:', error);
+                
+                console.log('Image preview set to:', this.imagePreview);
+            } else {
+                this.imagePreview = null;
+                console.log('No image found, imagePreview set to null');
             }
         },
+        
+        initializeRichTextEditors() {
+            // Initialize rich text editors with current course content
+            if (this.currentCourse) {
+                console.log('Initializing rich text editors with course data');
+                
+                // Set what_is_this_course content
+                const whatEditor = $('#what_is_this_course');
+                if (whatEditor.length) {
+                    if (whatEditor.summernote) {
+                        whatEditor.summernote('code', this.currentCourse.what_is_this_course || '');
+                        console.log('Set what_is_this_course content:', this.currentCourse.what_is_this_course);
+                    } else {
+                        console.warn('Summernote not available for what_is_this_course');
+                    }
+                }
+                
+                // Set why_is_this_course content
+                const whyEditor = $('#why_is_this_course');
+                if (whyEditor.length) {
+                    if (whyEditor.summernote) {
+                        whyEditor.summernote('code', this.currentCourse.why_is_this_course || '');
+                        console.log('Set why_is_this_course content:', this.currentCourse.why_is_this_course);
+                    } else {
+                        console.warn('Summernote not available for why_is_this_course');
+                    }
+                }
+            }
+        },
+        
     },
     
     async mounted() {
+        console.log('CourseOverview mounted, currentCourse:', this.currentCourse);
+        
         if (this.currentCourse) {
             this.populateFormWithCourse(this.currentCourse);
+            this.setImagePreview();
         }
         
-        // Initialize CKEditor
-        await this.$nextTick();
-        await this.initializeCKEditor();
-    },
-    
-    beforeUnmount() {
-        if (this.editor) {
-            this.editor.destroy();
-        }
+        // Initialize rich text editors with a slight delay
+        this.$nextTick(() => {
+            setTimeout(() => {
+                this.initializeRichTextEditors();
+            }, 100);
+        });
     },
     
     watch: {
         currentCourse: {
             handler(newCourse) {
                 if (newCourse) {
+                    console.log('Course data changed:', newCourse);
                     this.populateFormWithCourse(newCourse);
-                    if (this.editor) {
-                        this.editor.setData(newCourse.description || '');
-                    }
+                    this.setImagePreview();
+                    
+                    // Wait for next tick to ensure editors are initialized
+                    this.$nextTick(() => {
+                        setTimeout(() => {
+                            this.initializeRichTextEditors();
+                        }, 100);
+                    });
                 }
             },
             immediate: true
@@ -501,6 +606,10 @@ export default {
     width: 100%;
     height: 200px;
     object-fit: cover;
+}
+
+:deep(.card-header) {
+    display: block !important;
 }
 
 .remove-image-btn {
@@ -547,13 +656,38 @@ export default {
     opacity: 0.7;
 }
 
-.ck-editor-container {
-    min-height: 200px;
-    border: 1px solid #ced4da;
+.seo-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #dee2e6;
+}
+
+.seo-section h6 {
+    color: #495057;
+    margin-bottom: 15px;
+}
+
+/* Summernote Editor Styling */
+.text-editor-wrapper {
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+/* Simple Summernote styling - matching CreateCourse.vue */
+:deep(.note-editor) {
     border-radius: 0.25rem;
 }
 
-.ck-editor-container.is-invalid {
+:deep(.note-editor.note-frame .note-editing-area .note-editable) {
+    min-height: 150px;
+}
+
+/* Error state for Summernote */
+.text-editor-wrapper.is-invalid :deep(.note-editor) {
+    border-color: #dc3545;
+}
+
+.text-editor-wrapper.is-invalid :deep(.note-editor.note-frame) {
     border-color: #dc3545;
 }
 
@@ -585,7 +719,7 @@ export default {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .col-md-4 {
+    .col-md-5 {
         margin-top: 20px;
     }
     
