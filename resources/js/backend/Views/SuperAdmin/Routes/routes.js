@@ -46,6 +46,7 @@ import CourseBatchStudentRoutes from '../../../GlobalManagement/CourseManagement
 import CourseBatchRoutes from '../../../GlobalManagement/CourseManagement/CourseBatch/setup/routes.js';
 import CourseInstructorsRoutes from '../../../GlobalManagement/CourseManagement/CourseInstructors/setup/routes.js';
 import CourseCategoryRoutes from '../../../GlobalManagement/CourseManagement/CourseCategory/setup/routes.js';
+import CourseDetailsManagementRoutes from '../Management/CourseManagement/CourseDetailsManagement/Routes/routes.js';
 
 const routes = {
   path: "",
@@ -96,6 +97,9 @@ const routes = {
         CourseBatchRoutes,
         CourseInstructorsRoutes,
         CourseCategoryRoutes,
+
+        // Course Details Management (New Pinia-based system)
+        ...CourseDetailsManagementRoutes,
 
       
 

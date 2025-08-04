@@ -30,4 +30,9 @@ export default defineConfig({
             "@": path.resolve(__dirname, "resources/js/backend"),
         },
     },
+    server: {
+        watch: {
+            ignored: ['**/vendor/**', '**/node_modules/**', '**/storage/**']
+        }
+    }
 });
