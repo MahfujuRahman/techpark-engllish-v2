@@ -41,44 +41,12 @@
 
       <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`CourseManagement`" :menus="[
         {
-          route_name: `AllCourseCategory`,
-          title: `CourseCategory`,
-          icon: `zmdi zmdi-dot-circle-alt`,
-        }, {
-          route_name: `AllCourseInstructors`,
-          title: `CourseInstructors`,
-          icon: `zmdi zmdi-dot-circle-alt`,
-        }, {
-          route_name: `AllCourseBatch`,
-          title: `CourseBatch`,
-          icon: `zmdi zmdi-dot-circle-alt`,
-        }, {
-          route_name: `AllCourseBatchStudent`,
-          title: `CourseBatchStudent`,
-          icon: `zmdi zmdi-dot-circle-alt`,
-        }, {
           route_name: `AllCourse`,
           title: `Course`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
-          route_name: `AllCourseMilestone`,
-          title: `CourseMilestone`,
-          icon: `zmdi zmdi-dot-circle-alt`,
-        }, {
-          route_name: `AllCourseModule`,
-          title: `CourseModule`,
-          icon: `zmdi zmdi-dot-circle-alt`,
-        }, {
-          route_name: `AllCourseModuleClass`,
-          title: `CourseModuleClass`,
-          icon: `zmdi zmdi-dot-circle-alt`,
-        }, {
-          route_name: `AllCourseModuleClassResourse`,
-          title: `CourseModuleClassResourse`,
-          icon: `zmdi zmdi-dot-circle-alt`,
-        }, {
-          route_name: `AllCourseModuleClassRoutine`,
-          title: `CourseModuleClassRoutine`,
+          route_name: `AllCourses`,
+          title: `All Courses`,
           icon: `zmdi zmdi-dot-circle-alt`,
         },
       ]" />

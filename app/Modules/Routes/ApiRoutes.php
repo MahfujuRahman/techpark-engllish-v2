@@ -73,10 +73,3 @@ include_once base_path("app/Modules/Management/SeminerManagement/SeminerSubscrib
 include_once base_path("app/Modules/Management/SeminerManagement/SeminerReviews/Routes/Route.php");
 include_once base_path("app/Modules/Management/CommunicationManagement/ContactMessage/Routes/Route.php");
 include_once base_path("app/Modules/Management/WebsiteManagement/WebsiteBanner/Routes/Route.php");
-
-/*
-|--------------------------------------------------------------------------
-| Course Details Management API Routes (Pinia-based)
-|--------------------------------------------------------------------------
-*/
-include_once base_path("routes/course_details_management.php");

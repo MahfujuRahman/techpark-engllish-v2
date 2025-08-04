@@ -80,8 +80,6 @@ import QuickView from '../components/canvas/QuickView.vue';
 import FilterData from '../components/canvas/FilterData.vue';
 import ImportModal from '../components/all_data_page/ImportModal.vue';
 
-
-
 export default {
 
     props: {

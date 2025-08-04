@@ -22,7 +22,7 @@
                 </div>
                 <div class="card-body card_body_fixed_height">
                     <div class="row">
-                    <quiz-drop-down-el :name="'quiz_id'" :multiple="false" :value="item.quiz_id" />    <course-module-class-drop-down-el :name="'course_module_class_id'" :multiple="false" :value="item.course_module_class_id" />
+                    <!-- <quiz-drop-down-el :name="'quiz_id'" :multiple="false" :value="item.quiz_id" />    <course-module-class-drop-down-el :name="'course_module_class_id'" :multiple="false" :value="item.course_module_class_id" /> -->
                         <template v-for="(form_field, index) in form_fields" v-bind:key="index">
 
                             <common-input :label="form_field.label" :type="form_field.type" :name="form_field.name"
@@ -51,9 +51,11 @@ import setup from "../setup";
 import form_fields from "../setup/form_fields";
            
 import QuizDropDownEl from "../../Quiz/components/dropdown/DropDownEl.vue";           
-import CourseModuleClassDropDownEl from "../../../CourseManagement/CourseModuleClass/components/dropdown/DropDownEl.vue";
+// import CourseModuleClassDropDownEl from "../../../CourseManagement/CourseModuleClass/components/dropdown/DropDownEl.vue";
         export default {
-        components: {QuizDropDownEl,CourseModuleClassDropDownEl,        },
+        components: {QuizDropDownEl,
+            // CourseModuleClassDropDownEl,  
+              },
 
     data: () => ({
         setup,

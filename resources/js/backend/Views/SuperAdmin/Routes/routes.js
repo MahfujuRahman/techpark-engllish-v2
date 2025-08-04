@@ -36,16 +36,7 @@ import QuizSubmissionResultRoutes from '../../../GlobalManagement/QuizManagement
 import QuizRoutes from '../../../GlobalManagement/QuizManagement/Quiz/setup/routes.js';
 import QuizQuestionRoutes from '../../../GlobalManagement/QuizManagement/QuizQuestion/setup/routes.js';
 import QuizQuestionTopicRoutes from '../../../GlobalManagement/QuizManagement/QuizQuestionTopic/setup/routes.js';
-import CourseModuleClassRoutineRoutes from '../../../GlobalManagement/CourseManagement/CourseModuleClassRoutine/setup/routes.js';
-import CourseModuleClassResourseRoutes from '../../../GlobalManagement/CourseManagement/CourseModuleClassResourse/setup/routes.js';
-import CourseModuleClassRoutes from '../../../GlobalManagement/CourseManagement/CourseModuleClass/setup/routes.js';
-import CourseModuleRoutes from '../../../GlobalManagement/CourseManagement/CourseModule/setup/routes.js';
-import CourseMilestoneRoutes from '../../../GlobalManagement/CourseManagement/CourseMilestone/setup/routes.js';
 import CourseRoutes from '../../../GlobalManagement/CourseManagement/Course/setup/routes.js';
-import CourseBatchStudentRoutes from '../../../GlobalManagement/CourseManagement/CourseBatchStudent/setup/routes.js';
-import CourseBatchRoutes from '../../../GlobalManagement/CourseManagement/CourseBatch/setup/routes.js';
-import CourseInstructorsRoutes from '../../../GlobalManagement/CourseManagement/CourseInstructors/setup/routes.js';
-import CourseCategoryRoutes from '../../../GlobalManagement/CourseManagement/CourseCategory/setup/routes.js';
 import CourseDetailsManagementRoutes from '../Management/CourseManagement/CourseDetailsManagement/Routes/routes.js';
 
 const routes = {
@@ -87,17 +78,9 @@ const routes = {
         QuizRoutes,
         QuizQuestionRoutes,
         QuizQuestionTopicRoutes,
-        CourseModuleClassRoutineRoutes,
-        CourseModuleClassResourseRoutes,
-        CourseModuleClassRoutes,
-        CourseModuleRoutes,
-        CourseMilestoneRoutes,
+        
         CourseRoutes,
-        CourseBatchStudentRoutes,
-        CourseBatchRoutes,
-        CourseInstructorsRoutes,
-        CourseCategoryRoutes,
-
+       
         // Course Details Management (New Pinia-based system)
         ...CourseDetailsManagementRoutes,
 
