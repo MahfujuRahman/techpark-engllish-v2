@@ -16,27 +16,15 @@
                             <!-- Course Title -->
                             <div class="form-group">
                                 <label for="title" class="form-label ">Course Title</label>
-                                <input 
-                                    type="text" 
-                                    id="title"
-                                    v-model="formData.title"
-                                    class="form-control"
-                                    placeholder="Enter course title"
-                                    @input="generateSlug"
-                                >
+                                <input type="text" id="title" v-model="formData.title" class="form-control"
+                                    placeholder="Enter course title" @input="generateSlug">
                             </div>
 
                             <!-- Course Slug -->
                             <div class="form-group">
                                 <label for="slug" class="form-label">Slug</label>
-                                <input 
-                                    type="text" 
-                                    id="slug"
-                                    v-model="formData.slug"
-                                    class="form-control"
-                                    placeholder="course-slug"
-                                    readonly
-                                >
+                                <input type="text" id="slug" v-model="formData.slug" class="form-control"
+                                    placeholder="course-slug" readonly>
                                 <small class="form-text text-muted ">
                                     URL: {{ baseUrl }}/course/{{ formData.slug || 'course-slug' }}
                                 </small>
@@ -63,29 +51,18 @@
                         <!-- Right Column -->
                         <div class="col-md-5">
                             <!-- Course Category -->
-                              
-                            <course-category-drop-down-el 
-                                :name="'course_category_id'" 
-                                :module_name="''"
-                                :multiple="false" 
-                                :value="formData.course_category_id" 
-                            />
+
+                            <course-category-drop-down-el :name="'course_category_id'" :module_name="''"
+                                :multiple="false" :value="formData.course_category_id" />
 
                             <!-- Course Image -->
                             <div class="form-group">
                                 <label for="image" class="form-label ">Course Image</label>
                                 <div class="image-upload-container">
                                     <div v-if="imagePreview" class="current-image">
-                                        <img 
-                                            :src="imagePreview" 
-                                            alt="Course Image"
-                                            class="img-fluid rounded"
-                                        >
-                                        <button 
-                                            type="button" 
-                                            @click="removeImage"
-                                            class="btn btn-sm btn-danger remove-image-btn"
-                                        >
+                                        <img :src="imagePreview" alt="Course Image" class="img-fluid rounded">
+                                        <button type="button" @click="removeImage"
+                                            class="btn btn-sm btn-danger remove-image-btn">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
@@ -94,52 +71,31 @@
                                         <p>Upload Image</p>
                                         <small>JPG, PNG, GIF (Max 2MB)</small>
                                     </div>
-                                    <input 
-                                        ref="imageInput"
-                                        type="file" 
-                                        id="image"
-                                        @change="handleImageUpload"
-                                        class="d-none"
-                                        accept="image/*"
-                                    >
+                                    <input ref="imageInput" type="file" id="image" @change="handleImageUpload"
+                                        class="d-none" accept="image/*">
                                 </div>
                             </div>
 
                             <!-- Intro Video -->
                             <div class="form-group">
                                 <label for="intro_video" class="form-label ">Intro Video URL</label>
-                                <input 
-                                    type="url" 
-                                    id="intro_video"
-                                    v-model="formData.intro_video"
-                                    class="form-control"
-                                    placeholder="https://youtube.com/watch?v=..."
-                                >
+                                <input type="url" id="intro_video" v-model="formData.intro_video" class="form-control"
+                                    placeholder="https://youtube.com/watch?v=...">
                             </div>
 
                             <!-- Published Date -->
                             <div class="form-group">
                                 <label for="published_at" class="form-label ">Published Date</label>
-                                <input 
-                                    type="date" 
-                                    id="published_at"
-                                    v-model="formData.published_at"
-                                    class="form-control"
-                                >
+                                <input type="date" id="published_at" v-model="formData.published_at"
+                                    class="form-control">
                             </div>
 
                             <!-- Is Published -->
                             <div class="form-group">
                                 <label class="form-label ">Publication Status</label>
                                 <div class="form-check">
-                                    <input 
-                                        type="checkbox" 
-                                        id="is_published"
-                                        v-model="formData.is_published"
-                                        class="form-check-input"
-                                        :true-value="1"
-                                        :false-value="0"
-                                    >
+                                    <input type="checkbox" id="is_published" v-model="formData.is_published"
+                                        class="form-check-input" :true-value="1" :false-value="0">
                                     <label for="is_published" class="form-check-label">
                                         Publish this course
                                     </label>
@@ -149,11 +105,7 @@
                             <!-- Course Status -->
                             <div class="form-group">
                                 <label for="status" class="form-label">Status</label>
-                                <select 
-                                    id="status"
-                                    v-model="formData.status"
-                                    class="form-control"
-                                >
+                                <select id="status" v-model="formData.status" class="form-control">
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                 </select>
@@ -163,35 +115,20 @@
                             <div class="seo-section">
                                 <div class="form-group">
                                     <label for="meta_title" class="form-label">Meta Title</label>
-                                    <input 
-                                        type="text" 
-                                        id="meta_title"
-                                        v-model="formData.meta_title"
-                                        class="form-control"
-                                        placeholder="SEO Meta Title"
-                                    >
+                                    <input type="text" id="meta_title" v-model="formData.meta_title"
+                                        class="form-control" placeholder="SEO Meta Title">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="meta_description" class="form-label">Meta Description</label>
-                                    <textarea 
-                                        id="meta_description"
-                                        v-model="formData.meta_description"
-                                        class="form-control"
-                                        rows="2"
-                                        placeholder="SEO Meta Description"
-                                    ></textarea>
+                                    <textarea id="meta_description" v-model="formData.meta_description"
+                                        class="form-control" rows="2" placeholder="SEO Meta Description"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="meta_keywords" class="form-label">Meta Keywords</label>
-                                    <input 
-                                        type="text" 
-                                        id="meta_keywords"
-                                        v-model="formData.meta_keywords"
-                                        class="form-control"
-                                        placeholder="keyword1, keyword2, keyword3"
-                                    >
+                                    <input type="text" id="meta_keywords" v-model="formData.meta_keywords"
+                                        class="form-control" placeholder="keyword1, keyword2, keyword3">
                                     <small class="form-text text-muted">Separate keywords with commas</small>
                                 </div>
                             </div>
@@ -200,29 +137,18 @@
 
                     <!-- Form Actions -->
                     <div class="form-actions">
-                        <button 
-                            type="submit" 
-                            class="btn btn-primary"
-                            :disabled="submitting"
-                        >
+                        <button type="submit" class="btn btn-primary" :disabled="submitting">
                             <i v-if="submitting" class="fas fa-spinner fa-spin mr-1"></i>
                             <i v-else class="fas fa-save mr-1"></i>
                             {{ submitButtonText }}
                         </button>
-                        
-                        <button 
-                            type="button" 
-                            @click="resetForm"
-                            class="btn btn-secondary ml-2"
-                        >
+
+                        <button type="button" @click="resetForm" class="btn btn-secondary ml-2">
                             <i class="fas fa-undo mr-1"></i>
                             Reset
                         </button>
 
-                        <router-link 
-                            :to="{ name: 'AllCourses' }" 
-                            class="btn btn-outline-secondary ml-2"
-                        >
+                        <router-link :to="{ name: 'AllCourses' }" class="btn btn-outline-secondary ml-2">
                             <i class="fas fa-arrow-left mr-1"></i>
                             Go Back
                         </router-link>
@@ -240,24 +166,24 @@ import CourseCategoryDropDownEl from '../../../../../../GlobalManagement/CourseM
 
 export default {
     name: 'CreateCourse',
-    
+
     components: {
         TextEditor,
         CourseCategoryDropDownEl
     },
-    
+
     props: {
         id: {
             type: [String, Number],
             default: null
         }
     },
-    
+
     setup() {
         const store = useCourseDetailsStore();
         return { store };
     },
-    
+
     data() {
         return {
             editor: null,
@@ -265,7 +191,7 @@ export default {
             baseUrl: window.location.origin,
         };
     },
-    
+
     computed: {
         isEditMode() {
             return !!this.id;
@@ -289,7 +215,7 @@ export default {
             return this.store.errors;
         }
     },
-    
+
     methods: {
         generateSlug() {
             if (this.formData.title) {
@@ -297,7 +223,7 @@ export default {
                 this.store.setFormData({ slug });
             }
         },
-        
+
         handleImageUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -307,40 +233,40 @@ export default {
                     this.imagePreview = e.target.result;
                 };
                 reader.readAsDataURL(file);
-                
+
                 // Store file in form data
                 this.store.setFormData({ image: file });
             }
         },
-        
+
         removeImage() {
             this.imagePreview = null;
             this.store.setFormData({ image: null });
             this.$refs.imageInput.value = '';
         },
-        
+
         async createCourse() {
             this.store.clearErrors();
-            
+
             try {
                 const formData = new FormData();
-                
+
                 // Add text fields
                 Object.keys(this.formData).forEach(key => {
-                    if (key !== 'image') {
+                    if (key !== 'image' && key !== 'what_is_this_course' && key !== 'why_is_this_course') {
                         let value = this.formData[key];
-                        
+
                         // Handle checkbox values properly
                         if (key === 'is_published') {
                             value = value ? '1' : '0';
                         } else if (value === null || value === undefined) {
                             value = '';
                         }
-                        
+
                         formData.append(key, value);
                     }
                 });
-                
+
                 // Add image file if selected
                 if (this.formData.image) {
                     formData.append('image', this.formData.image);
@@ -348,30 +274,49 @@ export default {
                     // Send empty for validation
                     formData.append('image', '');
                 }
-                
-                // Add description from editors
-                if (this.editor) {
-                    formData.append('description', this.editor.getData());
-                } else {
-                    formData.append('description', '');
+
+                // Get course_category_id from the hidden input created by dropdown
+                const categoryInput = document.getElementById('course_category_id');
+                if (categoryInput && categoryInput.value) {
+                    formData.set('course_category_id', categoryInput.value);
                 }
-                
+
+
                 // Add content from Summernote editors (always send, even if empty)
-                if ($('#what_is_this_course').length && $('#what_is_this_course').summernote) {
-                    formData.append('what_is_this_course', $('#what_is_this_course').summernote('code'));
+                const whatCourseEditor = $('#what_is_this_course');
+                if (whatCourseEditor.length && whatCourseEditor.summernote) {
+                    const whatCourseContent = whatCourseEditor.summernote('code');
+                    console.log('What is this course content:', whatCourseContent);
+                    formData.append('what_is_this_course', whatCourseContent || '');
                 } else {
-                    formData.append('what_is_this_course', '');
+                    // Fallback: try to get content directly from the div
+                    const fallbackContent = whatCourseEditor.html() || '';
+                    console.log('What is this course fallback content:', fallbackContent);
+                    formData.append('what_is_this_course', fallbackContent);
                 }
-                
-                if ($('#why_is_this_course').length && $('#why_is_this_course').summernote) {
-                    formData.append('why_is_this_course', $('#why_is_this_course').summernote('code'));
+
+                const whyCourseEditor = $('#why_is_this_course');
+                if (whyCourseEditor.length && whyCourseEditor.summernote) {
+                    const whyCourseContent = whyCourseEditor.summernote('code');
+                    console.log('Why this course content:', whyCourseContent);
+                    formData.append('why_is_this_course', whyCourseContent || '');
                 } else {
-                    formData.append('why_is_this_course', '');
+                    // Fallback: try to get content directly from the div
+                    const fallbackContent = whyCourseEditor.html() || '';
+                    console.log('Why this course fallback content:', fallbackContent);
+                    formData.append('why_is_this_course', fallbackContent);
                 }
-                
+
+                // Debug: Log all form data entries
+                console.log('=== FormData Debug ===');
+                for (let [key, value] of formData.entries()) {
+                    console.log(`${key}:`, value);
+                }
+                console.log('======================');
+
                 let response;
                 let successMessage;
-                
+
                 if (this.isEditMode) {
                     // Update existing course
                     response = await this.store.updateCourse(this.id, formData);
@@ -381,30 +326,55 @@ export default {
                     response = await this.store.createCourse(formData);
                     successMessage = 'Data Successfully Created';
                 }
-                
-                if ([200, 201].includes(response.status)) {
-                    window.s_alert(successMessage);
+
+                console.log('API Response:', response);
+                console.log('Response status:', response.status);
+                console.log('Response statusCode:', response.statusCode);
+                console.log('Response message:', response.message);
+
+                // Check statusCode specifically (it's a number), not status (which is a string)
+                if ([200, 201].includes(response.statusCode)) {
+                    // Show success message
+                    const message = response.message || successMessage;
+                    console.log('Showing success message:', message);
                     
-                    // Redirect to course details
-                    if (response && response.data) {
-                        this.$router.push({ 
-                            name: 'CourseDetails', 
-                            params: { id: response.data.slug } 
-                        });
+                    // Try both window.s_alert and regular alert for debugging
+                    if (typeof window.s_alert === 'function') {
+                        window.s_alert(message, 'success');
                     } else {
-                        // Redirect to all courses
-                        this.$router.push({ name: 'CourseDetailsManagement' });
+                        console.error('window.s_alert is not available');
+                        alert(`SUCCESS: ${message}`); // Fallback
                     }
+
+                    // Add a small delay before redirect to ensure message is visible
+                    setTimeout(() => {
+                        // Redirect to course details
+                        if (response && response.data && response.data.slug) {
+                            console.log('Redirecting to course details with slug:', response.data.slug);
+                            this.$router.push({
+                                name: 'CourseDetails',
+                                params: { id: response.data.slug }
+                            });
+                        } else {
+                            console.log('Redirecting to course management');
+                            // Redirect to all courses
+                            this.$router.push({ name: 'CourseDetailsManagement' });
+                        }
+                    }, 2000); // 2 second delay
+                } else {
+                    console.log('Unexpected response statusCode:', response.statusCode);
+                    // Handle unexpected response
+                    window.s_alert('Unexpected response from server', 'error');
                 }
-                
+
             } catch (error) {
                 if (error.response?.status === 422) {
-                    window.s_alert('Fill the  input fields.', 'error');
+                    window.s_alert('Fill the input fields.', 'error');
                 }
                 console.error('Error saving course:', error);
             }
         },
-        
+
         resetForm() {
             this.store.resetFormData();
             this.imagePreview = null;
@@ -412,7 +382,7 @@ export default {
             if (this.editor) {
                 this.editor.setData('');
             }
-            
+
             // Clear Summernote editors
             if ($('#what_is_this_course').length && $('#what_is_this_course').summernote) {
                 $('#what_is_this_course').summernote('code', '');
@@ -420,10 +390,10 @@ export default {
             if ($('#why_is_this_course').length && $('#why_is_this_course').summernote) {
                 $('#why_is_this_course').summernote('code', '');
             }
-            
+
             this.store.clearErrors();
         },
-        
+
         async initializeCKEditor() {
             try {
                 if (window.ClassicEditor) {
@@ -465,7 +435,7 @@ export default {
             }, 2000); // Wait for Summernote to initialize
         }
     },
-    
+
     async mounted() {
         if (this.isEditMode) {
             // Load course data for editing using slug
@@ -473,14 +443,14 @@ export default {
                 const response = await this.store.getCourseDetails(this.id);
                 if (response && response.data) {
                     this.store.populateFormWithCourse(response.data);
-                    
+
                     // Set editor content after initialization
                     await this.$nextTick();
                     await this.initializeCKEditor();
                     if (this.editor && response.data.description) {
                         this.editor.setData(response.data.description);
                     }
-                    
+
                     // Set Summernote content
                     this.setSummernoteContent(response.data);
                 } else {
@@ -493,18 +463,18 @@ export default {
         } else {
             // Reset form data for new course
             this.store.resetFormData();
-            
+
             // Initialize CKEditor
             await this.$nextTick();
             await this.initializeCKEditor();
         }
     },
-    
+
     beforeUnmount() {
         if (this.editor) {
             this.editor.destroy();
         }
-        
+
         // Clean up Summernote instances
         if ($('#what_is_this_course').length && $('#what_is_this_course').summernote) {
             $('#what_is_this_course').summernote('destroy');
@@ -519,11 +489,6 @@ export default {
 <style scoped>
 .create-course {
     max-width: 100%;
-}
-
-.form-label.::after {
-    content: " *";
-    color: #dc3545;
 }
 
 .image-upload-container {
@@ -647,11 +612,11 @@ export default {
     .col-md-4 {
         margin-top: 20px;
     }
-    
+
     .form-actions {
         text-align: center;
     }
-    
+
     .form-actions .btn {
         width: 100%;
         margin: 5px 0;

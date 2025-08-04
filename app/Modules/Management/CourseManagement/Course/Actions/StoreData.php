@@ -8,9 +8,14 @@ class StoreData
 
     public static function execute($request)
     {
-        dd($request->all());
         try {
             $requestData = $request->validated();
+
+            // Handle image upload
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $requestData['image'] = uploader($image, 'uploads/course');
+            }
 
             if ($data = self::$model::query()->create($requestData)) {
                 return messageResponse('Item added successfully', $data, 201);
