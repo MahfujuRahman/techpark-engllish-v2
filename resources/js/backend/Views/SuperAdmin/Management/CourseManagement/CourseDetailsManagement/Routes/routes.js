@@ -57,8 +57,7 @@ import CourseClassCreate from '../Views/Pages/CourseClass/Create.vue';
 // Course FAQ
 import CourseFaqLayout from '../Views/Pages/CourseFaq/Layout.vue';
 import CourseFaqAll from '../Views/Pages/CourseFaq/All.vue';
-import CourseFaqCreate from '../Views/Pages/CourseFaq/Create.vue';
-import CourseFaqEdit from '../Views/Pages/CourseFaq/Edit.vue';
+import CourseFaqForm from '../Views/Pages/CourseFaq/Form.vue';
 import CourseFaqDetails from '../Views/Pages/CourseFaq/Details.vue';
 
 // Course Module
@@ -383,15 +382,15 @@ export default [
                             {
                                 path: 'create',
                                 name: 'CourseFaqCreate',
-                                component: CourseFaqCreate,
+                                component: CourseFaqForm,
                             },
                             {
-                                path: 'edit/:itemId',
+                                path: ':slug/edit',
                                 name: 'CourseFaqEdit',
-                                component: CourseFaqEdit,
+                                component: CourseFaqForm,
                             },
                             {
-                                path: 'details/:itemId',
+                                path: ':slug/details',
                                 name: 'CourseFaqDetails',
                                 component: CourseFaqDetails,
                             },

@@ -77,3 +77,4 @@ include_once base_path("app/Modules/Management/CourseManagement/CourseYouWillLea
 include_once base_path("app/Modules/Management/CourseManagement/CourseHowIsStructured/Routes/Route.php");
 include_once base_path("app/Modules/Management/CourseManagement/CourseForWhom/Routes/Route.php");
 include_once base_path("app/Modules/Management/CourseManagement/CourseWhyYouLearnFromUs/Routes/Route.php");
+include_once base_path("app/Modules/Management/CourseManagement/CourseFaq/Routes/Route.php");

@@ -147,7 +147,7 @@
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
-                            <div>সাধারণ জিজ্ঞাসা</div>
+                            <div>Faq Questions</div>
                         </router-link>
                     </li>
                 </ul>
