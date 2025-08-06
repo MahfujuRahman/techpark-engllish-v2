@@ -60,12 +60,12 @@
                                 <td>
                                     <div class="btn-group" role="group">
                                         <router-link
-                                            :to="{ name: 'CourseBatchDetails', params: { id: $route.params.id, batch_id: batch.id } }"
+                                            :to="{ name: 'CourseBatchDetails', params: { id: $route.params.id, batch_id: batch.slug } }"
                                             class="btn btn-sm btn-outline-primary" title="View Details">
                                             <i class="fas fa-eye"></i>
                                         </router-link>
                                         <router-link
-                                            :to="{ name: 'CourseBatchEdit', params: { id: $route.params.id, batch_id: batch.id } }"
+                                            :to="{ name: 'CourseBatchEdit', params: { id: $route.params.id, batch_id: batch.slug } }"
                                             class="btn btn-sm btn-outline-warning" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </router-link>
@@ -165,7 +165,9 @@ export default {
         async deleteBatch(batch) {
             if (await this.$confirm('Are you sure you want to delete this batch?')) {
                 try {
-                    await axios.delete(`course-batches/${batch.id}`);
+                    const batchSlug = batch.slug; // Use slug from the batch data
+                    console.log('Deleting batch with slug:', batchSlug);
+                    await axios.post(`course-batches/destroy/${batchSlug}`);
                     this.$toast.success('Batch deleted successfully!');
                     await this.getCourseBatches();
                 } catch (error) {

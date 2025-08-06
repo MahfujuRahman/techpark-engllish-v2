@@ -247,36 +247,22 @@ export default {
     methods: {
         async fetchBatch() {
             try {
-                // TODO: API call will be implemented later
-                console.log('Fetching batch details:', this.$route.params.batch_id);
+                const batchSlug = this.$route.params.batch_id; // Now this contains the slug
+                console.log('Fetching batch details for slug:', batchSlug);
                 
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                // According to your routes: Route::get('{slug}', [Controller::class,'show']);
+                const response = await axios.get(`course-batches/${batchSlug}`);
                 
-                // Simulate loaded data based on schema
-                this.batch = {
-                    id: this.$route.params.batch_id,
-                    batch_name: 'Batch 1',
-                    admission_start_date: '2024-01-01T00:00:00Z',
-                    admission_end_date: '2024-01-31T23:59:59Z',
-                    batch_student_limit: 50,
-                    seat_booked: 35,
-                    booked_percent: 70,
-                    course_price: 5000,
-                    course_discount: 10,
-                    after_discount_price: 4500,
-                    first_class_date: '2024-02-01T10:00:00Z',
-                    class_days: 'Sunday, Tuesday, Thursday',
-                    class_start_time: '10:00',
-                    class_end_time: '12:00',
-                    show_percentage_on_cards: 'yes',
-                    status: 'active',
-                    active_students: 30,
-                    completed_students: 5,
-                    dropped_students: 2,
-                    created_at: '2024-01-01T00:00:00Z',
-                    updated_at: '2024-01-15T10:30:00Z',
-                };
+                console.log('API Response:', response.data);
+                
+                // Check if response has the expected structure
+                if (response.data && response.data.status === 'success') {
+                    this.batch = response.data.data;
+                    console.log('Loaded batch:', this.batch);
+                } else {
+                    console.error('Unexpected response structure:', response.data);
+                    this.$toast.error('Failed to load batch information!');
+                }
                 
             } catch (error) {
                 this.$toast.error('Failed to load batch information!');
@@ -294,11 +280,10 @@ export default {
             this.submitting = true;
             
             try {
-                // TODO: API call will be implemented later
-                console.log('Deleting batch:', this.batch.id);
+                const batchSlug = this.batch.slug || this.$route.params.batch_id; // Use slug from data or route
+                console.log('Deleting batch with slug:', batchSlug);
                 
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                await axios.post(`course-batches/destroy/${batchSlug}`);
                 
                 this.$toast.success('Batch deleted successfully!');
                 
@@ -414,7 +399,7 @@ export default {
 }
 
 .detail-item strong {
-    color: #495057;
+    color: #fff;
     margin-right: 10px;
     display: inline-block;
     min-width: 150px;
@@ -428,7 +413,6 @@ export default {
 }
 
 .stat-card {
-    background: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: 8px;
     padding: 20px;

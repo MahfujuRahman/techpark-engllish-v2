@@ -349,7 +349,10 @@ export default {
         courseId() {
             return this.currentCourse?.id;
         },
-        
+
+        batchSlug(){
+            return this.$route.currentCourse?.slug; // This is actually the slug from the route
+        },
         batchId() {
             return this.$route.params.batch_id;
         }
@@ -375,9 +378,14 @@ export default {
             
             this.loading = true;
             try {
-                const response = await axios.get(`course-batches/show/${this.batchId}`);
+                const batchSlug = this.batchId; // Now this contains the slug from route params
+                console.log('Loading batch data for slug:', batchSlug);
+                // According to your routes: Route::get('{slug}', [Controller::class,'show']);
+                const response = await axios.get(`course-batches/${batchSlug}`);
                 
-                if (response.data.success) {
+                console.log('Form - API Response:', response.data);
+                
+                if (response.data && response.data.status === 'success') {
                     this.batchData = response.data.data;
                     this.populateForm();
                 } else {
@@ -497,12 +505,15 @@ export default {
                 
                 let response;
                 if (this.isEditMode) {
-                    response = await axios.put(`course-batcheses/update/${this.batchId}`, batchData);
+                    const batchSlug = this.batchId; // This is actually the slug from route params
+                    response = await axios.post(`course-batches/update/${batchSlug}`, batchData);
                 } else {
-                    response = await axios.post('course-batcheses/store', batchData);
+                    response = await axios.post('course-batches/store', batchData);
                 }
                 
-                if (response.data.success) {
+                console.log('Submit - API Response:', response.data);
+                
+                if (response.data && response.data.status === 'success') {
                     this.$toast.success(this.isEditMode ? 'Batch updated successfully!' : 'Batch created successfully!');
                     this.goBack();
                 } else {
