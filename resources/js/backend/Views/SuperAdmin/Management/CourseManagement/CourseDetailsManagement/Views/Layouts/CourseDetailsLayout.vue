@@ -53,21 +53,11 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseJobPosition', params: { id: currentCourse.slug } }" 
+                            :to="{ name: 'CourseForWhom' }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
-                            <div>Job Position</div>
-                        </router-link>
-                    </li>
-                    
-                    <li v-if="currentCourse">
-                        <router-link 
-                            :to="{ name: 'CourseForWhom', params: { id: currentCourse.slug } }" 
-                            class="nav-item"
-                        >
-                            <i class="far fa-circle mr-1"></i>
-                            <div>কোর্সটি যাদের জন্য</div>
+                            <div>Course For Whom</div>
                         </router-link>
                     </li>
                     

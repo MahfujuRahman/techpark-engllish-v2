@@ -75,3 +75,4 @@ include_once base_path("app/Modules/Management/CommunicationManagement/ContactMe
 include_once base_path("app/Modules/Management/WebsiteManagement/WebsiteBanner/Routes/Route.php");
 include_once base_path("app/Modules/Management/CourseManagement/CourseYouWillLearn/Routes/Route.php");
 include_once base_path("app/Modules/Management/CourseManagement/CourseHowIsStructured/Routes/Route.php");
+include_once base_path("app/Modules/Management/CourseManagement/CourseForWhom/Routes/Route.php");

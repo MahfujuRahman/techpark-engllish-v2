@@ -28,18 +28,10 @@ import CourseHowIsStructuredAll from '../Views/Pages/CourseHowIsStructured/All.v
 import CourseHowIsStructuredForm from '../Views/Pages/CourseHowIsStructured/Form.vue';
 import CourseHowIsStructuredDetails from '../Views/Pages/CourseHowIsStructured/Details.vue';
 
-// Course Job Position
-import CourseJobPositionLayout from '../Views/Pages/CourseJobPosition/Layout.vue';
-import CourseJobPositionAll from '../Views/Pages/CourseJobPosition/All.vue';
-import CourseJobPositionCreate from '../Views/Pages/CourseJobPosition/Create.vue';
-import CourseJobPositionEdit from '../Views/Pages/CourseJobPosition/Edit.vue';
-import CourseJobPositionDetails from '../Views/Pages/CourseJobPosition/Details.vue';
-
 // Course For Whom
 import CourseForWhomLayout from '../Views/Pages/CourseForWhom/Layout.vue';
 import CourseForWhomAll from '../Views/Pages/CourseForWhom/All.vue';
-import CourseForWhomCreate from '../Views/Pages/CourseForWhom/Create.vue';
-import CourseForWhomEdit from '../Views/Pages/CourseForWhom/Edit.vue';
+import CourseForWhomForm from '../Views/Pages/CourseForWhom/Form.vue';
 import CourseForWhomDetails from '../Views/Pages/CourseForWhom/Details.vue';
 
 // Course Why Learn
@@ -244,39 +236,6 @@ export default [
                         ]
                     },
 
-                    // Course Job Position Routes
-                    {
-                        path: 'job-position',
-                        component: CourseJobPositionLayout,
-                        children: [
-                            {
-                                path: '',
-                                name: 'CourseJobPosition',
-                                component: CourseJobPositionAll,
-                            },
-                            {
-                                path: 'all',
-                                name: 'CourseJobPositionAll',
-                                component: CourseJobPositionAll,
-                            },
-                            {
-                                path: 'create',
-                                name: 'CourseJobPositionCreate',
-                                component: CourseJobPositionCreate,
-                            },
-                            {
-                                path: 'edit/:itemId',
-                                name: 'CourseJobPositionEdit',
-                                component: CourseJobPositionEdit,
-                            },
-                            {
-                                path: 'details/:itemId',
-                                name: 'CourseJobPositionDetails',
-                                component: CourseJobPositionDetails,
-                            },
-                        ]
-                    },
-
                     // Course For Whom Routes
                     {
                         path: 'for-whom',
@@ -295,15 +254,15 @@ export default [
                             {
                                 path: 'create',
                                 name: 'CourseForWhomCreate',
-                                component: CourseForWhomCreate,
+                                component: CourseForWhomForm,
                             },
                             {
-                                path: 'edit/:itemId',
+                                path: ':slug/edit',
                                 name: 'CourseForWhomEdit',
-                                component: CourseForWhomEdit,
+                                component: CourseForWhomForm,
                             },
                             {
-                                path: 'details/:itemId',
+                                path: ':slug/details',
                                 name: 'CourseForWhomDetails',
                                 component: CourseForWhomDetails,
                             },
