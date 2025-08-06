@@ -36,6 +36,7 @@ php artisan make:table CourseManagement/Course/CourseWhatYouWillGet [course_id:b
 php artisan make:module CourseManagement/CourseYouWillLearn [course_id:bigint,title:text]
 php artisan make:module CourseManagement/CourseHowIsStructured [course_id:bigint,serial:tinyint,title:text]
 php artisan make:module CourseManagement/CourseForWhom [course_id:bigint,title:text]
+php artisan make:module CourseManagement/Course/CourseWhyYouLearnFromUs [course_id:bigint,title:text]
 
 php artisan make:module CourseManagement/CourseMilestone [course_id:bigint,milestone_no:bigint,title:string-200] --vue
 

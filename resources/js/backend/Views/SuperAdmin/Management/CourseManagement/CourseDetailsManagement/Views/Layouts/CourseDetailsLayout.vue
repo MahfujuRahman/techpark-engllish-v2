@@ -67,7 +67,7 @@
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
-                            <div>কোর্সের এক্সক্লুসিভ ফিচার</div>
+                            <div>Why you Learn From Us</div>
                         </router-link>
                     </li>
                     

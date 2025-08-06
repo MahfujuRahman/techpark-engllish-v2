@@ -37,8 +37,7 @@ import CourseForWhomDetails from '../Views/Pages/CourseForWhom/Details.vue';
 // Course Why Learn
 import CourseWhyLearnLayout from '../Views/Pages/CourseWhyLearn/Layout.vue';
 import CourseWhyLearnAll from '../Views/Pages/CourseWhyLearn/All.vue';
-import CourseWhyLearnCreate from '../Views/Pages/CourseWhyLearn/Create.vue';
-import CourseWhyLearnEdit from '../Views/Pages/CourseWhyLearn/Edit.vue';
+import CourseWhyLearnForm from '../Views/Pages/CourseWhyLearn/Form.vue';
 import CourseWhyLearnDetails from '../Views/Pages/CourseWhyLearn/Details.vue';
 
 // Course Trainer
@@ -287,15 +286,15 @@ export default [
                             {
                                 path: 'create',
                                 name: 'CourseWhyLearnCreate',
-                                component: CourseWhyLearnCreate,
+                                component: CourseWhyLearnForm,
                             },
                             {
-                                path: 'edit/:itemId',
+                                path: ':slug/edit',
                                 name: 'CourseWhyLearnEdit',
-                                component: CourseWhyLearnEdit,
+                                component: CourseWhyLearnForm,
                             },
                             {
-                                path: 'details/:itemId',
+                                path: ':slug/details',
                                 name: 'CourseWhyLearnDetails',
                                 component: CourseWhyLearnDetails,
                             },
