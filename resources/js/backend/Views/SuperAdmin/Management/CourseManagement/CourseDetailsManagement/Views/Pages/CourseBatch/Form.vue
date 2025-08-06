@@ -389,11 +389,11 @@ export default {
                     this.batchData = response.data.data;
                     this.populateForm();
                 } else {
-                    this.$toast.error('Failed to load batch data');
+                    window.s_error('Failed to load batch data');
                 }
             } catch (error) {
                 console.error('Error loading batch data:', error);
-                this.$toast.error('Failed to load batch data');
+                window.s_error('Failed to load batch data');
             } finally {
                 this.loading = false;
             }
@@ -471,12 +471,12 @@ export default {
         
         async submitForm() {
             if (!this.validateForm()) {
-                this.$toast.error('Please fill all required fields correctly.');
+                window.s_warning('Please fill all required fields correctly.');
                 return;
             }
             
             if (!this.courseId) {
-                this.$toast.error('Course ID not found.');
+                window.s_error('Course ID not found.');
                 return;
             }
             
@@ -514,10 +514,10 @@ export default {
                 console.log('Submit - API Response:', response.data);
                 
                 if (response.data && response.data.status === 'success') {
-                    this.$toast.success(this.isEditMode ? 'Batch updated successfully!' : 'Batch created successfully!');
+                    window.s_alert(this.isEditMode ? 'Batch updated successfully!' : 'Batch created successfully!');
                     this.goBack();
                 } else {
-                    this.$toast.error(response.data.message || 'Failed to save batch');
+                    window.s_error(response.data.message || 'Failed to save batch');
                 }
                 
             } catch (error) {
@@ -525,9 +525,9 @@ export default {
                 
                 if (error.response?.data?.errors) {
                     this.errors = error.response.data.errors;
-                    this.$toast.error('Form has errors. Please correct them.');
+                    window.s_warning('Form has errors. Please correct them.');
                 } else {
-                    this.$toast.error('Failed to save batch');
+                    window.s_error('Failed to save batch');
                 }
             } finally {
                 this.submitting = false;

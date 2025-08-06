@@ -261,11 +261,11 @@ export default {
                     console.log('Loaded batch:', this.batch);
                 } else {
                     console.error('Unexpected response structure:', response.data);
-                    this.$toast.error('Failed to load batch information!');
+                    window.s_error('Failed to load batch information!');
                 }
                 
             } catch (error) {
-                this.$toast.error('Failed to load batch information!');
+                window.s_error('Failed to load batch information!');
                 console.error('Error fetching batch:', error);
             } finally {
                 this.loading = false;
@@ -273,7 +273,8 @@ export default {
         },
         
         async deleteBatch() {
-            if (!confirm('Are you sure you want to delete this batch?')) {
+            const confirmed = await window.s_confirm('Are you sure you want to delete this batch?', 'Yes, delete it!');
+            if (!confirmed) {
                 return;
             }
             
@@ -285,7 +286,7 @@ export default {
                 
                 await axios.post(`course-batches/destroy/${batchSlug}`);
                 
-                this.$toast.success('Batch deleted successfully!');
+                window.s_alert('Batch deleted successfully!');
                 
                 // Navigate back to all batches
                 this.$router.push({ 
@@ -294,7 +295,7 @@ export default {
                 });
                 
             } catch (error) {
-                this.$toast.error('Failed to delete batch!');
+                window.s_error('Failed to delete batch!');
                 console.error('Error deleting batch:', error);
             } finally {
                 this.submitting = false;

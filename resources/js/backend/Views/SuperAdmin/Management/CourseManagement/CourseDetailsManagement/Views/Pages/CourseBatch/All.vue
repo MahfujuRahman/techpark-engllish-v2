@@ -163,16 +163,17 @@ export default {
         },
 
         async deleteBatch(batch) {
-            if (await this.$confirm('Are you sure you want to delete this batch?')) {
+            const confirmed = await window.s_confirm('Are you sure you want to delete this batch?', 'Yes, delete it!');
+            if (confirmed) {
                 try {
                     const batchSlug = batch.slug; // Use slug from the batch data
                     console.log('Deleting batch with slug:', batchSlug);
                     await axios.post(`course-batches/destroy/${batchSlug}`);
-                    this.$toast.success('Batch deleted successfully!');
+                    window.s_alert('Batch deleted successfully!');
                     await this.getCourseBatches();
                 } catch (error) {
                     console.error('Error deleting batch:', error);
-                    this.$toast.error('Failed to delete batch!');
+                    window.s_error('Failed to delete batch!');
                 }
             }
         },
