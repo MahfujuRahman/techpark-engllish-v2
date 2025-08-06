@@ -260,7 +260,31 @@ export default {
                 console.log('Full module response:', response.data);
 
                 if (response.data.status === 'success' && response.data.data) {
+                    // The milestones are directly in the course data
                     this.milestones = response.data.data.milestones || [];
+                    console.log('Extracted milestones:', this.milestones);
+                    
+                    // Ensure each milestone has a modules array
+                    this.milestones = this.milestones.map(milestone => ({
+                        ...milestone,
+                        modules: (milestone.modules || []).map(module => ({
+                            ...module,
+                            classes: (module.classes || []).map(classs => ({
+                                ...classs,
+                                routine: classs.routine || {
+                                    date: "",
+                                    time: "",
+                                    topic: ""
+                                },
+                                resource: classs.resource || {
+                                    resourse_content: "",
+                                    resourse_link: ""
+                                }
+                            }))
+                        }))
+                    }));
+                    
+                    console.log('Processed milestones:', this.milestones);
                 } else {
                     this.milestones = [];
                 }
