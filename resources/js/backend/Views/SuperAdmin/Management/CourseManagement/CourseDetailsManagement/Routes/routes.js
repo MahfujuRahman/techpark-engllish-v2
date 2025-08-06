@@ -22,6 +22,12 @@ import CourseWhatLearnAll from '../Views/Pages/CourseWhatLearn/All.vue';
 import CourseWhatLearnForm from '../Views/Pages/CourseWhatLearn/Form.vue';
 import CourseWhatLearnDetails from '../Views/Pages/CourseWhatLearn/Details.vue';
 
+// Course How Is Structured
+import CourseHowIsStructuredLayout from '../Views/Pages/CourseHowIsStructured/Layout.vue';
+import CourseHowIsStructuredAll from '../Views/Pages/CourseHowIsStructured/All.vue';
+import CourseHowIsStructuredForm from '../Views/Pages/CourseHowIsStructured/Form.vue';
+import CourseHowIsStructuredDetails from '../Views/Pages/CourseHowIsStructured/Details.vue';
+
 // Course Job Position
 import CourseJobPositionLayout from '../Views/Pages/CourseJobPosition/Layout.vue';
 import CourseJobPositionAll from '../Views/Pages/CourseJobPosition/All.vue';
@@ -201,6 +207,39 @@ export default [
                                 path: ':slug/details',
                                 name: 'CourseWhatLearnDetails',
                                 component: CourseWhatLearnDetails,
+                            },
+                        ]
+                    },
+
+                    // Course How Is Structured Routes
+                    {
+                        path: 'how-structured',
+                        component: CourseHowIsStructuredLayout,
+                        children: [
+                            {
+                                path: '',
+                                name: 'CourseHowIsStructured',
+                                component: CourseHowIsStructuredAll,
+                            },
+                            {
+                                path: 'all',
+                                name: 'CourseHowIsStructuredAll',
+                                component: CourseHowIsStructuredAll,
+                            },
+                            {
+                                path: 'create',
+                                name: 'CourseHowIsStructuredCreate',
+                                component: CourseHowIsStructuredForm,
+                            },
+                            {
+                                path: ':slug/edit',
+                                name: 'CourseHowIsStructuredEdit',
+                                component: CourseHowIsStructuredForm,
+                            },
+                            {
+                                path: ':slug/details',
+                                name: 'CourseHowIsStructuredDetails',
+                                component: CourseHowIsStructuredDetails,
                             },
                         ]
                     },
