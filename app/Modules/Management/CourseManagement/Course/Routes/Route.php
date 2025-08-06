@@ -16,4 +16,9 @@ Route::prefix('v1')->group(function () {
         Route::post('import', [Controller::class,'import']);
         Route::post('bulk-action', [Controller::class, 'bulkAction']);
     });
+    
+    Route::prefix('course')->group(function () {
+        Route::get('{id}/full-module', [Controller::class,'getFullModule']);
+        Route::post('{id}/full-module', [Controller::class,'saveFullModule']);
+    });
 });

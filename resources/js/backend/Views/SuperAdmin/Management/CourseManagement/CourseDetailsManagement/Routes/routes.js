@@ -54,6 +54,9 @@ import CourseClassLayout from '../Views/Pages/CourseClass/Layout.vue';
 import CourseClassAll from '../Views/Pages/CourseClass/All.vue';
 import CourseClassCreate from '../Views/Pages/CourseClass/Create.vue';
 
+// Course Modules (Individual Module Management)
+import CourseModulesAll from '../Views/Pages/CourseModules/All.vue';
+
 // Course FAQ
 import CourseFaqLayout from '../Views/Pages/CourseFaq/Layout.vue';
 import CourseFaqAll from '../Views/Pages/CourseFaq/All.vue';
@@ -64,7 +67,8 @@ import CourseFaqDetails from '../Views/Pages/CourseFaq/Details.vue';
 import CourseModuleLayout from '../Views/Pages/CourseModule/Layout.vue';
 import CourseModuleAll from '../Views/Pages/CourseModule/All.vue';
 import CourseModuleCreate from '../Views/Pages/CourseModule/Create.vue';
-import CourseModuleCSV from '../Views/Pages/CourseModule/CsvUpload.vue';
+import CourseModuleForm from '../Views/Pages/CourseModule/Form.vue';
+import CourseModuleCSV from '../Views/Pages/CourseModule/CSV.vue';
 import CourseAtGlance from '../Views/Pages/CourseModule/AtGlance.vue';
 import CourseClassQuiz from '../Views/Pages/CourseModule/CourseClassQuiz.vue';
 
@@ -411,6 +415,11 @@ export default [
                                 path: 'all',
                                 name: 'CourseModuleAll',
                                 component: CourseModuleAll,
+                            },
+                            {
+                                path: 'modules-management',
+                                name: 'CourseModulesAll',
+                                component: CourseModulesAll,
                             },
                             {
                                 path: 'create',

@@ -50,4 +50,19 @@ class Model extends EloquentModel
     {
         return $this->hasMany(self::$course_batch, 'course_id', 'id');
     }
+    
+    public function milestones()
+    {
+        return $this->hasMany(\App\Modules\Management\CourseManagement\CourseMilestone\Models\Model::class, 'course_id', 'id');
+    }
+    
+    public function modules()
+    {
+        return $this->hasMany(\App\Modules\Management\CourseManagement\CourseModule\Models\Model::class, 'course_id', 'id');
+    }
+    
+    public function classes()
+    {
+        return $this->hasMany(\App\Modules\Management\CourseManagement\CourseModuleClass\Models\Model::class, 'course_id', 'id');
+    }
 }
