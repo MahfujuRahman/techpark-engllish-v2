@@ -10,7 +10,7 @@
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
-                            <div>সব তালিকা</div>
+                            <div>All Items</div>
                         </router-link>
                     </li>
                     
@@ -20,7 +20,7 @@
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
-                            <div>নতুন যোগ করুন</div>
+                            <div>Add New</div>
                         </router-link>
                     </li>
                 </ul>
@@ -30,9 +30,9 @@
             <div class="setting_body custom_scroll">
                 <!-- Content Header -->
                 <div class="content-header mb-4">
-                    <h4 class="content-title">কোর্সটি করে যা শিখবেন</h4>
+                    <h4 class="content-title">What You Will Learn</h4>
                     <p class="content-description">
-                        এই সেকশনে কোর্স সম্পন্ন করার পর শিক্ষার্থীরা কী কী শিখতে পারবে তার তালিকা যোগ করুন।
+                        Add learning outcomes and skills that students will acquire after completing this course.
                     </p>
                 </div>
                 
@@ -60,7 +60,7 @@ export default {
 }
 
 .navs {
-    min-width: 250px;
+    min-width: 130px;
     /* background-color: #f8f9fa; */
     border-right: 1px solid #dee2e6;
     padding: 20px 0;

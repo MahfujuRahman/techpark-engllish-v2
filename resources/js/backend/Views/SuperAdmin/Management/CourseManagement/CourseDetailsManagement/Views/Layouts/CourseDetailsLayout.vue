@@ -37,7 +37,7 @@
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
-                            <div>কোর্সটি করে যা শিখবেন</div>
+                            <div>What You Will Learn</div>
                         </router-link>
                     </li>
                     

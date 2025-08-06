@@ -26,13 +26,14 @@ php artisan make:module CourseManagement/Course [course_category_id:bigint,title
 php artisan make:table CourseManagement/Course/CourseJobPosition [course_id:bigint,serial:tinyint,title:text] --model
 php artisan make:table CourseManagement/Course/CourseWhyYouLearnFromUs [course_id:bigint,title:text] --model
 php artisan make:table CourseManagement/Course/CourseFaq [course_id:bigint,title:text,description:text] --model
-php artisan make:table CourseManagement/Course/CourseYouWillLearn [course_id:bigint,title:text] --model
 php artisan make:table CourseManagement/Course/CourseOutcomeStep [course_id:bigint,serial:int,title:string-100] --model
 php artisan make:table CourseManagement/Course/CourseForWhom [course_id:bigint,title:text] --model
 php artisan make:table CourseManagement/Course/CourseJobWork [course_id:bigint,title:text] --model
 php artisan make:table CourseManagement/Course/CourseModuleAtAGlance [course_id:bigint,title:text] --model
 php artisan make:table CourseManagement/Course/CourseEssentialRequirement [course_id:bigint,title:text] --model
 php artisan make:table CourseManagement/Course/CourseWhatYouWillGet [course_id:bigint,title:text] --model
+
+php artisan make:module CourseManagement/CourseYouWillLearn [course_id:bigint,title:text]
 
 php artisan make:module CourseManagement/CourseMilestone [course_id:bigint,milestone_no:bigint,title:string-200] --vue
 

@@ -19,8 +19,7 @@ import CourseBatchDetails from '../Views/Pages/CourseBatch/Details.vue';
 // Course What Will Learn
 import CourseWhatLearnLayout from '../Views/Pages/CourseWhatLearn/Layout.vue';
 import CourseWhatLearnAll from '../Views/Pages/CourseWhatLearn/All.vue';
-import CourseWhatLearnCreate from '../Views/Pages/CourseWhatLearn/Create.vue';
-import CourseWhatLearnEdit from '../Views/Pages/CourseWhatLearn/Edit.vue';
+import CourseWhatLearnForm from '../Views/Pages/CourseWhatLearn/Form.vue';
 import CourseWhatLearnDetails from '../Views/Pages/CourseWhatLearn/Details.vue';
 
 // Course Job Position
@@ -175,7 +174,7 @@ export default [
 
                     // Course What Will Learn Routes
                     {
-                        path: 'what-will-learn',
+                        path: 'what-learn',
                         component: CourseWhatLearnLayout,
                         children: [
                             {
@@ -191,15 +190,15 @@ export default [
                             {
                                 path: 'create',
                                 name: 'CourseWhatLearnCreate',
-                                component: CourseWhatLearnCreate,
+                                component: CourseWhatLearnForm,
                             },
                             {
-                                path: 'edit/:itemId',
+                                path: ':slug/edit',
                                 name: 'CourseWhatLearnEdit',
-                                component: CourseWhatLearnEdit,
+                                component: CourseWhatLearnForm,
                             },
                             {
-                                path: 'details/:itemId',
+                                path: ':slug/details',
                                 name: 'CourseWhatLearnDetails',
                                 component: CourseWhatLearnDetails,
                             },

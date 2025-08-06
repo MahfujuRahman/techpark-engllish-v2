@@ -73,3 +73,4 @@ include_once base_path("app/Modules/Management/SeminerManagement/SeminerSubscrib
 include_once base_path("app/Modules/Management/SeminerManagement/SeminerReviews/Routes/Route.php");
 include_once base_path("app/Modules/Management/CommunicationManagement/ContactMessage/Routes/Route.php");
 include_once base_path("app/Modules/Management/WebsiteManagement/WebsiteBanner/Routes/Route.php");
+include_once base_path("app/Modules/Management/CourseManagement/CourseYouWillLearn/Routes/Route.php");

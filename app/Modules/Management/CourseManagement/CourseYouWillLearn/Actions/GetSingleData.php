@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Modules\Management\CourseManagement\CourseBatch\Actions;
+namespace App\Modules\Management\CourseManagement\CourseYouWillLearn\Actions;
 
 
 
 class GetSingleData
 {
-    static $model = \App\Modules\Management\CourseManagement\CourseBatch\Models\Model::class;
+    static $model = \App\Modules\Management\CourseManagement\CourseYouWillLearn\Models\Model::class;
 
     public static function execute($slug)
     {
         try {
-            $with = [];
+                             $with = [];
 
             $fields = request()->input('fields') ?? ['*'];
             if (!$data = self::$model::query()->with($with)->select($fields)->where('slug', $slug)->first()) {
