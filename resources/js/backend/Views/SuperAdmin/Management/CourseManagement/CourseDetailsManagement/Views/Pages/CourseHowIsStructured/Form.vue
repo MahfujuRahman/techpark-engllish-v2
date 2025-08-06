@@ -64,7 +64,7 @@
                                     {{ errors.serial[0] || errors.serial }}
                                 </div>
                                 <small class="form-text text-muted">
-                                    Order of this item in the structure (0 for auto).
+                                    Order of this item in the structure. Leave 0 for automatic assignment of next available number.
                                 </small>
                             </div>
                         </div>

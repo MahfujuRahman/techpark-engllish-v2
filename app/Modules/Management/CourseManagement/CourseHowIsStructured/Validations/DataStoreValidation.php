@@ -43,7 +43,7 @@ class DataStoreValidation extends FormRequest
     {
         return [
             'course_id' => 'required | sometimes',
-            'serial' => 'required | sometimes',
+            'serial' => 'nullable|integer|min:0',
             'title' => 'required | sometimes',
             'status' => ['sometimes', Rule::in(['active', 'inactive'])],
         ];

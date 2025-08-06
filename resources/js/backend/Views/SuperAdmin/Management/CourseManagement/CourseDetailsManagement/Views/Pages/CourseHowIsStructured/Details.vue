@@ -63,8 +63,8 @@
                                 <span>{{ currentCourse?.title || 'Loading...' }}</span>
                             </div>
                             <div class="info-item">
-                                <label>Course ID:</label>
-                                <span>{{ structureItem.course_id }}</span>
+                                <label>Serial:</label>
+                                <span>{{ structureItem.serial }}</span>
                             </div>
                         </div>
                     </div>
