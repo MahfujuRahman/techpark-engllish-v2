@@ -11,6 +11,12 @@ class StoreData
         try {
             $requestData = $request->validated();
 
+            // Handle image upload
+            if ($request->hasFile('class_video_poster')) {
+                $class_video_poster = $request->file('class_video_poster');
+                $requestData['class_video_poster'] = uploader($class_video_poster, 'uploads/course/class_video_posters');
+            }
+
             if ($data = self::$model::query()->create($requestData)) {
                 return messageResponse('Item added successfully', $data, 201);
             }

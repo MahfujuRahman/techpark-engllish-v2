@@ -26,7 +26,7 @@
                             <div class="class-info">
                                 <div class="class-video">
                                     <div v-if="classItem.class_video_poster" class="video-thumbnail">
-                                        <img :src="`/storage/${classItem.class_video_poster}`" alt="Video thumbnail">
+                                        <img :src="`/${classItem.class_video_poster}`" alt="Video thumbnail">
                                         <div class="play-overlay">
                                             <i class="fas fa-play"></i>
                                         </div>
@@ -50,6 +50,12 @@
                                     <p class="class-module" v-if="classItem.module">
                                         <small class="text-muted">
                                             Module: {{ classItem.module.title }}
+                                            <span v-if="classItem.milestone"> | Milestone: {{ classItem.milestone.title }}</span>
+                                        </small>
+                                    </p>
+                                    <p class="class-number" v-if="classItem.class_no">
+                                        <small class="text-muted">
+                                            Class #{{ classItem.class_no }}
                                         </small>
                                     </p>
                                 </div>
@@ -96,6 +102,43 @@
                     </div>
                     <div class="modal-body">
                         <form @submit.prevent="saveClass">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="milestone_id">Milestone *</label>
+                                        <select 
+                                            id="milestone_id"
+                                            v-model="currentClass.milestone_id"
+                                            @change="filterModulesByMilestone"
+                                            class="form-control"
+                                            required
+                                        >
+                                            <option value="">Select Milestone</option>
+                                            <option v-for="milestone in milestones" :key="milestone.id" :value="milestone.id">
+                                                {{ milestone.title }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="course_modules_id">Module *</label>
+                                        <select 
+                                            id="course_modules_id"
+                                            v-model="currentClass.course_modules_id"
+                                            class="form-control"
+                                            required
+                                            :disabled="!currentClass.milestone_id"
+                                        >
+                                            <option value="">Select Module</option>
+                                            <option v-for="module in filteredModules" :key="module.id" :value="module.id">
+                                                {{ module.title }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="form-group">
                                 <label for="title">Class Title *</label>
                                 <input 
@@ -148,6 +191,21 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="class_video_poster">Video Poster Image</label>
+                                        <input 
+                                            type="file" 
+                                            id="class_video_poster"
+                                            @change="handlePosterUpload"
+                                            class="form-control"
+                                            accept="image/*"
+                                        >
+                                        <small class="text-muted" v-if="currentClass.class_video_poster">
+                                            Current: {{ currentClass.class_video_poster }}
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label for="status">Status</label>
                                         <select 
                                             id="status"
@@ -176,35 +234,78 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'pinia';
+import { useCourseDetailsStore } from '../../../Store/courseDetailsStore.js';
+
 export default {
     name: 'CourseClassAll',
+    
+    computed: {
+        ...mapState(useCourseDetailsStore, ['currentCourse']),
+        
+        filteredModules() {
+            if (!this.currentClass.milestone_id) {
+                return [];
+            }
+            return this.modules.filter(module => module.milestone_id == this.currentClass.milestone_id);
+        }
+    },
     
     data() {
         return {
             loading: false,
             classes: [],
+            modules: [],
+            milestones: [],
             showModal: false,
             isEditing: false,
             submitting: false,
+            selectedPosterFile: null,
             currentClass: {
+                course_id: '',
+                milestone_id: '',
+                course_modules_id: '',
+                class_no: '',
                 title: '',
                 type: 'recorded',
-                class_no: '',
                 class_video_link: '',
+                class_video_poster: '',
                 status: 'active'
             }
         };
     },
     
     async created() {
-        await this.loadClasses();
+        await this.loadData();
     },
     
     methods: {
+        ...mapActions(useCourseDetailsStore, ['getCourseDetails']),
+        
+        async loadData() {
+            await Promise.all([
+                this.loadClasses(),
+                this.loadModules(),
+                this.loadMilestones()
+            ]);
+        },
+        
         async loadClasses() {
             this.loading = true;
             try {
-                const response = await axios.get(`course-module-classes?course_id=${this.$route.params.id}`);
+                const courseSlug = this.$route.params.id;
+                const store = useCourseDetailsStore();
+                if (!store.currentCourse) {
+                    await store.getCourseDetails(courseSlug);
+                }
+
+                const courseId = store.currentCourse?.id;
+                if (!courseId) {
+                    console.error('Course ID not found');
+                    return;
+                }
+                
+                const response = await axios.get(`course-module-classes?course_id=${courseId}&get_all=1`);
                 if (response.data && response.data.status === 'success') {
                     this.classes = response.data.data || [];
                 }
@@ -216,15 +317,80 @@ export default {
             }
         },
         
+        async loadModules() {
+            try {
+                const courseSlug = this.$route.params.id;
+                const store = useCourseDetailsStore();
+                if (!store.currentCourse) {
+                    await store.getCourseDetails(courseSlug);
+                }
+
+                const courseId = store.currentCourse?.id;
+                if (!courseId) {
+                    console.error('Course ID not found');
+                    return;
+                }
+                
+                const response = await axios.get(`course-modules?course_id=${courseId}&get_all=1`);
+                if (response.data && response.data.status === 'success') {
+                    this.modules = response.data.data || [];
+                }
+            } catch (error) {
+                console.error('Error loading modules:', error);
+            }
+        },
+        
+        async loadMilestones() {
+            try {
+                const courseSlug = this.$route.params.id;
+                const store = useCourseDetailsStore();
+                if (!store.currentCourse) {
+                    await store.getCourseDetails(courseSlug);
+                }
+
+                const courseId = store.currentCourse?.id;
+                if (!courseId) {
+                    console.error('Course ID not found');
+                    return;
+                }
+                
+                const response = await axios.get(`course-milestones?course_id=${courseId}&get_all=1`);
+                if (response.data && response.data.status === 'success') {
+                    this.milestones = response.data.data || [];
+                }
+            } catch (error) {
+                console.error('Error loading milestones:', error);
+            }
+        },
+        
+        filterModulesByMilestone() {
+            // Reset module selection when milestone changes
+            this.currentClass.course_modules_id = '';
+        },
+        
+        handlePosterUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.selectedPosterFile = file;
+                // You can also preview the image here if needed
+                console.log('Selected poster file:', file.name);
+            }
+        },
+        
         createNewClass() {
             this.isEditing = false;
+            this.selectedPosterFile = null;
+            const store = useCourseDetailsStore();
             this.currentClass = {
+                course_id: store.currentCourse?.id || '',
+                milestone_id: '',
+                course_modules_id: '',
+                class_no: '',
                 title: '',
                 type: 'recorded',
-                class_no: '',
                 class_video_link: '',
-                status: 'active',
-                course_id: this.$route.params.id
+                class_video_poster: '',
+                status: 'active'
             };
             this.showModal = true;
         },
@@ -241,18 +407,46 @@ export default {
                 return;
             }
             
+            if (!this.currentClass.course_modules_id) {
+                window.s_warning('Please select a module');
+                return;
+            }
+            
             this.submitting = true;
             try {
-                const classData = {
-                    ...this.currentClass,
-                    course_id: this.$route.params.id
-                };
+                const store = useCourseDetailsStore();
+                
+                // Create FormData for file upload
+                const formData = new FormData();
+                formData.append('course_id', store.currentCourse?.id || '');
+                formData.append('milestone_id', this.currentClass.milestone_id || '');
+                formData.append('course_modules_id', this.currentClass.course_modules_id || '');
+                formData.append('class_no', this.currentClass.class_no || '');
+                formData.append('title', this.currentClass.title || '');
+                formData.append('type', this.currentClass.type || '');
+                formData.append('class_video_link', this.currentClass.class_video_link || '');
+                formData.append('status', this.currentClass.status || '');
+                
+                // Add the poster file if selected
+                if (this.selectedPosterFile) {
+                    formData.append('class_video_poster', this.selectedPosterFile);
+                } else if (this.currentClass.class_video_poster && this.isEditing) {
+                    formData.append('existing_poster', this.currentClass.class_video_poster);
+                }
                 
                 let response;
                 if (this.isEditing) {
-                    response = await axios.post(`course-module-classes/update/${this.currentClass.slug}`, classData);
+                    response = await axios.post(`course-module-classes/update/${this.currentClass.slug}`, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
                 } else {
-                    response = await axios.post('course-module-classes/store', classData);
+                    response = await axios.post('course-module-classes/store', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
                 }
                 
                 if (response.data && response.data.status === 'success') {
@@ -291,13 +485,24 @@ export default {
         closeModal() {
             this.showModal = false;
             this.isEditing = false;
+            this.selectedPosterFile = null;
             this.currentClass = {
+                course_id: '',
+                milestone_id: '',
+                course_modules_id: '',
+                class_no: '',
                 title: '',
                 type: 'recorded',
-                class_no: '',
                 class_video_link: '',
+                class_video_poster: '',
                 status: 'active'
             };
+            
+            // Reset file input
+            const fileInput = document.getElementById('class_video_poster');
+            if (fileInput) {
+                fileInput.value = '';
+            }
         }
     }
 };
