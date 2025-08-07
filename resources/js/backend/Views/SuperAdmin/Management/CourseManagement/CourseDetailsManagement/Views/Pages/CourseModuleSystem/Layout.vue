@@ -2,7 +2,7 @@
     <div class="course-module-layout">
         <div class="setting_management">
             <!-- Sidebar Navigation -->
-            <div class="navs">
+            <!-- <div class="navs">
                 <ul>
                     <li>
                         <router-link 
@@ -54,7 +54,7 @@
                         </router-link>
                     </li>
                 </ul>
-            </div>
+            </div> -->
             
             <!-- Main Content Area -->
             <div class="setting_body custom_scroll">

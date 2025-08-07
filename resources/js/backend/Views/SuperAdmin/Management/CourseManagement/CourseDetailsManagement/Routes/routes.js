@@ -7,7 +7,6 @@ import CourseManagementLayout from '../Views/Layouts/CourseManagementLayout.vue'
 // Course Details Pages
 import CourseOverview from '../Views/Pages/CourseOverview.vue';
 import CourseBanner from '../Views/Pages/CourseBanner.vue';
-import CourseModuleText from '../Views/Pages/CourseModuleText.vue';
 import CoursePreview from '../Views/Pages/CoursePreview.vue';
 
 // Course Batch
@@ -64,13 +63,13 @@ import CourseFaqForm from '../Views/Pages/CourseFaq/Form.vue';
 import CourseFaqDetails from '../Views/Pages/CourseFaq/Details.vue';
 
 // Course Module
-import CourseModuleLayout from '../Views/Pages/CourseModule/Layout.vue';
-import CourseModuleAll from '../Views/Pages/CourseModule/All.vue';
-import CourseModuleCreate from '../Views/Pages/CourseModule/Create.vue';
-import CourseModuleForm from '../Views/Pages/CourseModule/Form.vue';
-import CourseModuleCSV from '../Views/Pages/CourseModule/CSV.vue';
-import CourseAtGlance from '../Views/Pages/CourseModule/AtGlance.vue';
-import CourseClassQuiz from '../Views/Pages/CourseModule/CourseClassQuiz.vue';
+import CourseModuleLayout from '../Views/Pages/CourseModuleSystem/Layout.vue';
+import CourseModuleAll from '../Views/Pages/CourseModuleSystem/All.vue';
+import CourseModuleCreate from '../Views/Pages/CourseModuleSystem/Create.vue';
+import CourseModuleForm from '../Views/Pages/CourseModuleSystem/Form.vue';
+import CourseModuleCSV from '../Views/Pages/CourseModuleSystem/CSV.vue';
+import CourseAtGlance from '../Views/Pages/CourseModuleSystem/AtGlance.vue';
+import CourseClassQuiz from '../Views/Pages/CourseModuleSystem/CourseClassQuiz.vue';
 
 // Course Routines
 import CourseRoutines from '../Views/Pages/CourseRoutine/CourseRoutine.vue';
@@ -127,11 +126,6 @@ export default [
                         path: 'course-banner',
                         name: 'CourseBanner',
                         component: CourseBanner,
-                    },
-                    {
-                        path: 'course-module-text',
-                        name: 'CourseModuleText',
-                        component: CourseModuleText,
                     },
                     {
                         path: 'course-preview',

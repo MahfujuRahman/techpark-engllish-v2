@@ -3,10 +3,10 @@
         <form class="course_module_form" @submit.prevent="submit_course_module($event)">
             <!-- Top Action Buttons -->
             <div class="action-buttons mb-4">
-                <router-link :to="{ name: 'CourseModuleCSV', params: { id: $route.params.id } }"
+                <!-- <router-link :to="{ name: 'CourseModuleCSV', params: { id: $route.params.id } }"
                     class="btn btn-sm btn-primary mb-2 mr-1">
                     <i class="fa-solid fa-upload mr-1"></i> <span>Upload CSV</span>
-                </router-link>
+                </router-link> -->
 
                 <router-link :to="{ name: 'CourseMilestone', params: { id: $route.params.id } }"
                     class="btn btn-sm btn-primary mb-2 mr-1">

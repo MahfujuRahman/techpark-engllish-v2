@@ -499,7 +499,6 @@ export default {
 }
 
 .preview-section {
-    background: white;
     border-radius: 8px;
     padding: 25px;
     margin-bottom: 20px;
@@ -528,7 +527,6 @@ export default {
 }
 
 .stat-card {
-    background: #f8f9fa;
     border: 1px solid #e9ecef;
     border-radius: 8px;
     padding: 20px;

@@ -70,18 +70,18 @@
                             <div>Why you Learn From Us</div>
                         </router-link>
                     </li>
-                    
+
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseModuleText', params: { id: currentCourse.slug } }" 
+                            :to="{ name: 'CourseModule', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
-                            <div>কোর্সে মডিউল</div>
+                            <div>Course Modules Class</div>
                         </router-link>
                     </li>
                     
-                    <li v-if="currentCourse">
+                    <!-- <li v-if="currentCourse">
                         <router-link 
                             :to="{ name: 'CourseBanner', params: { id: currentCourse.slug } }" 
                             class="nav-item"
@@ -89,9 +89,9 @@
                             <i class="far fa-circle mr-1"></i>
                             <div>কোর্স ব্যানার</div>
                         </router-link>
-                    </li>
+                    </li> -->
                     
-                    <li v-if="currentCourse">
+                    <!-- <li v-if="currentCourse">
                         <router-link 
                             :to="{ name: 'CoursePreview', params: { id: currentCourse.slug } }" 
                             class="nav-item"
@@ -99,17 +99,8 @@
                             <i class="far fa-circle mr-1"></i>
                             <div>কোর্স প্রিভিউ</div>
                         </router-link>
-                    </li>
+                    </li> -->
                     
-                    <li v-if="currentCourse">
-                        <router-link 
-                            :to="{ name: 'CourseModule', params: { id: currentCourse.slug } }" 
-                            class="nav-item"
-                        >
-                            <i class="far fa-circle mr-1"></i>
-                            <div>Course class modules</div>
-                        </router-link>
-                    </li>
                     
                     <li v-if="currentCourse">
                         <router-link 
