@@ -18,7 +18,7 @@ class GetAllData
             $start_date = request()->input('start_date');
             $end_date = request()->input('end_date');
 
-                            $with = [];
+                            $with = ['user_id'];
 
             $condition = [];
 
@@ -28,8 +28,6 @@ class GetAllData
                 $searchKey = request()->input('search');
                 $data = $data->where(function ($q) use ($searchKey) {
     $q->where('user_id', 'like', '%' . $searchKey . '%');    
-
-    $q->orWhere('course_id', 'like', '%' . $searchKey . '%');    
 
     $q->orWhere('cover_photo', 'like', '%' . $searchKey . '%');    
 

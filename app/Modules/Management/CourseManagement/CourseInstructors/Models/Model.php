@@ -38,4 +38,8 @@ class Model extends EloquentModel
      public function scopeTrased($q)
     {
         return $q->onlyTrashed();
-    }}
+    }
+    public function user_id()
+{
+    return $this->belongsTo("App\Modules\Management\UserManagement\User\Models\Model", "user_id");
+}}

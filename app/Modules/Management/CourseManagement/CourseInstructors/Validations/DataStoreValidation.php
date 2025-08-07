@@ -43,7 +43,6 @@ class DataStoreValidation extends FormRequest
     {
         return [
             'user_id' => 'required | sometimes',
-            'course_id' => 'required | sometimes',
             'cover_photo' => 'required | sometimes',
             'image' => 'required | sometimes',
             'full_name' => 'required | sometimes',

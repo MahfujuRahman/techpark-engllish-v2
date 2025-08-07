@@ -52,6 +52,10 @@
             route_name: `AllCourseCategory`,
             title: `CourseCategory`,
             icon: `zmdi zmdi-dot-circle-alt`,
+          },          {
+            route_name: `AllCourseInstructors`,
+            title: `CourseInstructors`,
+            icon: `zmdi zmdi-dot-circle-alt`,
           },
       ]" />
       <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`QuizManagement`" :menus="[

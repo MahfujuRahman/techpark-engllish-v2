@@ -1,4 +1,4 @@
-import app_config from "../../../../../../Config/app_config";
+import app_config from "../../../../Config/app_config";
 import setup_type from "./setup_type";
 
 const prefix: string = "User";
