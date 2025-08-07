@@ -16,7 +16,7 @@ php artisan make:table UserManagement/User/UserLog [user_id:bigint,last_seen:str
 php artisan make:module CourseManagement/CourseCategory [title:string-200] --vue
 php artisan make:table CourseManagement/CourseCategory/CourseCourseCategory [course_category_id:bigint,course_id:bigint] --model
 
-php artisan make:module CourseManagement/CourseInstructors [user_id:bigint,course_id:bigint,cover_photo:string-255,image:string-255,full_name:string-100,designation:string-100,short_description:text,description:longtext] --vue
+php artisan make:module CourseManagement/CourseInstructors [user_id:bigint{UserManagement/User},course_id:bigint{CourseManagement/Course},cover_photo:string-255,image:string-255,full_name:string-100,designation:string-100,short_description:text,description:longtext] --vue
 php artisan make:table CourseManagement/CourseInstructors/CourseCourseInstructor [instructor_id:bigint,course_id:bigint,batch_id:bigint] --model
  
 php artisan make:module CourseManagement/CourseBatch [course_id:bigint,batch_name:string-100,admission_start_date:datetime,admission_end_date:datetime,batch_student_limit:bigint,seat_booked:int,booked_percent:float,course_price:float,course_discount:float,after_discount_price:float,first_class_date:datetime,class_days:string-255,class_start_time:time,class_end_time:time,show_percentage_on_cards:enum-yes.no] --vue
