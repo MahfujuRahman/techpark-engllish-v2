@@ -47,7 +47,6 @@
                                 <option value="">All Status</option>
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
-                                <option value="trased">Deleted</option>
                             </select>
                         </div>
                         <div class="col-md-4">
@@ -1028,7 +1027,7 @@ export default {
 
 .instructor-name {
     margin: 0 0 0.5rem 0;
-    color: #495057;
+    color: #fff;
     font-weight: 600;
 }
 
@@ -1044,7 +1043,7 @@ export default {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #6c757d;
+    color: #fff;
     font-size: 0.875rem;
 }
 
@@ -1052,7 +1051,7 @@ export default {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #495057;
+    color: #fff;
     font-size: 0.875rem;
 }
 
@@ -1074,7 +1073,7 @@ export default {
 }
 
 .instructor-dates i {
-    color: #6c757d;
+    color: #fff;
     margin-right: 0.25rem;
 }
 
@@ -1334,7 +1333,6 @@ export default {
 
 /* Input group styling */
 .input-group-text {
-    background-color: #e9ecef;
     border-color: #ced4da;
 }
 
@@ -1344,6 +1342,6 @@ export default {
 }
 
 .text-muted {
-    color: #6c757d !important;
+    color: #fff !important;
 }
 </style>
