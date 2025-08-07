@@ -4,13 +4,13 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header py-2">
-                        <h4 class="card-title">সকল কোর্স তালিকা 🚀</h4>
+                        <h4 class="card-title">All Courses List 🚀</h4>
                         <router-link 
                             :to="{ name: 'CreateCourse' }" 
                             class="btn btn-primary mb-2 float-right"
                         >
                             <i class="fas fa-plus mr-1"></i>
-                            <span>নতুন কোর্স তৈরি করুন</span>
+                            <span>Create New Course</span>
                         </router-link>
                     </div>
                     <div class="card-body">
@@ -54,21 +54,21 @@
                                                 <router-link 
                                                     :to="{ name: 'CourseDetails', params: { id: course.slug } }" 
                                                     class="btn btn-sm btn-outline-primary"
-                                                    title="বিস্তারিত"
+                                                    title="Details"
                                                 >
                                                     <i class="fas fa-eye"></i>
                                                 </router-link>
                                                 <button 
                                                     @click="editCourse(course)" 
                                                     class="btn btn-sm btn-outline-warning ml-2"
-                                                    title="সম্পাদনা"
+                                                    title="Edit"
                                                 >
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                                 <button 
                                                     @click="deleteCourse(course)" 
                                                     class="btn btn-sm btn-outline-danger ml-2"
-                                                    title="মুছে ফেলুন"
+                                                    title="Delete"
                                                 >
                                                     <i class="fas fa-trash"></i>
                                                 </button>
@@ -84,8 +84,8 @@
                                                     <i class="fas fa-graduation-cap fa-3x"></i>
                                                 </div>
                                                 <div class="no-data-text">
-                                                    <h5>কোন কোর্স পাওয়া যায়নি</h5>
-                                                    <p>নতুন কোর্স যোগ করার জন্য উপরের "নতুন কোর্স তৈরি করুন" বোতামে ক্লিক করুন।</p>
+                                                    <h5>No Course Found</h5>
+                                                    <p>Click the "Create New Course" button above to add a new course.</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -105,7 +105,7 @@
                                         @click="setPage(store.courses.current_page - 1)"
                                         :disabled="store.courses.current_page === 1"
                                     >
-                                        পূর্ববর্তী
+                                        previous
                                     </button>
                                 </li>
                                 
@@ -124,7 +124,7 @@
                                         @click="setPage(store.courses.current_page + 1)"
                                         :disabled="store.courses.current_page === store.courses.last_page"
                                     >
-                                        পরবর্তী
+                                        next
                                     </button>
                                 </li>
                             </ul>
@@ -134,17 +134,17 @@
                     <div class="card-footer py-2">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="per-page-selector">
-                                <label>প্রতি পৃষ্ঠায়:</label>
+                                <label>Limit:</label>
                                 <select v-model="store.paginate" @change="setPaginate" class="form-control form-control-sm d-inline-block w-auto ml-1">
-                                    <option value="10">১০</option>
-                                    <option value="25">২৫</option>
-                                    <option value="50">৫০</option>
-                                    <option value="100">১০০</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
                                 </select>
                             </div>
                             <div class="pagination-info">
                                 <span v-if="store.courses?.data?.length">
-                                    {{ store.courses.from }} - {{ store.courses.to }} of {{ store.courses.total }} টি ফলাফল
+                                    {{ store.courses.from }} - {{ store.courses.to }} of {{ store.courses.total }} results
                                 </span>
                             </div>
                         </div>
