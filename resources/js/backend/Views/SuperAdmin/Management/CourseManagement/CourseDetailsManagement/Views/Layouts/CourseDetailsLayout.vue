@@ -118,7 +118,7 @@
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
-                            <div>কোর্স ট্রেনার</div>
+                            <div>Course Trainers</div>
                         </router-link>
                     </li>
                     

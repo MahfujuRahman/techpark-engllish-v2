@@ -36,6 +36,7 @@ include_once base_path("app/Modules/Management/UserManagement/Role/Routes/Route.
 */
 include_once base_path("app/Modules/Management/CourseManagement/CourseCategory/Routes/Route.php");
 include_once base_path("app/Modules/Management/CourseManagement/CourseInstructors/Routes/Route.php");
+include_once base_path("app/Modules/Management/CourseManagement/CourseCourseInstructor/Routes/Route.php");
 include_once base_path("app/Modules/Management/CourseManagement/CourseBatch/Routes/Route.php");
 include_once base_path("app/Modules/Management/CourseManagement/CourseBatchStudent/Routes/Route.php");
 include_once base_path("app/Modules/Management/CourseManagement/Course/Routes/Route.php");
@@ -78,3 +79,4 @@ include_once base_path("app/Modules/Management/CourseManagement/CourseHowIsStruc
 include_once base_path("app/Modules/Management/CourseManagement/CourseForWhom/Routes/Route.php");
 include_once base_path("app/Modules/Management/CourseManagement/CourseWhyYouLearnFromUs/Routes/Route.php");
 include_once base_path("app/Modules/Management/CourseManagement/CourseFaq/Routes/Route.php");
+include_once base_path("app/Modules/Management/CourseManagement/CourseCourseInstructor/Routes/Route.php");

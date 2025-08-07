@@ -1,37 +1,27 @@
 <template>
-    <div class="oursetrainer-layout">
+    <div class="course-trainer-layout">
         <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">
-                    <i class="fas fa-th-large mr-2"></i>
-                    ট্রেনার লেআউট
-                </h5>
-            </div>
-            <div class="card-body">
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle mr-1"></i>
-                    ট্রেনার লেআউট - API কল পরে যোগ করা হবে। এটি একটি প্রাথমিক টেমপ্লেট।
-                </div>
-                
-                <router-view />
+            <div class="card-body p-0">
+                <CourseInstructor />
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import CourseInstructor from './CourseInstructor.vue';
+
 export default {
     name: 'CourseTrainerLayout',
+    
+    components: {
+        CourseInstructor,
+    },
     
     data() {
         return {
             loading: false,
-            // Add component specific data here
         };
-    },
-    
-    methods: {
-        // Add component specific methods here
     },
     
     mounted() {
@@ -41,7 +31,7 @@ export default {
 </script>
 
 <style scoped>
-.oursetrainer-layout {
+.course-trainer-layout {
     max-width: 100%;
 }
 
@@ -50,17 +40,7 @@ export default {
     font-weight: 600;
 }
 
-.alert-info {
-    border-left: 4px solid #17a2b8;
-    background-color: #d1ecf1;
-    border-color: #bee5eb;
-}
-
-.placeholder-content {
-    text-align: center;
-    padding: 40px 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    margin-top: 20px;
+.card-body {
+    padding: 0;
 }
 </style>

@@ -1,51 +1,51 @@
 <?php
 
-namespace App\Modules\Management\CourseManagement\CourseInstructors\Actions;
+namespace App\Modules\Management\CourseManagement\CourseCourseInstructor\Actions;
 
 class GetAllData
 {
-    static $model = \App\Modules\Management\CourseManagement\CourseInstructors\Models\Model::class;
+    static $model = \App\Modules\Management\CourseManagement\CourseCourseInstructor\Models\Model::class;
 
     public static function execute()
     {
         try {
-
-
-            $all = request()->query('get_all');
-            if ($all) {
-                $pageLimit = request()->input('limit');
-            } else {
-                $pageLimit = request()->input('limit') ?? 10;
-            }
+            $pageLimit = request()->input('limit') ?? 10;
+            $course_id = request()->query('course_id');
+            $batch_id = request()->query('batch_id');
+            $pageLimit = request()->input('limit') ?? 10;
             $orderByColumn = request()->input('sort_by_col') ?? 'id';
-            $orderByType = request()->input('sort_type') ?? 'desc';
+            $orderByType = request()->input('sort_type') ?? 'asc';
             $status = request()->input('status') ?? 'active';
             $fields = request()->input('fields') ?? '*';
             $start_date = request()->input('start_date');
             $end_date = request()->input('end_date');
 
-            $with = ['user_id'];
+            $with = ['instructor:id,full_name', 'course:id,title,slug', 'batch:id,batch_name,slug'];
 
             $condition = [];
+            if ($course_id) {
+                $condition['course_id'] = $course_id;
+            }
+            if ($batch_id) {
+                $condition['batch_id'] = $batch_id;
+            }
 
             $data = self::$model::query();
 
             if (request()->has('search') && request()->input('search')) {
                 $searchKey = request()->input('search');
                 $data = $data->where(function ($q) use ($searchKey) {
-                    $q->where('user_id', 'like', '%' . $searchKey . '%');
-
-                    $q->orWhere('cover_photo', 'like', '%' . $searchKey . '%');
-
-                    $q->orWhere('image', 'like', '%' . $searchKey . '%');
-
-                    $q->orWhere('full_name', 'like', '%' . $searchKey . '%');
-
-                    $q->orWhere('designation', 'like', '%' . $searchKey . '%');
-
-                    $q->orWhere('short_description', 'like', '%' . $searchKey . '%');
-
-                    $q->orWhere('description', 'like', '%' . $searchKey . '%');
+                    $q->whereHas('instructor', function ($subQ) use ($searchKey) {
+                        $subQ->where('full_name', 'like', '%' . $searchKey . '%')
+                             ->orWhere('designation', 'like', '%' . $searchKey . '%');
+                    })
+                    ->orWhereHas('course', function ($subQ) use ($searchKey) {
+                        $subQ->where('title', 'like', '%' . $searchKey . '%');
+                    })
+                    ->orWhereHas('batch', function ($subQ) use ($searchKey) {
+                        $subQ->where('batch_name', 'like', '%' . $searchKey . '%');
+                    })
+                    ->orWhere('status', 'like', '%' . $searchKey . '%');
                 });
             }
 

@@ -1,0 +1,125 @@
+@protocol = http://
+# @hostname =
+@hostname = 127.0.0.1:8000
+@endpoint = api/v1/course-course-instructors
+@url = {{protocol}}{{hostname}}/{{endpoint}}
+@token = Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5YTFjMWRmZC04MWU3LTQ1ODgtYjVhMi0xOTA1ODNiNjZhNmUiLCJqdGkiOiIyYWIxMTMzZjJkMDE3YmE0ZDNmZDk3NzI3NWJlZDY5YjUyMjk1N2M3OGFlYzIxNTA2NTQ5NTUyYTA1M2ZmNzEyMDM4NzU2N2U3ZTRkMzlkNiIsImlhdCI6MTY5NDU3NjcyOC4xOTQ4OTgsIm5iZiI6MTY5NDU3NjcyOC4xOTQ5LCJleHAiOjE3MjYxOTkxMjguMTg2ODc2LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.gJZW7MbPkwIdJw7kXhPuRK6bMkuiSTPhFXxzoXxcBzX2cT9Nj7ozj7oZXQG_9cDdKe1LIQFxr2DvapUqGMvBfenrhifvWTU0_wrNIhbBQCsS3gaWWfxuvoKkCrQwKqm7wJSB5yN2LszrdqWPgMR9EBpNiUjhXxgrZUdzskjiqG35FZzZkoHOvPxV5LP2QKtekiUv_ekQoMHxeOwOC43XXiLk9cH_XNvyRjSGibh3hZHUvtLEZ0NAfWL1eZlbge8GoQYMJxN-LO72HYCSnrG2bEmWT624iAU13U-t_cEyVDb-HFPaIXOAjOnKwNUJqfwwC1lVBvd6hNyJwODZ6iZevvwUScW3_UuoUnww46Td_A6CI7QfFywQdFolu0vDkHgQMmSmPu-QNDG8HrvSh5W1d4ve-wPaNauISsvVCVXPgdDWW9n4aKI8qAv_RCEZZYa3s9zmRdjweDxG0VeISlaPg6hLzlpO1He83onbjoPSzEWJWC7bb2nUR57zppDHgKKSBP-WW_OHH7fruavkG44_7NuNmvrTFtDclGe4E3XuqZFvno154daJpKKRPzUkbeCp6Cc3X2Qp5k-ORq1cx1NfFYmpM6ZmzFZ3bNV8IV3Cp2HgZMRKHfXWRlxiVAL73sLnSBmvn1iRswMXftl2cm9xiUMQnpJKBq_MDUilRlBTiWE
+@createdAt = {{$timestamp}}
+# @modifiedBy = {{$processEnv CourseCourseInstructorNAME}}
+
+#                                               #
+#------------------ Modules TESTING ----------------#
+#                                               #
+
+### Course Course Instructor API Tests
+
+# Get all course instructors
+GET http://localhost:8000/api/v1/course-course-instructors
+Content-Type: application/json
+
+###
+
+# Get course instructors with filters
+GET http://localhost:8000/api/v1/course-course-instructors?course_id=1&batch_id=1&status=active
+Content-Type: application/json
+
+###
+
+# Get course instructors with search
+GET http://localhost:8000/api/v1/course-course-instructors?search=john&get_all=1
+Content-Type: application/json
+
+###
+
+# Create new course instructor
+POST http://localhost:8000/api/v1/course-course-instructors/store
+Content-Type: application/json
+
+{
+    "instructor_id": 1,
+    "course_id": 1,
+    "batch_id": 1,
+    "status": "active"
+}
+
+###
+
+# Get single course instructor
+GET http://localhost:8000/api/v1/course-course-instructors/{slug}
+Content-Type: application/json
+
+###
+
+# Update course instructor
+POST http://localhost:8000/api/v1/course-course-instructors/update/{slug}
+Content-Type: application/json
+
+{
+    "instructor_id": 2,
+    "course_id": 1,
+    "batch_id": 2,
+    "status": "inactive"
+}
+
+###
+
+# Update status
+POST http://localhost:8000/api/v1/course-course-instructors/update-status
+Content-Type: application/json
+
+{
+    "slug": "course-instructor-123456",
+    "status": "inactive"
+}
+
+###
+
+# Soft delete
+POST http://localhost:8000/api/v1/course-course-instructors/soft-delete
+Content-Type: application/json
+
+{
+    "slug": "course-instructor-123456"
+}
+
+###
+
+# Restore
+POST http://localhost:8000/api/v1/course-course-instructors/restore
+Content-Type: application/json
+
+{
+    "slug": "course-instructor-123456"
+}
+
+###
+
+# Bulk actions
+POST http://localhost:8000/api/v1/course-course-instructors/bulk-action
+Content-Type: application/json
+
+{
+    "action": "delete",
+    "slugs": ["course-instructor-123", "course-instructor-456"]
+}
+
+###
+
+# Import data
+POST http://localhost:8000/api/v1/course-course-instructors/import
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="instructors.xlsx"
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+< ./instructors.xlsx
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# Get trashed data
+GET http://localhost:8000/api/v1/course-course-instructors?status=trased
+Content-Type: application/json
+
+###
