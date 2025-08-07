@@ -60,7 +60,7 @@
                                 <h6 class="module-title">{{ module.title }}</h6>
                                 <p class="module-milestone" v-if="module.milestone">
                                     <small class="text-muted">
-                                        Milestone: {{ module.milestone.title }}
+                                        Milestone: {{ module.milestone.title }} | Module #{{ module.module_no }}
                                     </small>
                                 </p>
                             </div>
@@ -78,21 +78,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="module-content" v-if="module.description">
-                            <p class="module-description">{{ module.description }}</p>
+                        <div class="module-content" v-if="module.module_no">
+                            <p class="module-description">Module Number: {{ module.module_no }}</p>
                         </div>
                         <div class="module-stats">
                             <div class="stat-item">
                                 <i class="fas fa-chalkboard-teacher"></i>
                                 <span>{{ module.classes_count || 0 }} Classes</span>
                             </div>
-                            <div class="stat-item" v-if="module.duration">
-                                <i class="fas fa-clock"></i>
-                                <span>{{ module.duration }} min</span>
-                            </div>
-                            <div class="stat-item" v-if="module.sequence">
+                            <div class="stat-item">
                                 <i class="fas fa-sort-numeric-up"></i>
-                                <span>Order: {{ module.sequence }}</span>
+                                <span>Module #{{ module.module_no }}</span>
                             </div>
                         </div>
                     </div>
@@ -144,13 +140,14 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="sequence">Sequence</label>
+                                        <label for="module_no">Module Number *</label>
                                         <input 
                                             type="number" 
-                                            id="sequence"
-                                            v-model="currentModule.sequence"
+                                            id="module_no"
+                                            v-model="currentModule.module_no"
                                             class="form-control"
                                             min="1"
+                                            required
                                         >
                                     </div>
                                 </div>
@@ -168,53 +165,15 @@
                             </div>
                             
                             <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea 
-                                    id="description"
-                                    v-model="currentModule.description"
+                                <label for="status">Status</label>
+                                <select 
+                                    id="status"
+                                    v-model="currentModule.status"
                                     class="form-control"
-                                    rows="3"
-                                    placeholder="Describe what this module covers..."
-                                ></textarea>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="duration">Duration (minutes)</label>
-                                        <input 
-                                            type="number" 
-                                            id="duration"
-                                            v-model="currentModule.duration"
-                                            class="form-control"
-                                            min="1"
-                                        >
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <select 
-                                            id="status"
-                                            v-model="currentModule.status"
-                                            class="form-control"
-                                        >
-                                            <option value="active">Active</option>
-                                            <option value="inactive">Inactive</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="learning_objectives">Learning Objectives</label>
-                                <textarea 
-                                    id="learning_objectives"
-                                    v-model="currentModule.learning_objectives"
-                                    class="form-control"
-                                    rows="3"
-                                    placeholder="What will students learn in this module?"
-                                ></textarea>
+                                >
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
                             </div>
                         </form>
                     </div>
@@ -232,6 +191,9 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'pinia';
+import { useCourseDetailsStore } from '../../../Store/courseDetailsStore.js';
+
 export default {
     name: 'CourseModulesAll',
     
@@ -249,18 +211,18 @@ export default {
                 search: ''
             },
             currentModule: {
-                title: '',
-                description: '',
+                course_id: '',
                 milestone_id: '',
-                sequence: '',
-                duration: '',
-                status: 'active',
-                learning_objectives: ''
+                module_no: '',
+                title: '',
+                status: 'active'
             }
         };
     },
     
     computed: {
+        ...mapState(useCourseDetailsStore, ['currentCourse']),
+        
         filteredModules() {
             let filtered = [...this.modules];
             
@@ -275,8 +237,7 @@ export default {
             if (this.filters.search) {
                 const search = this.filters.search.toLowerCase();
                 filtered = filtered.filter(module => 
-                    module.title.toLowerCase().includes(search) ||
-                    (module.description && module.description.toLowerCase().includes(search))
+                    module.title.toLowerCase().includes(search)
                 );
             }
             
@@ -284,7 +245,7 @@ export default {
                 if (a.milestone_id !== b.milestone_id) {
                     return a.milestone_id - b.milestone_id;
                 }
-                return (a.sequence || 0) - (b.sequence || 0);
+                return (a.module_no || 0) - (b.module_no || 0);
             });
         }
     },
@@ -294,6 +255,8 @@ export default {
     },
     
     methods: {
+        ...mapActions(useCourseDetailsStore, ['getCourseDetails']),
+        
         async loadData() {
             await Promise.all([
                 this.loadModules(),
@@ -304,7 +267,19 @@ export default {
         async loadModules() {
             this.loading = true;
             try {
-                const response = await axios.get(`course-modules?course_id=${this.$route.params.id}`);
+                const courseSlug = this.$route.params.id;
+                const store = useCourseDetailsStore();
+                if (!store.currentCourse) {
+                    await store.getCourseDetails(courseSlug);
+                }
+
+                const courseId = store.currentCourse?.id;
+                if (!courseId) {
+                    console.error('Course ID not found');
+                    return;
+                }
+                
+                const response = await axios.get(`course-modules?course_id=${courseId}&get_all=1`);
                 if (response.data && response.data.status === 'success') {
                     this.modules = response.data.data || [];
                 }
@@ -318,7 +293,19 @@ export default {
         
         async loadMilestones() {
             try {
-                const response = await axios.get(`course-milestones?course_id=${this.$route.params.id}`);
+                const courseSlug = this.$route.params.id;
+                const store = useCourseDetailsStore();
+                if (!store.currentCourse) {
+                    await store.getCourseDetails(courseSlug);
+                }
+
+                const courseId = store.currentCourse?.id;
+                if (!courseId) {
+                    console.error('Course ID not found');
+                    return;
+                }
+                
+                const response = await axios.get(`course-milestones?course_id=${courseId}&get_all=1`);
                 if (response.data && response.data.status === 'success') {
                     this.milestones = response.data.data || [];
                 }
@@ -329,15 +316,13 @@ export default {
         
         createNewModule() {
             this.isEditing = false;
+            const store = useCourseDetailsStore();
             this.currentModule = {
-                title: '',
-                description: '',
+                course_id: store.currentCourse?.id || '',
                 milestone_id: '',
-                sequence: '',
-                duration: '',
-                status: 'active',
-                learning_objectives: '',
-                course_id: this.$route.params.id
+                module_no: '',
+                title: '',
+                status: 'active'
             };
             this.showModal = true;
         },
@@ -358,12 +343,18 @@ export default {
                 window.s_warning('Please select a milestone');
                 return;
             }
+
+            if (!this.currentModule.module_no) {
+                window.s_warning('Please enter module number');
+                return;
+            }
             
             this.submitting = true;
             try {
+                const store = useCourseDetailsStore();
                 const moduleData = {
                     ...this.currentModule,
-                    course_id: this.$route.params.id
+                    course_id: store.currentCourse?.id
                 };
                 
                 let response;
@@ -410,13 +401,11 @@ export default {
             this.showModal = false;
             this.isEditing = false;
             this.currentModule = {
-                title: '',
-                description: '',
+                course_id: '',
                 milestone_id: '',
-                sequence: '',
-                duration: '',
-                status: 'active',
-                learning_objectives: ''
+                module_no: '',
+                title: '',
+                status: 'active'
             };
         },
         
@@ -443,7 +432,6 @@ export default {
 
 .filters {
     padding: 1rem;
-    background-color: #f8f9fa;
     border-radius: 0.5rem;
 }
 
@@ -458,7 +446,6 @@ export default {
     border-radius: 0.5rem;
     padding: 1.5rem;
     transition: all 0.15s ease-in-out;
-    background-color: white;
 }
 
 .module-card:hover {
