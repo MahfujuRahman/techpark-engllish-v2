@@ -4,15 +4,10 @@
             <div class="card-header">
                 <h5 class="card-title mb-0">
                     <i class="fas fa-th-large mr-2"></i>
-                    মাইলস্টোন লেআউট
+                    Milestone Management
                 </h5>
             </div>
             <div class="card-body">
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle mr-1"></i>
-                    মাইলস্টোন লেআউট - API কল পরে যোগ করা হবে। এটি একটি প্রাথমিক টেমপ্লেট।
-                </div>
-                
                 <router-view />
             </div>
         </div>

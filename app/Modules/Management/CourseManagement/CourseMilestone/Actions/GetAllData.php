@@ -10,34 +10,34 @@ class GetAllData
     {
         try {
 
+            $course_id = request()->query('course_id');
             $pageLimit = request()->input('limit') ?? 10;
             $orderByColumn = request()->input('sort_by_col') ?? 'id';
-            $orderByType = request()->input('sort_type') ?? 'desc';
+            $orderByType = request()->input('sort_type') ?? 'asc';
             $status = request()->input('status') ?? 'active';
             $fields = request()->input('fields') ?? '*';
             $start_date = request()->input('start_date');
             $end_date = request()->input('end_date');
 
-                            $with = [];
+            $with = [];
 
-            $condition = [];
+            $condition = ['course_id' => $course_id];
 
             $data = self::$model::query();
 
             if (request()->has('search') && request()->input('search')) {
                 $searchKey = request()->input('search');
                 $data = $data->where(function ($q) use ($searchKey) {
-    $q->where('course_id', 'like', '%' . $searchKey . '%');    
+                    $q->where('course_id', 'like', '%' . $searchKey . '%');
 
-    $q->orWhere('milestone_no', 'like', '%' . $searchKey . '%');    
+                    $q->orWhere('milestone_no', 'like', '%' . $searchKey . '%');
 
-    $q->orWhere('title', 'like', '%' . $searchKey . '%');              
-
+                    $q->orWhere('title', 'like', '%' . $searchKey . '%');
                 });
             }
 
             if ($start_date && $end_date) {
-                 if ($end_date > $start_date) {
+                if ($end_date > $start_date) {
                     $data->whereBetween('created_at', [$start_date . ' 00:00:00', $end_date . ' 23:59:59']);
                 } elseif ($end_date == $start_date) {
                     $data->whereDate('created_at', $start_date);
@@ -57,7 +57,7 @@ class GetAllData
                     ->limit($pageLimit)
                     ->orderBy($orderByColumn, $orderByType)
                     ->get();
-                     return entityResponse($data);
+                return entityResponse($data);
             } else if ($status == 'trased') {
                 $data = $data
                     ->with($with)
@@ -81,7 +81,6 @@ class GetAllData
                 "inactive_data_count" => self::$model::inactive()->count(),
                 "trased_data_count" => self::$model::trased()->count(),
             ]);
-
         } catch (\Exception $e) {
             return messageResponse($e->getMessage(), [], 500, 'server_error');
         }

@@ -37,7 +37,7 @@ Route::get('/forgot-password', [AuthController::class, 'ForgotPassword'])->name(
 */
 
 // Website Routes
-Route::get('/', [WebsiteController::class, 'index'])->name("website");
+// Route::get('/', [WebsiteController::class, 'index'])->name("website");
 Route::get('/about', [WebsiteController::class, 'about'])->name("about");
 Route::get('/contact', [WebsiteController::class, 'contact'])->name("contact");
 Route::post('/contact', [WebsiteController::class, 'contact_submit'])->name("contact_submit");
