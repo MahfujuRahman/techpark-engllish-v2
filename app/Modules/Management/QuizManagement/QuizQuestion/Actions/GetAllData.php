@@ -10,6 +10,7 @@ class GetAllData
     {
         try {
 
+            $quiz_question_topic_id = request()->input('quiz_question_topic_id');
             $pageLimit = request()->input('limit') ?? 10;
             $orderByColumn = request()->input('sort_by_col') ?? 'id';
             $orderByType = request()->input('sort_type') ?? 'desc';
@@ -59,6 +60,7 @@ class GetAllData
                     ->select($fields)
                     ->where($condition)
                     ->where('status', $status)
+                    ->where('quiz_question_topic_id', $quiz_question_topic_id)
                     ->limit($pageLimit)
                     ->orderBy($orderByColumn, $orderByType)
                     ->get();

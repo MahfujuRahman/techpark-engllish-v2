@@ -40,4 +40,14 @@ class Model extends EloquentModel
     {
         return $q->onlyTrashed();
     }
+
+    public function quiz_questions()
+    {
+        return $this->belongsToMany(
+            "App\Modules\Management\QuizManagement\QuizQuestion\Models\Model",
+            "quiz_quiz_questions",
+            "quiz_id",
+            "quiz_question_id"
+        );
+    }
 }
