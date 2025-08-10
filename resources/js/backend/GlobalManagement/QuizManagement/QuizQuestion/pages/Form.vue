@@ -214,18 +214,29 @@ import QuizQuestionTopicDropDownEl from "../../QuizQuestionTopic/components/drop
                 this.formData.title = this.item.title || "";
                 this.formData.question_level = this.item.question_level || "";
                 this.formData.mark = this.item.mark || "";
-                this.formData.is_multiple = this.item.is_multiple || "";
+                // Ensure is_multiple is a string for select binding
+                if (typeof this.item.is_multiple === 'number') {
+                    this.formData.is_multiple = String(this.item.is_multiple);
+                } else {
+                    this.formData.is_multiple = this.item.is_multiple || "";
+                }
                 this.formData.session_year = this.item.session_year || "";
-                this.formData.quiz_question_topic_id = this.item.quiz_question_topic_id || "";
+                // quiz_question_topic_id may be an object
+                if (this.item.quiz_question_topic_id && typeof this.item.quiz_question_topic_id === 'object') {
+                    this.formData.quiz_question_topic_id = this.item.quiz_question_topic_id.id || "";
+                } else {
+                    this.formData.quiz_question_topic_id = this.item.quiz_question_topic_id || "";
+                }
 
-                // Load options from item if available
-                if (Array.isArray(this.item.options)) {
-                    this.quizOptions = this.item.options.length
-                        ? this.item.options.map(opt => ({
-                            type: opt.type || "text",
-                            value: opt.value || opt,
+                // Load options from item.quiz_question_options if available
+                if (Array.isArray(this.item.quiz_question_options)) {
+                    this.quizOptions = this.item.quiz_question_options.length
+                        ? this.item.quiz_question_options.map(opt => ({
+                            id: opt.id, // Include the ID for updates
+                            type: opt.image ? "image" : "text",
+                            value: opt.image ? opt.image : opt.title,
                             is_correct: !!opt.is_correct,
-                            preview: opt.preview || null
+                            preview: opt.image ? opt.image : null
                         }))
                         : [
                             { type: "text", value: "", is_correct: false, preview: null },
@@ -251,6 +262,9 @@ import QuizQuestionTopicDropDownEl from "../../QuizQuestionTopic/components/drop
 
             // Attach options
             this.quizOptions.forEach((opt, idx) => {
+                if (opt.id) {
+                    formData.append(`options[${idx}][id]`, opt.id); // Include ID for existing options
+                }
                 formData.append(`options[${idx}][type]`, opt.type);
                 formData.append(`options[${idx}][value]`, opt.value);
                 formData.append(`options[${idx}][is_correct]`, opt.is_correct ? 1 : 0);
