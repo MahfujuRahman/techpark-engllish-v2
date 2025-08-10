@@ -64,7 +64,7 @@ export default {
 }
 
 .navs {
-    width: 250px;
+    width: 130px;
     border-right: 1px solid #dee2e6;
     padding: 0;
 }
