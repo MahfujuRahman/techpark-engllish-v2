@@ -109,15 +109,17 @@
                                     alt="Preview"
                                     style="max-width: 60px; max-height: 40px; margin-left: 8px;"
                                 />
-                                <!-- Is Correct Radio -->
+                                <!-- Is Correct Selector -->
                                 <div class="ml-3">
                                     <input
-                                        type="radio"
-                                        :name="'is_correct_option'"
-                                        :checked="option.is_correct"
+                                        :type="formData.is_multiple === '1' || formData.is_multiple === 1 || formData.is_multiple === true ? 'checkbox' : 'radio'"
+                                        :name="formData.is_multiple === '1' || formData.is_multiple === 1 || formData.is_multiple === true ? 'is_correct_option_' + idx : 'is_correct_option'"
+                                        v-model="option.is_correct"
+                                        :value="true"
                                         @change="setCorrectOption(idx)"
+                                        :id="'is_correct_option_' + idx"
                                     />
-                                    <label class="ml-1">Correct</label>
+                                    <label class="ml-1" :for="'is_correct_option_' + idx">Correct</label>
                                 </div>
                                 <!-- Add/Remove Buttons -->
                                 <div class="input-group-append ml-2">
@@ -277,10 +279,14 @@ import QuizQuestionTopicDropDownEl from "../../QuizQuestionTopic/components/drop
             }
         },
         setCorrectOption(idx) {
-            // Set all options to false first
-            this.quizOptions.forEach(opt => opt.is_correct = false);
-            // Set the selected one to true
-            this.quizOptions[idx].is_correct = true;
+            if (this.formData.is_multiple === '1' || this.formData.is_multiple === 1 || this.formData.is_multiple === true) {
+                // Toggle the selected option
+                this.quizOptions[idx].is_correct = !this.quizOptions[idx].is_correct;
+            } else {
+                // Single correct option
+                this.quizOptions.forEach(opt => opt.is_correct = false);
+                this.quizOptions[idx].is_correct = true;
+            }
         },
         onImageChange(event, idx) {
             const file = event.target.files[0];
