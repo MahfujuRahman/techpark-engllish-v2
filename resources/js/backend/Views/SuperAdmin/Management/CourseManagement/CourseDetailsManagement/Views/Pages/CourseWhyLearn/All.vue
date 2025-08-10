@@ -40,7 +40,7 @@
                                     <div class="item-meta">
                                         <span :class="getStatusClass(item.status)">{{ getStatusLabel(item.status)
                                             }}</span>
-                                        <small class="text-muted ml-2">
+                                        <small class="ml-2">
                                             <i class="fas fa-clock mr-1"></i>
                                             {{ formatDate(item.created_at) }}
                                         </small>

@@ -633,7 +633,7 @@ export default {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #6c757d;
+    color: #fff;
     font-size: 0.875rem;
 }
 

@@ -41,22 +41,22 @@
 
       <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`CourseManagement`" :menus="[
         {
-          route_name: `AllCourse`,
-          title: `Course`,
+          route_name: `AllCourseCategory`,
+          title: `CourseCategory`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
           route_name: `AllCourses`,
           title: `All Courses`,
           icon: `zmdi zmdi-dot-circle-alt`,
-        },          {
-            route_name: `AllCourseCategory`,
-            title: `CourseCategory`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-          },          {
-            route_name: `AllCourseInstructors`,
-            title: `CourseInstructors`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-          },
+        }, {
+          route_name: `AllCourse`,
+          title: `Course`,
+          icon: `zmdi zmdi-dot-circle-alt`,
+        }, {
+          route_name: `AllCourseInstructors`,
+          title: `CourseInstructors`,
+          icon: `zmdi zmdi-dot-circle-alt`,
+        },
       ]" />
       <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`QuizManagement`" :menus="[
         {

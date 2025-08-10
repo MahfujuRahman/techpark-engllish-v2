@@ -1,31 +1,7 @@
 <template>
     <div class="course-for-whom-layout">
         <div class="setting_management">
-            <!-- Sidebar Navigation -->
-            <div class="navs">
-                <ul>
-                    <li>
-                        <router-link 
-                            :to="{ name: 'CourseFaqAll', params: { id: $route.params.id } }" 
-                            class="nav-item"
-                        >
-                            <i class="far fa-circle mr-1"></i>
-                            <div>All Items</div>
-                        </router-link>
-                    </li>
-                    
-                    <li>
-                        <router-link 
-                            :to="{ name: 'CourseFaqCreate', params: { id: $route.params.id } }" 
-                            class="nav-item"
-                        >
-                            <i class="far fa-circle mr-1"></i>
-                            <div>Add New</div>
-                        </router-link>
-                    </li>
-                </ul>
-            </div>
-            
+        
             <!-- Main Content Area -->
             <div class="setting_body custom_scroll">
                 <!-- Content Header -->
