@@ -60,20 +60,20 @@
       ]" />
       <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`QuizManagement`" :menus="[
         {
+          route_name: `AllQuiz`,
+          title: `All Quiz`,
+          icon: `zmdi zmdi-dot-circle-alt`,
+        }, {
           route_name: `AllQuizQuestionTopic`,
-          title: `QuizQuestionTopic`,
+          title: `Quiz Topic`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
           route_name: `AllQuizQuestion`,
-          title: `QuizQuestion`,
-          icon: `zmdi zmdi-dot-circle-alt`,
-        }, {
-          route_name: `AllQuiz`,
-          title: `Quiz`,
+          title: `Quiz Question`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
           route_name: `AllQuizSubmissionResult`,
-          title: `QuizSubmissionResult`,
+          title: `Quiz Submission Result`,
           icon: `zmdi zmdi-dot-circle-alt`,
         },
       ]" />

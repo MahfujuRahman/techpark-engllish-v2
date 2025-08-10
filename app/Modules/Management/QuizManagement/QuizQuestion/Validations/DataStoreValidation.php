@@ -49,6 +49,11 @@ class DataStoreValidation extends FormRequest
             'is_multiple' => 'required | sometimes',
             'session_year' => 'required | sometimes',
             'status' => ['sometimes', Rule::in(['active', 'inactive'])],
+            'options' => 'array | sometimes',
+            'options.*.value' => 'required_with:options | sometimes',
+            'options.*.type' => ['required_with:options', Rule::in(['text', 'image'])],
+            'options.*.is_correct' => 'boolean | sometimes',
+            'options.*.image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // 2MB max size
         ];
     }
 }

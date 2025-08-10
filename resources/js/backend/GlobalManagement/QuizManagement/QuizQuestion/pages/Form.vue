@@ -1,4 +1,3 @@
-
 <template>
     <div>
         <form @submit.prevent="submitHandler">
@@ -22,15 +21,115 @@
                 </div>
                 <div class="card-body card_body_fixed_height">
                     <div class="row">
-                    <quiz-question-topic-drop-down-el :name="'quiz_question_topic_id'" :multiple="false" :value="item.quiz_question_topic_id" />
-                        <template v-for="(form_field, index) in form_fields" v-bind:key="index">
-
-                            <common-input :label="form_field.label" :type="form_field.type" :name="form_field.name"
-                                :multiple="form_field.multiple" :value="form_field.value"
-                                :data_list="form_field.data_list" :is_visible="form_field.is_visible"
-                                :row_col_class="form_field.row_col_class" />
-
-                        </template>
+                    <quiz-question-topic-drop-down-el 
+                        ref="topicDropdown"
+                        :name="'quiz_question_topic_id'" 
+                        :multiple="false" 
+                        :value="formData.quiz_question_topic_id"
+                    />
+                        <!-- Direct Form Fields -->
+                        <div class="col-md-6">
+                            <label class="form-label font-weight-bold">Title</label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                v-model="formData.title" 
+                                placeholder="Enter your title"
+                            />
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form-label font-weight-bold">Question Level</label>
+                            <select class="form-control" v-model="formData.question_level">
+                                <option value="">Select question level</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form-label font-weight-bold">Mark</label>
+                            <input 
+                                type="number" 
+                                step="0.01" 
+                                class="form-control" 
+                                v-model="formData.mark" 
+                                placeholder="Enter your mark"
+                            />
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form-label font-weight-bold">Is Multiple</label>
+                            <select class="form-control" v-model="formData.is_multiple">
+                                <option value="">Select is multiple</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="form-label font-weight-bold">Session Year</label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                v-model="formData.session_year" 
+                                placeholder="Enter your session year"
+                            />
+                        </div>
+                        <!-- Quiz Question Options -->
+                        <div class="col-12 mt-3">
+                            <label class="form-label font-weight-bold">Options</label>
+                            <div v-for="(option, idx) in quizOptions" :key="idx" class="input-group mb-2 align-items-center">
+                                <!-- Option Type Selector -->
+                                <select v-model="option.type" class="form-control mr-2" style="max-width: 110px;">
+                                    <option value="text">Text</option>
+                                    <option value="image">Image</option>
+                                </select>
+                                <!-- Text Input -->
+                                <input
+                                    v-if="option.type === 'text'"
+                                    type="text"
+                                    class="form-control"
+                                    v-model="option.value"
+                                    :placeholder="`Option ${idx+1}`"
+                                />
+                                <!-- Image Input -->
+                                <input
+                                    v-if="option.type === 'image'"
+                                    type="file"
+                                    class="form-control"
+                                    @change="onImageChange($event, idx)"
+                                    accept="image/*"
+                                />
+                                <!-- Image Preview -->
+                                <img
+                                    v-if="option.type === 'image' && option.preview"
+                                    :src="option.preview"
+                                    alt="Preview"
+                                    style="max-width: 60px; max-height: 40px; margin-left: 8px;"
+                                />
+                                <!-- Is Correct Radio -->
+                                <div class="ml-3">
+                                    <input
+                                        type="radio"
+                                        :name="'is_correct_option'"
+                                        :checked="option.is_correct"
+                                        @change="setCorrectOption(idx)"
+                                    />
+                                    <label class="ml-1">Correct</label>
+                                </div>
+                                <!-- Add/Remove Buttons -->
+                                <div class="input-group-append ml-2">
+                                    <button v-if="quizOptions.length > 1" type="button" class="btn btn-danger" @click="removeOption(idx)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button v-if="idx === quizOptions.length-1" type="button" class="btn btn-success" @click="addOption">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -58,6 +157,20 @@ import QuizQuestionTopicDropDownEl from "../../QuizQuestionTopic/components/drop
         setup,
         form_fields,
         param_id: null,
+        formData: {
+            title: "",
+            question_level: "",
+            mark: "",
+            is_multiple: "",
+            session_year: "",
+            quiz_question_topic_id: ""
+        },
+        quizOptions: [
+            { type: "text", value: "", is_correct: false, preview: null },
+            { type: "text", value: "", is_correct: false, preview: null },
+            { type: "text", value: "", is_correct: false, preview: null },
+            { type: "text", value: "", is_correct: false, preview: null }
+        ],
     }),
     created: async function () {
         let id = (this.param_id = this.$route.params.id);
@@ -75,52 +188,114 @@ import QuizQuestionTopicDropDownEl from "../../QuizQuestionTopic/components/drop
             set_only_latest_data: "set_only_latest_data",
         }),
         reset_fields: function () {
-            this.form_fields.forEach((item) => {
-                item.value = "";
-            });
+            this.formData = {
+                title: "",
+                question_level: "",
+                mark: "",
+                is_multiple: "",
+                session_year: "",
+                quiz_question_topic_id: ""
+            };
+            // Reset options
+            this.quizOptions = [
+                { type: "text", value: "", is_correct: false, preview: null },
+                { type: "text", value: "", is_correct: false, preview: null },
+                { type: "text", value: "", is_correct: false, preview: null },
+                { type: "text", value: "", is_correct: false, preview: null }
+            ];
         },
         set_fields: async function (id) {
             this.param_id = id;
             await this.details(id);
             if (this.item) {
-                this.form_fields.forEach((field, index) => {
-                    Object.entries(this.item).forEach((value) => {
-                        if (field.name == value[0]) {
-                            this.form_fields[index].value = value[1];
-                        }
-                        // If the field is a textarea, set its summernote content dynamically
-                        if (field.type === "textarea" && field.name === value[0]) {
-                            $(`#${field . name}`).summernote("code", value[1]);
-                        }
-                    });
-                });
+                // Load form data
+                this.formData.title = this.item.title || "";
+                this.formData.question_level = this.item.question_level || "";
+                this.formData.mark = this.item.mark || "";
+                this.formData.is_multiple = this.item.is_multiple || "";
+                this.formData.session_year = this.item.session_year || "";
+                this.formData.quiz_question_topic_id = this.item.quiz_question_topic_id || "";
+
+                // Load options from item if available
+                if (Array.isArray(this.item.options)) {
+                    this.quizOptions = this.item.options.length
+                        ? this.item.options.map(opt => ({
+                            type: opt.type || "text",
+                            value: opt.value || opt,
+                            is_correct: !!opt.is_correct,
+                            preview: opt.preview || null
+                        }))
+                        : [
+                            { type: "text", value: "", is_correct: false, preview: null },
+                            { type: "text", value: "", is_correct: false, preview: null },
+                            { type: "text", value: "", is_correct: false, preview: null },
+                            { type: "text", value: "", is_correct: false, preview: null }
+                        ];
+                }
             }
         },
         submitHandler: async function ($event) {
             this.set_only_latest_data(true);
+            this.setSummerEditor();
+
+            // Build FormData for file upload
+            let formData = new FormData();
+            formData.append('title', this.formData.title);
+            formData.append('question_level', this.formData.question_level);
+            formData.append('mark', this.formData.mark);
+            formData.append('is_multiple', this.formData.is_multiple);
+            formData.append('session_year', this.formData.session_year);
+            formData.append('quiz_question_topic_id', this.$refs.topicDropdown?.selected_ids || this.formData.quiz_question_topic_id);
+
+            // Attach options
+            this.quizOptions.forEach((opt, idx) => {
+                formData.append(`options[${idx}][type]`, opt.type);
+                formData.append(`options[${idx}][value]`, opt.value);
+                formData.append(`options[${idx}][is_correct]`, opt.is_correct ? 1 : 0);
+                if (opt.type === 'image' && opt.file) {
+                    formData.append(`options[${idx}][image]`, opt.file);
+                }
+            });
+
+            // Debug log
+            // for (let pair of formData.entries()) { console.log(pair[0]+ ': ' + pair[1]); }
+
+            let response;
             if (this.param_id) {
-                this.setSummerEditor();
-                let response = await this.update($event);
-                // await this.get_all();
+                response = await this.update(formData);
                 if ([200, 201].includes(response.status)) {
                     window.s_alert("Data successfully updated");
-                    this.$router.push({ name: `Details${this . setup . route_prefix}` });
+                    this.$router.push({ name: `Details${this.setup.route_prefix}` });
                 }
             } else {
-                this.setSummerEditor();
-                let response = await this.create($event);
-                // await this.get_all();
+                response = await this.create(formData);
                 if ([200, 201].includes(response.status)) {
                     $event.target.reset();
-                    // Clear summernote editors for all textarea fields
-                    this.form_fields.forEach(field => {
-                        if (field.type === 'textarea' && $(`#${field . name}`).length) {
-                            $(`#${field . name}`).summernote("code", '');
-                        }
-                    });
+                    this.reset_fields();
                     window.s_alert("Data Successfully Created");
-                    // this.$router.push({ name: `All${this . setup . route_prefix}` });
                 }
+            }
+        },
+        setCorrectOption(idx) {
+            // Set all options to false first
+            this.quizOptions.forEach(opt => opt.is_correct = false);
+            // Set the selected one to true
+            this.quizOptions[idx].is_correct = true;
+        },
+        onImageChange(event, idx) {
+            const file = event.target.files[0];
+            if (file) {
+                this.quizOptions[idx].value = file.name;
+                this.quizOptions[idx].file = file; // Store File object for upload
+                this.quizOptions[idx].preview = URL.createObjectURL(file); // For preview only
+            }
+        },
+        addOption() {
+            this.quizOptions.push({ type: "text", value: "", is_correct: false, preview: null });
+        },
+        removeOption(idx) {
+            if (this.quizOptions.length > 1) {
+                this.quizOptions.splice(idx, 1);
             }
         },
         setSummerEditor() {
