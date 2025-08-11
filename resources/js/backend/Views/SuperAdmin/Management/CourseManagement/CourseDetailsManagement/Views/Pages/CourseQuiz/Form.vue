@@ -149,17 +149,17 @@
                                             v-for="quiz in filteredQuizzes" 
                                             :key="quiz.id"
                                             class="quiz-item"
-                                            :class="{ disabled: !selectedClassId }"
-                                            style="cursor: pointer;"
+                                            :class="{ disabled: !selectedClassId, selected: isQuizAssignedToSelectedClass(quiz.id) }"
                                             @click="selectedClassId && toggleQuizForSelectedClass(quiz.id, !isQuizAssignedToSelectedClass(quiz.id))"
                                         >
                                             <div class="quiz-selection">
                                                 <input 
                                                     type="checkbox" 
                                                     :checked="isQuizAssignedToSelectedClass(quiz.id)"
-                                                    @change="toggleQuizForSelectedClass(quiz.id, $event.target.checked)"
+                                                    @click.stop
                                                     :disabled="!selectedClassId"
                                                     class="form-check-input"
+                                                    readonly
                                                 >
                                             </div>
                                             <div class="quiz-info">
@@ -307,8 +307,8 @@ export default {
         assignedQuizIds() {
             if (!this.selectedClassId) return [];
             return this.assignments
-                .filter(a => a.course_class_id === this.selectedClassId)
-                .map(a => a.course_quiz_id);
+                .filter(a => (a.course_class_id === this.selectedClassId || a.course_module_class_id === this.selectedClassId))
+                .map(a => a.course_quiz_id || a.quiz_id);
         },
     },
     
@@ -444,7 +444,8 @@ export default {
         isQuizAssignedToSelectedClass(quizId) {
             if (!this.selectedClassId) return false;
             return this.assignments.some(
-                assignment => assignment.course_quiz_id === quizId && assignment.course_class_id === this.selectedClassId
+                assignment => (assignment.course_quiz_id === quizId || assignment.quiz_id === quizId) && 
+                             (assignment.course_class_id === this.selectedClassId || assignment.course_module_class_id === this.selectedClassId)
             );
         },
 
@@ -452,23 +453,35 @@ export default {
         toggleQuizForSelectedClass(quizId, isAssigned) {
             if (!this.selectedClassId) return;
 
+            console.log('Toggling quiz:', quizId, 'isAssigned:', isAssigned, 'selectedClassId:', this.selectedClassId);
+
             if (isAssigned) {
                 // Add assignment if not already exists
-                if (!this.assignments.some(a => a.course_quiz_id === quizId && a.course_class_id === this.selectedClassId)) {
+                const existingAssignment = this.assignments.some(a => 
+                    (a.course_quiz_id === quizId || a.quiz_id === quizId) && 
+                    (a.course_class_id === this.selectedClassId || a.course_module_class_id === this.selectedClassId)
+                );
+                
+                if (!existingAssignment) {
                     const classItem = this.allClasses.find(c => c.id === this.selectedClassId);
-                    this.assignments.push({
+                    const newAssignment = {
                         course_id: this.courseId,
-                        milestone_id: classItem.milestone_id,
-                        course_module_id: classItem.course_modules_id,
+                        milestone_id: classItem?.milestone_id,
+                        course_module_id: classItem?.course_modules_id,
                         course_module_class_id: this.selectedClassId,
-                        quiz_id: quizId
-                    });
+                        quiz_id: quizId,
+                    };
+                    this.assignments.push(newAssignment);
+                    console.log('Added assignment:', newAssignment);
                 }
             } else {
                 // Remove assignment
+                const beforeLength = this.assignments.length;
                 this.assignments = this.assignments.filter(
-                    assignment => !(assignment.course_quiz_id === quizId && assignment.course_class_id === this.selectedClassId)
+                    assignment => !((assignment.course_quiz_id === quizId || assignment.quiz_id === quizId) && 
+                                   (assignment.course_class_id === this.selectedClassId || assignment.course_module_class_id === this.selectedClassId))
                 );
+                console.log('Removed assignments, before:', beforeLength, 'after:', this.assignments.length);
             }
             
             console.log('Current assignments:', this.assignments);
@@ -487,7 +500,7 @@ export default {
         
         getClassQuizCount(classId) {
             return this.assignments.filter(
-                assignment => assignment.course_class_id === classId
+                assignment => assignment.course_class_id === classId || assignment.course_module_class_id === classId
             ).length;
         },
         
@@ -723,17 +736,23 @@ export default {
 .quiz-item {
     cursor: pointer;
     align-items: center;
-    padding: 15px;
-    margin-bottom: 10px;
-    border: 1px solid #e9ecef;
-    border-radius: 6px;
+    padding: 15px 18px;
+    margin-bottom: 12px;
+    border: 1.5px solid #e9ecef;
+    border-radius: 8px;
     transition: all 0.2s ease;
     display: flex;
     justify-content: flex-start;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
 }
 
-.quiz-item:hover {
+.quiz-item:hover:not(.disabled) {
     border-color: #007bff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.quiz-item.selected {
+    border-color: #28a745;
 }
 
 .quiz-item input:disabled {
@@ -742,7 +761,9 @@ export default {
 }
 
 .quiz-item.disabled {
-    opacity: 0.6;
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 .no-class-selected {
@@ -760,15 +781,16 @@ export default {
 }
 
 .selection-radio, .quiz-selection {
-    margin-right: 10px;
+    margin-right: 15px;
     display: flex;
-    align-items: flex-start;
-    padding-top: 2px;
+    align-items: center;
+    padding-top: 0;
 }
 
 .form-check-input {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
+    accent-color: #007bff;
 }
 
 .milestone-badge, .module-badge {
