@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Modules\Management\CourseManagement\CourseModule\Actions;
+namespace App\Modules\Management\CourseManagement\CourseModuleClassQuiz\Actions;
 
 class GetAllData
 {
-    static $model = \App\Modules\Management\CourseManagement\CourseModule\Models\Model::class;
+    static $model = \App\Modules\Management\CourseManagement\CourseModuleClassQuiz\Models\Model::class;
 
     public static function execute()
     {
         try {
-
             $course_id = request()->query('course_id');
-            $milestone_id = request()->query('milestone_id');
             $pageLimit = request()->input('limit') ?? 10;
             $orderByColumn = request()->input('sort_by_col') ?? 'id';
-            $orderByType = request()->input('sort_type') ?? 'asc';
+            $orderByType = request()->input('sort_type') ?? 'desc';
             $status = request()->input('status') ?? 'active';
             $fields = request()->input('fields') ?? '*';
             $start_date = request()->input('start_date');
@@ -23,14 +21,6 @@ class GetAllData
             $with = [];
 
             $condition = [];
-            
-            if ($course_id) {
-                $condition['course_id'] = $course_id;
-            }
-            
-            if ($milestone_id) {
-                $condition['milestone_id'] = $milestone_id;
-            }
 
             $data = self::$model::query();
 
@@ -41,9 +31,11 @@ class GetAllData
 
                     $q->orWhere('milestone_id', 'like', '%' . $searchKey . '%');
 
-                    $q->orWhere('module_no', 'like', '%' . $searchKey . '%');
+                    $q->orWhere('course_module_id', 'like', '%' . $searchKey . '%');
 
-                    $q->orWhere('title', 'like', '%' . $searchKey . '%');
+                    $q->orWhere('course_module_class_id', 'like', '%' . $searchKey . '%');
+
+                    $q->orWhere('quiz_id', 'like', '%' . $searchKey . '%');
                 });
             }
 
@@ -65,6 +57,7 @@ class GetAllData
                     ->select($fields)
                     ->where($condition)
                     ->where('status', $status)
+                    ->where('course_id', $course_id)
                     ->limit($pageLimit)
                     ->orderBy($orderByColumn, $orderByType)
                     ->get();

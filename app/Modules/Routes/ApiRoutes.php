@@ -80,3 +80,4 @@ include_once base_path("app/Modules/Management/CourseManagement/CourseForWhom/Ro
 include_once base_path("app/Modules/Management/CourseManagement/CourseWhyYouLearnFromUs/Routes/Route.php");
 include_once base_path("app/Modules/Management/CourseManagement/CourseFaq/Routes/Route.php");
 include_once base_path("app/Modules/Management/CourseManagement/CourseCourseInstructor/Routes/Route.php");
+include_once base_path("app/Modules/Management/CourseManagement/CourseModuleClassQuiz/Routes/Route.php");

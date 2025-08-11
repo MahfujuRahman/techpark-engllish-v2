@@ -44,7 +44,7 @@ php artisan make:module CourseManagement/CourseMilestone [course_id:bigint,miles
 php artisan make:module CourseManagement/CourseModule [course_id:bigint,milestone_id:bigint,module_no:bigint,title:string-100] --vue
 
 php artisan make:module CourseManagement/CourseModuleClass [course_id:bigint,milestone_id:bigint,course_modules_id:bigint,class_no:string-20,title:text,type:enum-live.recorded,class_video_link:string-150,class_video_poster:string-100] --vue
-php artisan make:table CourseManagement/CourseModuleClass/CourseModuleClassQuiz [course_id:bigint,course_module_id:bigint,course_module_class_id:bigint,quiz_id:bigint] --model
+php artisan make:module CourseManagement/CourseModuleClassQuiz [course_id:bigint,milestone_id:bigint,course_module_id:bigint,course_module_class_id:bigint,quiz_id:bigint]
 php artisan make:table CourseManagement/CourseModuleClass/CourseModuleTaskCompleteByUser [course_id:bigint,module_id:bigint,class_id:bigint,user_id:bigint,content_id:bigint,quiz_id:bigint,exam_id:bigint] --model
 
 php artisan make:module CourseManagement/CourseModuleClassResourse [course_id:bigint,course_module_class_id:bigint,course_module_id:bigint,resourse_content:text,resourse_link:string-100] --vue

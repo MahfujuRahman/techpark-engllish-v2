@@ -71,6 +71,12 @@ import CourseModuleCSV from '../Views/Pages/CourseModuleSystem/CSV.vue';
 import CourseAtGlance from '../Views/Pages/CourseModuleSystem/AtGlance.vue';
 import CourseClassQuiz from '../Views/Pages/CourseModuleSystem/CourseClassQuiz.vue';
 
+// Course FAQ
+import CourseQuizLayout from '../Views/Pages/CourseQuiz/Layout.vue';
+import CourseQuizAll from '../Views/Pages/CourseQuiz/All.vue';
+import CourseQuizForm from '../Views/Pages/CourseQuiz/Form.vue';
+import CourseQuizDetails from '../Views/Pages/CourseQuiz/Details.vue';
+
 // Course Routines
 import CourseRoutines from '../Views/Pages/CourseRoutine/CourseRoutine.vue';
 
@@ -430,10 +436,38 @@ export default [
                                 name: 'CourseAtGlance',
                                 component: CourseAtGlance,
                             },
+                        ]
+                    },
+
+                    // Course Class Quiz Routes
+                    {
+                        path: 'class-quiz',
+                        component: CourseQuizLayout,
+                        children: [
                             {
-                                path: 'class-quiz',
-                                name: 'CourseClassQuiz',
-                                component: CourseClassQuiz,
+                                path: '',
+                                name: 'CourseQuiz',
+                                component: CourseQuizAll,
+                            },
+                            {
+                                path: 'all',
+                                name: 'CourseQuizAll',
+                                component: CourseQuizAll,
+                            },
+                            {
+                                path: 'create',
+                                name: 'CourseQuizCreate',
+                                component: CourseQuizForm,
+                            },
+                            {
+                                path: ':slug/edit',
+                                name: 'CourseQuizEdit',
+                                component: CourseQuizForm,
+                            },
+                            {
+                                path: ':slug/details',
+                                name: 'CourseQuizDetails',
+                                component: CourseQuizDetails,
                             },
                         ]
                     },

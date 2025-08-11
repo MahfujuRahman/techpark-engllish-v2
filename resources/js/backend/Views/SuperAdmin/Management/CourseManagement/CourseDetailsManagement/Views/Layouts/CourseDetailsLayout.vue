@@ -104,11 +104,11 @@
                     
                     <li v-if="currentCourse">
                         <router-link 
-                            :to="{ name: 'CourseClassQuiz', params: { id: currentCourse.slug } }" 
+                            :to="{ name: 'CourseQuiz', params: { id: currentCourse.slug } }" 
                             class="nav-item"
                         >
                             <i class="far fa-circle mr-1"></i>
-                            <div>Course class quiz</div>
+                            <div>Course Class Quiz</div>
                         </router-link>
                     </li>
                     
