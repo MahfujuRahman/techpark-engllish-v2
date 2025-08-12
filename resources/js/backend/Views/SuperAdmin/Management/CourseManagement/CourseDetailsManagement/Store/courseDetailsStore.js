@@ -255,12 +255,12 @@ export const useCourseDetailsStore = defineStore('courseDetails', {
             this.errorMessage = '';
             
             try {
-                const response = await axios.post('courses/soft-delete', { slug: slug });
-                this.successMessage = 'কোর্স সফলভাবে মুছে ফেলা হয়েছে!';
+                const response = await axios.post(`courses/destroy/${slug}`);
+                this.successMessage = 'Course deleted successfully!';
                 
                 return response.data;
             } catch (error) {
-                this.errorMessage = 'কোর্স মুছে ফেলতে ত্রুটি হয়েছে';
+                this.errorMessage = 'Failed to delete course';
                 console.error('Error deleting course:', error);
                 throw error;
             } finally {

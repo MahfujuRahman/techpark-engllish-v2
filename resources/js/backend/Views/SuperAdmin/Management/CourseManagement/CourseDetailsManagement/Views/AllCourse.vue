@@ -208,13 +208,13 @@ export default {
         },
         
         async deleteCourse(course) {
-            if (await this.confirmAction('আপনি কি নিশ্চিত যে আপনি এই কোর্সটি মুছে ফেলতে চান?')) {
+            if (await this.confirmAction('Are you sure you want to delete this course? Related milestones, modules, and classes will also be deleted.')) {
                 try {
                     await this.store.deleteCourse(course.slug);
-                    this.showSuccessMessage('কোর্স সফলভাবে মুছে ফেলা হয়েছে!');
+                    this.showSuccessMessage('Course deleted successfully! Related milestones, modules, and classes have also been deleted.');
                     await this.store.getCourses();
                 } catch (error) {
-                    this.showErrorMessage('কোর্স মুছে ফেলতে ত্রুটি হয়েছে!');
+                    this.showErrorMessage('Error deleting course!');
                     console.error('Error deleting course:', error);
                 }
             }
