@@ -356,13 +356,11 @@ export default {
         },
 
         async remove_class(classes, index) {
-            const confirmed = confirm('Are you sure you want to remove this class?');
+            const confirmed = confirm('Are you sure you want to remove this class? Related quizzes will also be deleted.');
             if (confirmed) {
-                if (classes[index].id) {
+                if (classes[index].slug) {
                     try {
-                        await axios.post(`/api/v1/course/course-modules-class/destroy`, {
-                            id: classes[index].id
-                        });
+                        await axios.post(`/course-module-classes/destroy/${classes[index].slug}`);
                     } catch (error) {
                         console.error('Error deleting class:', error);
                     }
