@@ -23,6 +23,7 @@ class GetAllData
             $condition = [];
 
             $data = self::$model::query();
+            
            
             if (request()->has('search') && request()->input('search')) {
                 $searchKey = request()->input('search');
@@ -80,6 +81,7 @@ class GetAllData
                     ->where('status', $status)
                     ->orderBy($orderByColumn, $orderByType)
                     ->paginate($pageLimit);
+            
             }
 
             return entityResponse([

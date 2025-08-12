@@ -3,6 +3,7 @@
 namespace App\Modules\Management\CourseManagement\CourseModuleClassQuiz\Actions;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class StoreData
 {
@@ -22,88 +23,69 @@ class StoreData
             // Use database transaction to ensure atomicity
             DB::beginTransaction();
 
-            // Normalise keys & group by class context (course_id + milestone_id + module_id + class_id)
-            $grouped = [];
+            $model = self::$model;
+            
+            // Get course ID from first assignment (all should have same course)
+            $courseId = null;
+            $normalizedAssignments = [];
+            
             foreach ($assignments as $a) {
-                $courseId  = $a['course_id'] ?? null;
+                $courseId = $courseId ?? ($a['course_id'] ?? null);
                 $milestone = $a['milestone_id'] ?? $a['course_milestone_id'] ?? null;
-                $moduleId  = $a['course_module_id'] ?? null;
-                $classId   = $a['course_module_class_id'] ?? $a['course_class_id'] ?? null;
-                $quizId    = $a['quiz_id'] ?? $a['course_quiz_id'] ?? null;
+                $moduleId = $a['course_module_id'] ?? null;
+                $classId = $a['course_module_class_id'] ?? $a['course_class_id'] ?? null;
+                $quizId = $a['quiz_id'] ?? $a['course_quiz_id'] ?? null;
                 
                 if (!$courseId || !$classId || !$quizId) {
-                    // skip invalid row
                     continue;
                 }
                 
-                $normalized = [
-                    'course_id'              => $courseId,
-                    'milestone_id'           => $milestone,
-                    'course_module_id'       => $moduleId,
+                $normalizedAssignments[] = [
+                    'course_id' => $courseId,
+                    'milestone_id' => $milestone,
+                    'course_module_id' => $moduleId,
                     'course_module_class_id' => $classId,
-                    'quiz_id'                => $quizId,
+                    'quiz_id' => $quizId,
                 ];
-                
-                // merge back any extra updatable columns (status, creator, etc.)
-                $extra = array_diff_key($a, $normalized);
-                $row   = array_merge($normalized, $extra);
-                
-                $groupKey = implode('-', [
-                    $normalized['course_id'],
-                    $normalized['milestone_id'] ?? 'null',
-                    $normalized['course_module_id'] ?? 'null',
-                    $normalized['course_module_class_id']
-                ]);
-                
-                // Only keep unique quiz assignments per class context
-                $grouped[$groupKey]['context'] = $normalized;
-                $grouped[$groupKey]['rows'][$quizId] = $row;
             }
 
-            if (empty($grouped)) {
+            if (empty($normalizedAssignments) || !$courseId) {
                 DB::rollBack();
-                return messageResponse('No valid assignments after normalization', [], 400);
+                return messageResponse('No valid assignments found', [], 400);
             }
 
-            $model = self::$model;
+            // Get unique class IDs from the assignments
+            $classIds = array_unique(array_column($normalizedAssignments, 'course_module_class_id'));
 
-            foreach ($grouped as $group) {
-                $context = $group['context'];
-                $rows    = $group['rows'];
-
-                // SYNC: Delete ALL existing assignments for this class context first
-                $deleteConditions = [
-                    'course_id' => $context['course_id'],
-                    'course_module_class_id' => $context['course_module_class_id']
+            // SYNC APPROACH: Delete ALL existing assignments for ALL classes in this submission
+            // We need to match the full context (course + milestone + module + class)
+            foreach ($classIds as $classId) {
+                // Find the milestone and module for this class from our normalized data
+                $classData = collect($normalizedAssignments)->firstWhere('course_module_class_id', $classId);
+                
+                $deleteWhere = [
+                    'course_id' => $courseId,
+                    'course_module_class_id' => $classId
                 ];
                 
-                if (!is_null($context['milestone_id'])) {
-                    $deleteConditions['milestone_id'] = $context['milestone_id'];
+                // Include milestone and module in deletion criteria if they exist
+                if (!is_null($classData['milestone_id'])) {
+                    $deleteWhere['milestone_id'] = $classData['milestone_id'];
                 }
-                if (!is_null($context['course_module_id'])) {
-                    $deleteConditions['course_module_id'] = $context['course_module_id'];
+                if (!is_null($classData['course_module_id'])) {
+                    $deleteWhere['course_module_id'] = $classData['course_module_id'];
                 }
+                
+                $deletedCount = $model::where($deleteWhere)->forceDelete();
+                // Debug: Log what was deleted
+                Log::info("Deleted {$deletedCount} records for class {$classId} with conditions: " . json_encode($deleteWhere));
+            }
 
-                // Force delete with explicit conditions
-                $deletedCount = $model::where($deleteConditions)->forceDelete();
-
-                // Then create all new assignments (fresh sync)
-                foreach ($rows as $quizId => $data) {
-                    // Double check no existing record before create
-                    $existingCheck = $model::where([
-                        'course_id' => $data['course_id'],
-                        'course_module_class_id' => $data['course_module_class_id'],
-                        'quiz_id' => $data['quiz_id'],
-                        'milestone_id' => $data['milestone_id'],
-                        'course_module_id' => $data['course_module_id']
-                    ])->first();
-
-                    if (!$existingCheck) {
-                        $created = $model::create($data);
-                        if ($created) {
-                            $affected[] = $created;
-                        }
-                    }
+            // Now create all new assignments
+            foreach ($normalizedAssignments as $data) {
+                $created = $model::create($data);
+                if ($created) {
+                    $affected[] = $created;
                 }
             }
 
@@ -113,6 +95,7 @@ class StoreData
                 return messageResponse('Class quiz assignments saved successfully', $affected, 201);
             }
             return messageResponse('No assignments saved', [], 400);
+            
         } catch (\Exception $e) {
             DB::rollBack();
             return messageResponse($e->getMessage(), [], 500, 'server_error');

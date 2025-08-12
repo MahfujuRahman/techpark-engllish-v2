@@ -48,14 +48,14 @@
 
                     <!-- Class and Quiz Selection Section -->
                     <div class="form-section class-quiz-section">
-                        <h6 class="section-title">Select Classes and Assign Quizzes</h6>
+                        <h6 class="section-title">Select a Class and Assign Quizzes</h6>
                         
                         <div class="row">
                             <!-- Left Side: Classes List -->
                             <div class="col-md-6">
                                 <div class="classes-panel">
                                     <div class="panel-header">
-                                        <h6 class="panel-title">Classes</h6>
+                                        <h6 class="panel-title">Classes (Select One)</h6>
                                         <div class="search-box">
                                             <input 
                                                 type="text" 
@@ -84,27 +84,29 @@
                                             :key="classItem.id"
                                             class="class-item"
                                             :class="{ 'selected': isClassSelected(classItem.id) }"
+                                            @click="selectClass(classItem.id)"
                                         >
-                                            <div class="selection-checkbox">
+                                            <div class="selection-radio">
                                                 <input 
-                                                    type="checkbox" 
+                                                    type="radio" 
+                                                    :name="'classSelection'"
                                                     :checked="isClassSelected(classItem.id)"
-                                                    @change="toggleClassSelection(classItem.id, $event.target.checked)"
+                                                    @change="selectClass(classItem.id)"
                                                     class="form-check-input"
                                                 >
                                             </div>
                                             <div class="class-info">
                                                 <h6 class="class-name">{{ classItem.title }}</h6>
-                                                <small class="class-description">
+                                                <!-- <small class="class-description">
                                                     <span class="milestone-badge">{{ getMilestoneName(classItem.milestone_id) }}</span>
                                                     <span class="module-badge">{{ getModuleName(classItem.course_modules_id) }}</span>
-                                                </small>
+                                                </small> -->
                                             </div>
-                                            <div class="class-actions">
+                                            <!-- <div class="class-actions">
                                                 <span class="quiz-count">
                                                     {{ getClassQuizCount(classItem.id) }} quiz(es)
                                                 </span>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -114,7 +116,12 @@
                             <div class="col-md-6">
                                 <div class="quizzes-panel">
                                     <div class="panel-header">
-                                        <h6 class="panel-title">Available Quizzes</h6>
+                                        <h6 class="panel-title">
+                                            Quizzes
+                                            <!-- <span v-if="selectedClass" class="text-muted">
+                                                (for {{ selectedClass.title }})
+                                            </span> -->
+                                        </h6>
                                         <div class="search-box">
                                             <input 
                                                 type="text" 
@@ -142,32 +149,27 @@
                                             v-for="quiz in filteredQuizzes" 
                                             :key="quiz.id"
                                             class="quiz-item"
+                                            :class="{ disabled: !selectedClassId, selected: isQuizAssignedToSelectedClass(quiz.id) }"
+                                            @click="selectedClassId && toggleQuizForSelectedClass(quiz.id, !isQuizAssignedToSelectedClass(quiz.id))"
                                         >
+                                            <div class="quiz-selection">
+                                                <input 
+                                                    type="checkbox" 
+                                                    :checked="isQuizAssignedToSelectedClass(quiz.id)"
+                                                    @click.stop
+                                                    :disabled="!selectedClassId"
+                                                    class="form-check-input"
+                                                    readonly
+                                                >
+                                            </div>
                                             <div class="quiz-info">
                                                 <h6 class="quiz-title">{{ quiz.title }}</h6>
-                                                <small class="quiz-description">{{ quiz.description || 'No description' }}</small>
+                                                <!-- <small class="quiz-description">{{ quiz.description || 'No description' }}</small> -->
                                             </div>
-                                            <div class="quiz-actions">
-                                                <label class="form-label-sm">Assign to Classes:</label>
-                                                <div class="class-checkboxes">
-                                                    <div 
-                                                        v-for="classItem in selectedClasses" 
-                                                        :key="classItem.id"
-                                                        class="class-checkbox"
-                                                    >
-                                                        <input 
-                                                            type="checkbox" 
-                                                            :checked="isQuizAssignedToClass(quiz.id, classItem.id)"
-                                                            @change="toggleQuizClassAssignment(quiz.id, classItem.id, $event.target.checked)"
-                                                            class="form-check-input"
-                                                        >
-                                                        <label class="form-check-label">{{ classItem.title }}</label>
-                                                    </div>
-                                                    <div v-if="selectedClasses.length === 0" class="no-classes-selected">
-                                                        Select classes first
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        </div>
+                                        <div v-if="!selectedClassId && filteredQuizzes.length > 0" class="no-class-selected">
+                                            <i class="fas fa-info-circle fa-2x mb-2"></i>
+                                            <p>Please select a class first to assign quizzes</p>
                                         </div>
                                     </div>
                                 </div>
@@ -239,7 +241,7 @@ export default {
             quizSearch: '',
             
             // Selected items
-            selectedClassIds: [],
+            selectedClassId: null, // Single class selection
             assignments: [],
         };
     },
@@ -295,24 +297,18 @@ export default {
             );
         },
         
-        // Get selected classes as objects
-        selectedClasses() {
-            return this.allClasses.filter(cls => this.selectedClassIds.includes(cls.id));
+        // Get selected class as object
+        selectedClass() {
+            if (!this.selectedClassId) return null;
+            return this.allClasses.find(cls => cls.id === this.selectedClassId);
         },
 
-        // Get selected classes for a specific quiz
-        selectedClassesForQuiz(quizId) {
-            return this.assignments.filter(a => a.course_quiz_id == quizId).map(a => a.course_class_id);
-        },
-
-        // Check if a class is selected
-        isClassSelected(classId) {
-            return this.selectedClassIds.includes(classId);
-        },
-
-        // Check if a class is selected for a specific quiz
-        isClassSelectedForQuiz(classId, quizId) {
-            return this.assignments.some(a => a.course_class_id == classId && a.course_quiz_id == quizId);
+        // Get quizzes assigned to the selected class
+        assignedQuizIds() {
+            if (!this.selectedClassId) return [];
+            return this.assignments
+                .filter(a => (a.course_class_id === this.selectedClassId || a.course_module_class_id === this.selectedClassId))
+                .map(a => a.course_quiz_id || a.quiz_id);
         },
     },
     
@@ -428,42 +424,67 @@ export default {
             // Just trigger reactive updates - no need to clear selections
             console.log('Filter changed:', this.filterMilestone, this.filterModule);
         },
-        
-        // Class selection methods
-        toggleClassSelection(classId, isSelected) {
-            if (isSelected) {
-                if (!this.selectedClassIds.includes(classId)) {
-                    this.selectedClassIds.push(classId);
-                }
-            } else {
-                this.selectedClassIds = this.selectedClassIds.filter(id => id !== classId);
-                // Remove all assignments for this class
-                this.assignments = this.assignments.filter(
-                    assignment => assignment.course_class_id !== classId
-                );
+
+        // Helper methods for class and quiz checking
+        isClassSelected(classId) {
+            return this.selectedClassId === classId;
+        },
+
+        // Select a single class (radio button behavior)
+        selectClass(classId) {
+            if (this.selectedClassId !== classId) {
+                // Clear existing assignments when switching classes
+                this.assignments = [];
+                this.selectedClassId = classId;
+                console.log('Selected class:', classId);
             }
         },
 
-        // Quiz assignment methods
-        toggleQuizClassAssignment(quizId, classId, isAssigned) {
+        // Check if a quiz is assigned to the selected class
+        isQuizAssignedToSelectedClass(quizId) {
+            if (!this.selectedClassId) return false;
+            return this.assignments.some(
+                assignment => (assignment.course_quiz_id === quizId || assignment.quiz_id === quizId) && 
+                             (assignment.course_class_id === this.selectedClassId || assignment.course_module_class_id === this.selectedClassId)
+            );
+        },
+
+        // Toggle quiz assignment for the selected class
+        toggleQuizForSelectedClass(quizId, isAssigned) {
+            if (!this.selectedClassId) return;
+
+            console.log('Toggling quiz:', quizId, 'isAssigned:', isAssigned, 'selectedClassId:', this.selectedClassId);
+
             if (isAssigned) {
                 // Add assignment if not already exists
-                if (!this.assignments.some(a => a.course_quiz_id === quizId && a.course_class_id === classId)) {
-                    const classItem = this.allClasses.find(c => c.id === classId);
-                    this.assignments.push({
+                const existingAssignment = this.assignments.some(a => 
+                    (a.course_quiz_id === quizId || a.quiz_id === quizId) && 
+                    (a.course_class_id === this.selectedClassId || a.course_module_class_id === this.selectedClassId)
+                );
+                
+                if (!existingAssignment) {
+                    const classItem = this.allClasses.find(c => c.id === this.selectedClassId);
+                    const newAssignment = {
                         course_id: this.courseId,
-                        course_milestone_id: classItem.milestone_id,
-                        course_module_id: classItem.course_modules_id,
-                        course_class_id: classId,
-                        course_quiz_id: quizId
-                    });
+                        milestone_id: classItem?.milestone_id,
+                        course_module_id: classItem?.course_modules_id,
+                        course_module_class_id: this.selectedClassId,
+                        quiz_id: quizId,
+                    };
+                    this.assignments.push(newAssignment);
+                    console.log('Added assignment:', newAssignment);
                 }
             } else {
                 // Remove assignment
+                const beforeLength = this.assignments.length;
                 this.assignments = this.assignments.filter(
-                    assignment => !(assignment.course_quiz_id === quizId && assignment.course_class_id === classId)
+                    assignment => !((assignment.course_quiz_id === quizId || assignment.quiz_id === quizId) && 
+                                   (assignment.course_class_id === this.selectedClassId || assignment.course_module_class_id === this.selectedClassId))
                 );
+                console.log('Removed assignments, before:', beforeLength, 'after:', this.assignments.length);
             }
+            
+            console.log('Current assignments:', this.assignments);
         },
         
         // Helper methods
@@ -479,27 +500,20 @@ export default {
         
         getClassQuizCount(classId) {
             return this.assignments.filter(
-                assignment => assignment.course_class_id === classId
+                assignment => assignment.course_class_id === classId || assignment.course_module_class_id === classId
             ).length;
-        },
-
-        // Check if a quiz is assigned to a specific class
-        isQuizAssignedToClass(quizId, classId) {
-            return this.assignments.some(
-                assignment => assignment.course_quiz_id === quizId && assignment.course_class_id === classId
-            );
         },
         
         validateForm() {
             this.errors = {};
             
-            if (this.selectedClassIds.length === 0) {
-                window.s_warning('Please select at least one class');
+            if (!this.selectedClassId) {
+                window.s_warning('Please select a class');
                 return false;
             }
             
             if (this.assignments.length === 0) {
-                window.s_warning('Please assign at least one quiz to a class');
+                window.s_warning('Please assign at least one quiz to the selected class');
                 return false;
             }
             
@@ -570,9 +584,9 @@ export default {
                     console.log('Assignments found:', assignments);
                     
                     if (assignments.length) {
-                        // Extract unique class IDs and select them
+                        // Get the first class ID (since we only support single class selection now)
                         const classIds = [...new Set(assignments.map(a => a.course_class_id || a.course_module_class_id))];
-                        this.selectedClassIds = classIds;
+                        this.selectedClassId = classIds[0]; // Select the first class
                         
                         // Set assignments array with correct field names
                         this.assignments = assignments.map(a => ({
@@ -583,7 +597,7 @@ export default {
                             course_quiz_id: a.course_quiz_id || a.quiz_id
                         }));
                         
-                        console.log('Selected class IDs:', this.selectedClassIds);
+                        console.log('Selected class ID:', this.selectedClassId);
                         console.log('Set assignments:', this.assignments);
                     } else {
                         console.log('No assignments found');
@@ -712,29 +726,71 @@ export default {
 
 .class-item:hover {
     border-color: #007bff;
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
 }
 
 .class-item.selected {
     border-color: #28a745;
-    background-color: #f8fff8;
 }
 
 .quiz-item {
-    cursor: default;
-    align-items: stretch;
+    cursor: pointer;
+    align-items: center;
+    padding: 15px 18px;
+    margin-bottom: 12px;
+    border: 1.5px solid #e9ecef;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: flex-start;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
 }
 
-.selection-checkbox {
-    margin-right: 10px;
+.quiz-item:hover:not(.disabled) {
+    border-color: #007bff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.quiz-item.selected {
+    border-color: #28a745;
+}
+
+.quiz-item input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.quiz-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.no-class-selected {
+    text-align: center;
+    padding: 40px 20px;
+    color: #6c757d;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    margin: 20px;
+}
+
+.no-class-selected i {
+    opacity: 0.5;
+    color: #dee2e6;
+}
+
+.selection-radio, .quiz-selection {
+    margin-right: 15px;
     display: flex;
-    align-items: flex-start;
-    padding-top: 2px;
+    align-items: center;
+    padding-top: 0;
 }
 
 .form-check-input {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
+    accent-color: #007bff;
 }
 
 .milestone-badge, .module-badge {
@@ -759,45 +815,6 @@ export default {
 .quiz-actions {
     min-width: 200px;
     margin-left: 15px;
-}
-
-.form-label-sm {
-    font-size: 0.8rem;
-    font-weight: 500;
-    margin-bottom: 5px;
-    color: #495057;
-}
-
-.class-checkboxes {
-    max-height: 120px;
-    overflow-y: auto;
-}
-
-.class-checkbox {
-    display: flex;
-    align-items: center;
-    margin-bottom: 3px;
-    padding: 2px 0;
-}
-
-.class-checkbox input[type="checkbox"] {
-    margin-right: 6px;
-    width: 16px;
-    height: 16px;
-}
-
-.form-check-label {
-    font-size: 0.8rem;
-    cursor: pointer;
-    line-height: 1.2;
-}
-
-.no-classes-selected {
-    font-size: 0.8rem;
-    color: #6c757d;
-    font-style: italic;
-    padding: 10px;
-    text-align: center;
 }
 
 .class-info, .quiz-info {
