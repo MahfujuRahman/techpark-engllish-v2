@@ -24,6 +24,10 @@ return new class extends Migration
             $table->text('why_is_this_course')->nullable();
             $table->enum('type', ['online','offline','daycare'])->nullable();
 
+            $table->text('meta_title')->nullable();
+            $table->text('meta_description')->nullable();
+            $table->text('meta_keywords')->nullable();
+
             $table->bigInteger('creator')->unsigned()->nullable();
             $table->string('slug', 50)->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');

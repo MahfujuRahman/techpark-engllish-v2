@@ -34,26 +34,26 @@
                                 <td>{{ index + 1 }}</td>
                                 <td>
                                     <div class="quiz-title">
-                                        {{ quiz.course_id }}
+                                        {{ quiz.course?.title }}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="class-name">
-                                        {{ quiz.milestone_id || '-' }}
+                                        {{ quiz.milestone?.title || '-' }}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="start-date">
-                                        {{ quiz.course_module_id || '-' }}
+                                        {{ quiz.module?.title || '-' }}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="end-date">
-                                        {{ quiz.course_module_class_id || '-' }}
+                                        {{ quiz.module_class?.title || '-' }}
                                     </div>
                                 </td>
                                 <td class="question-count">
-                                    {{ quiz.quiz_id || '-' }}
+                                    {{ quiz.quiz?.title || '-' }}
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">

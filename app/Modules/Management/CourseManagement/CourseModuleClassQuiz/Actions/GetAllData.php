@@ -18,12 +18,12 @@ class GetAllData
             $start_date = request()->input('start_date');
             $end_date = request()->input('end_date');
 
-            $with = [];
+            $with = ['course:id,title', 'milestone:id,title', 'module:id,title', 'module_class:id,title', 'quiz:id,title'];
 
             $condition = [];
 
             $data = self::$model::query();
-
+           
             if (request()->has('search') && request()->input('search')) {
                 $searchKey = request()->input('search');
                 $data = $data->where(function ($q) use ($searchKey) {
@@ -51,16 +51,17 @@ class GetAllData
                 $data = $data->trased();
             }
 
+
             if (request()->has('get_all') && (int)request()->input('get_all') === 1) {
                 $data = $data
                     ->with($with)
                     ->select($fields)
                     ->where($condition)
                     ->where('status', $status)
-                    ->where('course_id', $course_id)
                     ->limit($pageLimit)
                     ->orderBy($orderByColumn, $orderByType)
                     ->get();
+
                 return entityResponse($data);
             } else if ($status == 'trased') {
                 $data = $data
@@ -70,6 +71,8 @@ class GetAllData
                     ->orderBy($orderByColumn, $orderByType)
                     ->paginate($pageLimit);
             } else {
+
+
                 $data = $data
                     ->with($with)
                     ->select($fields)
