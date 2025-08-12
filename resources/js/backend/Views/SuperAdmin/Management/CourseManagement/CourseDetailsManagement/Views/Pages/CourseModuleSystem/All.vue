@@ -384,13 +384,11 @@ export default {
         },
 
         async remove_milestone(milestones, index) {
-            const confirmed = confirm('Are you sure you want to remove this milestone?');
+            const confirmed = confirm('Are you sure you want to remove this milestone? All modules and classes and quizzes under this milestone will also be deleted.');
             if (confirmed) {
-                if (milestones[index].id) {
+                if (milestones[index].slug) {
                     try {
-                        await axios.post(`/api/v1/course/course-milestones/destroy`, {
-                            id: milestones[index].id
-                        });
+                        await axios.post(`/course-milestones/destroy/${milestones[index].slug}`);
                     } catch (error) {
                         console.error('Error deleting milestone:', error);
                     }

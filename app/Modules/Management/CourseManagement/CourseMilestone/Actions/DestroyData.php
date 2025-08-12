@@ -13,6 +13,16 @@ class DestroyData
             if (!$data = self::$model::where('slug', $slug)->first()) {
                 return messageResponse('Data not found...', $data, 404, 'error');
             }
+
+            // Delete related modules
+            \App\Modules\Management\CourseManagement\CourseModule\Models\Model::where('milestone_id', $data->id)->forceDelete();
+
+            // Delete related classes
+            \App\Modules\Management\CourseManagement\CourseModuleClass\Models\Model::where('milestone_id', $data->id)->forceDelete();
+
+            // Delete related quiz assignments
+            \App\Modules\Management\CourseManagement\CourseModuleClassQuiz\Models\Model::where('milestone_id', $data->id)->forceDelete();
+
             $data->forceDelete();
             return messageResponse('Item Successfully deleted', [], 200, 'success');
         } catch (\Exception $e) {
