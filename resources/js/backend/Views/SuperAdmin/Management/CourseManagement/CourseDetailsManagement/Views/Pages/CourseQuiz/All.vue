@@ -57,11 +57,11 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <router-link
+                                        <!-- <router-link
                                             :to="{ name: 'CourseQuizDetails', params: { id: $route.params.id, slug: quiz.slug } }"
                                             class="btn btn-sm btn-outline-primary" title="View Details">
                                             <i class="fas fa-eye"></i>
-                                        </router-link>
+                                        </router-link> -->
                                         <router-link
                                             :to="{ name: 'CourseQuizEdit', params: { id: $route.params.id, slug: quiz.slug } }"
                                             class="btn btn-sm btn-outline-warning" title="Edit">
@@ -166,7 +166,7 @@ export default {
                 try {
                     const quizSlug = quiz.slug; // Use slug from the quiz data
                     console.log('Deleting class quiz with slug:', quizSlug);
-                    await axios.post(`course-class-quizzes/destroy/${quizSlug}`);
+                    await axios.post(`course-module-class-quizzes/destroy/${quizSlug}`);
                     window.s_alert('Class quiz deleted successfully!');
                     await this.getCourseClassQuizzes();
                 } catch (error) {
