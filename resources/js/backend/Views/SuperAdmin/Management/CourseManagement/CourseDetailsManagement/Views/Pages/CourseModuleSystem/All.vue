@@ -370,13 +370,11 @@ export default {
         },
 
         async remove_module(modules, index) {
-            const confirmed = confirm('Are you sure you want to remove this module?');
+            const confirmed = confirm('Are you sure you want to remove this module? All classes and quizzes under this module will also be deleted.');
             if (confirmed) {
-                if (modules[index].id) {
+                if (modules[index].slug) {
                     try {
-                        await axios.post(`/api/v1/course/course-modules/destroy`, {
-                            id: modules[index].id
-                        });
+                        await axios.post(`/course-modules/destroy/${modules[index].slug}`);
                     } catch (error) {
                         console.error('Error deleting module:', error);
                     }

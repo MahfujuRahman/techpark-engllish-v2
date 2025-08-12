@@ -9,10 +9,16 @@ class DestroyData
     public static function execute($slug)
     {
         try {
-
             if (!$data = self::$model::where('slug', $slug)->first()) {
                 return messageResponse('Data not found...', $data, 404, 'error');
             }
+
+            // Delete related classes
+            \App\Modules\Management\CourseManagement\CourseModuleClass\Models\Model::where('course_modules_id', $data->id)->forceDelete();
+
+            // Delete related quiz assignments
+            \App\Modules\Management\CourseManagement\CourseModuleClassQuiz\Models\Model::where('course_module_id', $data->id)->forceDelete();
+
             $data->forceDelete();
             return messageResponse('Item Successfully deleted', [], 200, 'success');
         } catch (\Exception $e) {
