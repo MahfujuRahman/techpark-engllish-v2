@@ -63,7 +63,7 @@ class UpdateData
                                     // Update the option
                                     $existingOption->update([
                                         'title' => $option['type'] === 'text' ? $option['value'] : $existingOption->title,
-                                        'is_correct' => $option['is_correct'] ?? false,
+                                        'is_correct' => ($option['is_correct'] === '1' || $option['is_correct'] === 1 || $option['is_correct'] === true) ? 1 : 0,
                                         'image' => $imageValue,
                                     ]);
                                 }
@@ -75,7 +75,7 @@ class UpdateData
                                 $newOption = $OptionModel::query()->create([
                                     'quiz_question_id' => $data->id,
                                     'title' => $option['type'] === 'text' ? $option['value'] : null,
-                                    'is_correct' => $option['is_correct'] ?? false,
+                                    'is_correct' => ($option['is_correct'] === '1' || $option['is_correct'] === 1 || $option['is_correct'] === true) ? 1 : 0,
                                     'image' => $imageValue,
                                 ]);
                                 $updatedOptionIds[] = $newOption->id;

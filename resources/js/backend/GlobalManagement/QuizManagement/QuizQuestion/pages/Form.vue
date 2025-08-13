@@ -111,13 +111,26 @@
                                 />
                                 <!-- Is Correct Selector -->
                                 <div class="ml-3">
+                                    <!-- Checkbox for multiple selection -->
                                     <input
-                                        :type="formData.is_multiple === '1' || formData.is_multiple === 1 || formData.is_multiple === true ? 'checkbox' : 'radio'"
-                                        :name="formData.is_multiple === '1' || formData.is_multiple === 1 || formData.is_multiple === true ? 'is_correct_option_' + idx : 'is_correct_option'"
+                                        v-if="formData.is_multiple === '1' || formData.is_multiple === 1 || formData.is_multiple === true"
+                                        type="checkbox"
+                                        :name="'is_correct_option_' + idx"
+                                        v-model="option.is_correct"
+                                        :id="'is_correct_option_' + idx"
+                                        @change="handleCorrectOptionChange(idx)"
+                                        @click="console.log('Clicked checkbox', idx, 'current value:', option.is_correct, 'will become:', !option.is_correct)"
+                                    />
+                                    <!-- Radio for single selection -->
+                                    <input
+                                        v-else
+                                        type="radio"
+                                        name="is_correct_option"
                                         v-model="option.is_correct"
                                         :value="true"
-                                        @change="setCorrectOption(idx)"
                                         :id="'is_correct_option_' + idx"
+                                        @change="handleCorrectOptionChange(idx)"
+                                        @click="console.log('Clicked radio', idx, 'current value:', option.is_correct, 'will become:', true)"
                                     />
                                     <label class="ml-1" :for="'is_correct_option_' + idx">Correct</label>
                                 </div>
@@ -235,7 +248,7 @@ import QuizQuestionTopicDropDownEl from "../../QuizQuestionTopic/components/drop
                             id: opt.id, // Include the ID for updates
                             type: opt.image ? "image" : "text",
                             value: opt.image ? opt.image : opt.title,
-                            is_correct: !!opt.is_correct,
+                            is_correct: opt.is_correct === 1 || opt.is_correct === "1" || opt.is_correct === true,
                             preview: opt.image ? opt.image : null
                         }))
                         : [
@@ -260,6 +273,9 @@ import QuizQuestionTopicDropDownEl from "../../QuizQuestionTopic/components/drop
             formData.append('session_year', this.formData.session_year);
             formData.append('quiz_question_topic_id', this.$refs.topicDropdown?.selected_ids || this.formData.quiz_question_topic_id);
 
+            // Debug log the options before FormData creation
+            console.log('Quiz Options before submission:', this.quizOptions);
+
             // Attach options
             this.quizOptions.forEach((opt, idx) => {
                 if (opt.id) {
@@ -274,13 +290,15 @@ import QuizQuestionTopicDropDownEl from "../../QuizQuestionTopic/components/drop
             });
 
             // Debug log
-            // for (let pair of formData.entries()) { console.log(pair[0]+ ': ' + pair[1]); }
+            for (let pair of formData.entries()) { console.log(pair[0]+ ': ' + pair[1]); }
 
             let response;
             if (this.param_id) {
                 response = await this.update(formData);
                 if ([200, 201].includes(response.status)) {
                     window.s_alert("Data successfully updated");
+                    // Reload the data to show current state
+                    await this.set_fields(this.param_id);
                     this.$router.push({ name: `Details${this.setup.route_prefix}` });
                 }
             } else {
@@ -301,6 +319,22 @@ import QuizQuestionTopicDropDownEl from "../../QuizQuestionTopic/components/drop
                 this.quizOptions.forEach(opt => opt.is_correct = false);
                 this.quizOptions[idx].is_correct = true;
             }
+        },
+        handleCorrectOptionChange(idx) {
+            console.log('handleCorrectOptionChange called for idx:', idx);
+            console.log('Current option state BEFORE:', this.quizOptions[idx]);
+            console.log('is_multiple value:', this.formData.is_multiple);
+            
+            // For single selection (radio buttons), ensure only one is selected
+            if (this.formData.is_multiple === '0' || this.formData.is_multiple === 0 || this.formData.is_multiple === false) {
+                this.setCorrectOption(idx);
+            }
+            
+            // Log the state after change
+            setTimeout(() => {
+                console.log('Current option state AFTER:', this.quizOptions[idx]);
+                console.log('All options state:', this.quizOptions.map((opt, i) => ({idx: i, is_correct: opt.is_correct})));
+            }, 0);
         },
         onImageChange(event, idx) {
             const file = event.target.files[0];

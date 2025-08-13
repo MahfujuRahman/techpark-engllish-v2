@@ -60,16 +60,16 @@
       ]" />
       <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`QuizManagement`" :menus="[
         {
-          route_name: `AllQuiz`,
-          title: `All Quiz`,
-          icon: `zmdi zmdi-dot-circle-alt`,
-        }, {
           route_name: `AllQuizQuestionTopic`,
           title: `Quiz Topic`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
           route_name: `AllQuizQuestion`,
           title: `Quiz Question`,
+          icon: `zmdi zmdi-dot-circle-alt`,
+        }, {
+          route_name: `AllQuiz`,
+          title: `All Quiz`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
           route_name: `AllQuizSubmissionResult`,
