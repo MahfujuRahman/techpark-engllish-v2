@@ -167,7 +167,7 @@
                             <span 
                                 :class="['badge', currentCourse.status === 'active' ? 'badge-success' : 'badge-danger']"
                             >
-                                {{ currentCourse.status === 'active' ? 'সক্রিয়' : 'নিষ্ক্রিয়' }}
+                                {{ currentCourse.status === 'active' ? 'active' : 'inactive' }}
                             </span>
                         </div>
                     </div>
@@ -188,7 +188,7 @@
                 <!-- Loading State -->
                 <div v-if="loading" class="loading-container">
                     <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">লোড হচ্ছে...</span>
+                        <span class="sr-only">loading...</span>
                     </div>
                 </div>
                 

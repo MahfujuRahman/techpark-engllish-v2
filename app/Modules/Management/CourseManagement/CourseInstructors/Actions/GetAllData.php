@@ -24,7 +24,7 @@ class GetAllData
             $start_date = request()->input('start_date');
             $end_date = request()->input('end_date');
 
-            $with = ['user_id'];
+            $with = [];
 
             $condition = [];
 
@@ -33,9 +33,7 @@ class GetAllData
             if (request()->has('search') && request()->input('search')) {
                 $searchKey = request()->input('search');
                 $data = $data->where(function ($q) use ($searchKey) {
-                    $q->where('user_id', 'like', '%' . $searchKey . '%');
-
-                    $q->orWhere('cover_photo', 'like', '%' . $searchKey . '%');
+                    $q->where('cover_photo', 'like', '%' . $searchKey . '%');
 
                     $q->orWhere('image', 'like', '%' . $searchKey . '%');
 
