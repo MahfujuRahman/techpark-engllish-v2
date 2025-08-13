@@ -20,6 +20,10 @@
             />
           </a>
         </template>
+         <template v-if="row_item === 'is_negative_marking'">
+          <span v-if="item[row_item] === 1 || item[row_item] === true">Yes</span>
+          <span v-else>No</span>
+        </template>
         <template v-else>
           {{ trim_content(item[row_item], row_item) }}
         </template>

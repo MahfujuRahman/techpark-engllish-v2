@@ -65,8 +65,7 @@ export default [
   {
     name: "negative_value",
     label: "Enter your negative value",
-    type: "number",
-    step: "0.01",
+    type: "text",
     value: "",
   },
   {

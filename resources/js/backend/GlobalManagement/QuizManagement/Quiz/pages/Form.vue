@@ -40,12 +40,13 @@
                             <common-input :label="form_field.label" :type="form_field.type" :name="form_field.name"
                                 :multiple="form_field.multiple" :value="form_field.value"
                                 :data_list="form_field.data_list" :is_visible="form_field.is_visible"
-                                :row_col_class="form_field.row_col_class" />
+                                :row_col_class="form_field.row_col_class" 
+                                />
 
                         </template>
 
                         <div class="col-12 mt-4">
-                            <h5>Quiz Questions 
+                            <h5>Quiz Questions
                                 <span v-if="filteredQuestions.data" class="badge badge-info">
                                     {{ filteredQuestions.data.length }} available
                                 </span>
@@ -57,43 +58,41 @@
                                 <button type="button" class="btn btn-sm btn-primary mb-2" @click="selectAllQuestions">
                                     Select All
                                 </button>
-                                <button type="button" class="btn btn-sm btn-secondary mb-2 ml-2" @click="deselectAllQuestions">
+                                <button type="button" class="btn btn-sm btn-secondary mb-2 ml-2"
+                                    @click="deselectAllQuestions">
                                     Deselect All
                                 </button>
                                 <ul style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
                                     <li v-for="question in filteredQuestions.data ? filteredQuestions.data : []"
-                                        :key="question.id" 
-                                        :style="{
-                                            listStyle: 'none', 
-                                            marginBottom: '8px', 
-                                            padding: '5px', 
+                                        :key="question.id" :style="{
+                                            listStyle: 'none',
+                                            marginBottom: '8px',
+                                            padding: '5px',
                                             borderBottom: '1px solid #eee',
                                             backgroundColor: selectedTopic && question.quiz_question_topic_id.id != selectedTopic ? '#111' : 'transparent',
                                             border: selectedTopic && question.quiz_question_topic_id.id != selectedTopic ? '1px solid #dee2e6' : 'none',
                                             borderRadius: selectedTopic && question.quiz_question_topic_id.id != selectedTopic ? '4px' : '0'
                                         }">
-                                        <input
-                                            type="checkbox"
-                                            :value="question.id"
-                                            v-model="selectedQuestions"
-                                            :id="'question-' + question.id"
-                                            class="mr-2"
-                                        />
+                                        <input type="checkbox" :value="question.id" v-model="selectedQuestions"
+                                            :id="'question-' + question.id" class="mr-2" />
                                         <label :for="'question-' + question.id" style="margin: 0; cursor: pointer;">
                                             <strong>{{ question.title }}</strong>
-                                            <span v-if="selectedTopic && question.quiz_question_topic_id.id != selectedTopic" 
-                                                  class="badge badge-info ml-2" style="font-size: 10px;">
+                                            <span
+                                                v-if="selectedTopic && question.quiz_question_topic_id.id != selectedTopic"
+                                                class="badge badge-info ml-2" style="font-size: 10px;">
                                                 From other topic
                                             </span>
                                             <br>
                                             <small class="text-muted">
-                                                Topic: {{ question.quiz_question_topic_id ? question.quiz_question_topic_id.title : 'N/A' }} | 
-                                                Level: {{ question.question_level || 'N/A' }} | 
+                                                Topic: {{ question.quiz_question_topic_id ?
+                                                question.quiz_question_topic_id.title : 'N/A' }} |
+                                                Level: {{ question.question_level || 'N/A' }} |
                                                 Mark: {{ question.mark || 0 }}
                                             </small>
                                         </label>
                                     </li>
-                                    <li v-if="!filteredQuestions.data || filteredQuestions.data.length === 0" class="text-center text-muted">
+                                    <li v-if="!filteredQuestions.data || filteredQuestions.data.length === 0"
+                                        class="text-center text-muted">
                                         No questions found
                                     </li>
                                 </ul>
@@ -138,6 +137,24 @@ export default {
             this.set_fields(id);
         }
     },
+    mounted() {
+        // Prevent non-numeric input for negative_value
+        this.$nextTick(() => {
+            const input = document.querySelector('input[name="negative_value"]');
+            if (input) {
+                input.addEventListener('input', function(e) {
+                    // Remove any non-digit characters (allow negative sign and decimal)
+                    let val = input.value;
+                    val = val.replace(/[^0-9.-]/g, '');
+                    // Only allow one negative sign at the start
+                    val = val.replace(/(?!^)-/g, '');
+                    // Only allow one decimal point
+                    val = val.replace(/(\..*)\./g, '$1');
+                    input.value = val;
+                });
+            }
+        });
+    },
     methods: {
         ...mapActions(store, {
             create: "create",
@@ -171,7 +188,7 @@ export default {
                     });
                 }
             });
-            
+
             // Create pagination-like structure to match existing code
             this.filteredQuestions = {
                 data: allQuestions,
@@ -181,7 +198,7 @@ export default {
         async fetchQuestions() {
             // Filter questions based on selected topic
             let filteredQuestions = [];
-            
+
             if (!this.selectedTopic) {
                 // Show all questions
                 this.topics.forEach(topic => {
@@ -223,7 +240,7 @@ export default {
                     }
                 });
             }
-            
+
             this.filteredQuestions = {
                 data: filteredQuestions,
                 total: filteredQuestions.length
@@ -274,11 +291,11 @@ export default {
 
             // Add hidden inputs for quiz questions to the form
             const form = $event.target;
-            
+
             // Remove any existing quiz_questions[] inputs
             const existingInputs = form.querySelectorAll('input[name="quiz_questions[]"]');
             existingInputs.forEach(input => input.remove());
-            
+
             // Add selected quiz questions as hidden inputs
             this.selectedQuestions.forEach(qid => {
                 const hiddenInput = document.createElement('input');
