@@ -2,9 +2,24 @@
 
 namespace App\Modules\Management\CourseManagement\Course\Actions;
 
+use App\Modules\Management\QuizManagement\Quiz\Actions\DestroyData as QuizDestroyData;
+
 class DestroyData
 {
     static $model = \App\Modules\Management\CourseManagement\Course\Models\Model::class;
+    static $milestoneModel = \App\Modules\Management\CourseManagement\CourseMilestone\Models\Model::class;
+    static $moduleModel = \App\Modules\Management\CourseManagement\CourseModule\Models\Model::class;
+    static $classModel = \App\Modules\Management\CourseManagement\CourseModuleClass\Models\Model::class;
+    static $quizModel = \App\Modules\Management\CourseManagement\CourseModuleClassQuiz\Models\Model::class;
+    static $batchModel = \App\Modules\Management\CourseManagement\CourseBatch\Models\Model::class;
+    static $batchStudentModel = \App\Modules\Management\CourseManagement\CourseBatchStudent\Models\Model::class;
+    static $courseInstructorModel = \App\Modules\Management\CourseManagement\CourseCourseInstructor\Models\Model::class;
+    static $faqModel = \App\Modules\Management\CourseManagement\CourseFaq\Models\Model::class;
+    static $forWhomModel = \App\Modules\Management\CourseManagement\CourseForWhom\Models\Model::class;
+    static $howIsStructuredModel = \App\Modules\Management\CourseManagement\CourseHowIsStructured\Models\Model::class;
+    static $classRoutineModel = \App\Modules\Management\CourseManagement\CourseModuleClassRoutine\Models\Model::class;
+    static $whyYouLearnFromUsModel = \App\Modules\Management\CourseManagement\CourseWhyYouLearnFromUs\Models\Model::class;
+    static $youWillLearnModel = \App\Modules\Management\CourseManagement\CourseYouWillLearn\Models\Model::class;
 
     public static function execute($slug)
     {
@@ -15,24 +30,32 @@ class DestroyData
             }
 
             if ($data->image) {
-                $imagePath = public_path( $data->image);
+                $imagePath = public_path($data->image);
 
                 if (file_exists($imagePath)) {
                     @unlink($imagePath);
                 }
             }
 
-            // Delete related milestones
-            \App\Modules\Management\CourseManagement\CourseMilestone\Models\Model::where('course_id', $data->id)->forceDelete();
-           
-            // Delete related modules
-            \App\Modules\Management\CourseManagement\CourseModule\Models\Model::where('course_id', $data->id)->forceDelete();
+            // Delete related course data
+            self::$milestoneModel::where('course_id', $data->id)->forceDelete();
+            self::$moduleModel::where('course_id', $data->id)->forceDelete();
+            self::$classModel::where('course_id', $data->id)->forceDelete();
+            self::$batchModel::where('course_id', $data->id)->forceDelete();
+            self::$batchStudentModel::where('course_id', $data->id)->forceDelete();
+            self::$courseInstructorModel::where('course_id', $data->id)->forceDelete();
+            self::$faqModel::where('course_id', $data->id)->forceDelete();
+            self::$forWhomModel::where('course_id', $data->id)->forceDelete();
+            self::$howIsStructuredModel::where('course_id', $data->id)->forceDelete();
+            self::$classRoutineModel::where('course_id', $data->id)->forceDelete();
+            self::$whyYouLearnFromUsModel::where('course_id', $data->id)->forceDelete();
+            self::$youWillLearnModel::where('course_id', $data->id)->forceDelete();
 
-            // Delete related classes
-            \App\Modules\Management\CourseManagement\CourseModuleClass\Models\Model::where('course_id', $data->id)->forceDelete();
-
-            // Delete related quiz assignments
-            \App\Modules\Management\CourseManagement\CourseModuleClassQuiz\Models\Model::where('course_id', $data->id)->forceDelete();
+            // Delete course related quizzes
+            $quizzes = self::$quizModel::where('course_id', $data->id)->get();
+            foreach ($quizzes as $quiz) {
+                QuizDestroyData::execute($quiz->slug);
+            }
 
             $data->forceDelete();
             return messageResponse('Item Successfully deleted', [], 200, 'success');
