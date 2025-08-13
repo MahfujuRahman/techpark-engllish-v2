@@ -127,8 +127,10 @@ export default {
           if (key === "title" && content.title) {
             return content.title;
           }
-          if (key === "name" && content.name) {
-            return content.name;
+          if (key === "first_name" && content.first_name) {
+            return content.first_name
+              ? `${content.first_name} ${content.last_name}`
+              : content.first_name;
           }
         }
       }

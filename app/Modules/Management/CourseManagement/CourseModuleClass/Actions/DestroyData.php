@@ -15,7 +15,7 @@ class DestroyData
 
             // Delete related quiz assignments
             \App\Modules\Management\CourseManagement\CourseModuleClassQuiz\Models\Model::where('course_module_class_id', $data->id)->forceDelete();
-
+            
             $data->forceDelete();
             return messageResponse('Item Successfully deleted', [], 200, 'success');
         } catch (\Exception $e) {
