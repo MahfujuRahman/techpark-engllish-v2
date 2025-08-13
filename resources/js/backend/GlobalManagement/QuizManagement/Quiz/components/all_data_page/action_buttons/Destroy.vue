@@ -24,7 +24,7 @@ export default {
             `set_item`,
         ]),
         destroy_data: async function(){
-            let con = await window.s_confirm('Permanently delete');
+            let con = await window.s_confirm('Permanently delete this item and all related data. Are you sure?');
             if(con){
                 this.set_item(this.item);
                 this.set_only_latest_data(true);
