@@ -5,10 +5,7 @@
                 <div class="card">
                     <div class="card-header py-2">
                         <h4 class="card-title">All Courses List 🚀</h4>
-                        <router-link 
-                            :to="{ name: 'CreateCourse' }" 
-                            class="btn btn-primary mb-2 float-right"
-                        >
+                        <router-link :to="{ name: 'CreateCourse' }" class="btn btn-primary mb-2 float-right">
                             <i class="fas fa-plus mr-1"></i>
                             <span>Create New Course</span>
                         </router-link>
@@ -28,14 +25,11 @@
                                 </thead>
                                 <tbody v-if="store.courses?.data?.length">
                                     <tr v-for="(course, index) in store.courses.data" :key="course.id">
-                                        <td>{{ ((store.courses.current_page - 1) * store.courses.per_page) + index + 1 }}</td>
+                                        <td>{{ ((store.courses.current_page - 1) * store.courses.per_page) + index + 1
+                                            }}</td>
                                         <td class="text-center">
-                                            <img 
-                                                v-if="course.image" 
-                                                :src="`/${course.image}`" 
-                                                alt="Course Image" 
-                                                style="height: 60px; width: 60px; object-fit: cover; border-radius: 8px;"
-                                            >
+                                            <img v-if="course.image" :src="`/${course.image}`" alt="Course Image"
+                                                style="height: 60px; width: 60px; object-fit: cover; border-radius: 8px;">
                                             <div v-else class="no-image">
                                                 <i class="fas fa-image"></i>
                                             </div>
@@ -43,33 +37,24 @@
                                         <td>{{ course.title || 'N/A' }}</td>
                                         <td>{{ course.course_category?.title || 'N/A' }}</td>
                                         <td>
-                                            <span 
-                                                :class="['badge', course.status === 'active' ? 'badge-success' : 'badge-danger']"
-                                            >
+                                            <span
+                                                :class="['badge', course.status === 'active' ? 'badge-success' : 'badge-danger']">
                                                 {{ course.status === 'active' ? 'active' : 'inactive' }}
                                             </span>
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <router-link 
-                                                    :to="{ name: 'CourseDetails', params: { id: course.slug } }" 
-                                                    class="btn btn-sm btn-outline-primary"
-                                                    title="Details"
-                                                >
+                                                <router-link
+                                                    :to="{ name: 'CourseDetails', params: { id: course.slug } }"
+                                                    class="btn btn-sm btn-outline-primary" title="Details">
                                                     <i class="fas fa-eye"></i>
                                                 </router-link>
-                                                <button 
-                                                    @click="editCourse(course)" 
-                                                    class="btn btn-sm btn-outline-warning ml-2"
-                                                    title="Edit"
-                                                >
+                                                <button @click="editCourse(course)"
+                                                    class="btn btn-sm btn-outline-warning ml-2" title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
-                                                <button 
-                                                    @click="deleteCourse(course)" 
-                                                    class="btn btn-sm btn-outline-danger ml-2"
-                                                    title="Delete"
-                                                >
+                                                <button @click="deleteCourse(course)"
+                                                    class="btn btn-sm btn-outline-danger ml-2" title="Delete">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </div>
@@ -85,7 +70,8 @@
                                                 </div>
                                                 <div class="no-data-text">
                                                     <h5>No Course Found</h5>
-                                                    <p>Click the "Create New Course" button above to add a new course.</p>
+                                                    <p>Click the "Create New Course" button above to add a new course.
+                                                    </p>
                                                 </div>
                                             </div>
                                         </td>
@@ -100,30 +86,21 @@
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item" :class="{ disabled: store.courses.current_page === 1 }">
-                                    <button 
-                                        class="page-link" 
-                                        @click="setPage(store.courses.current_page - 1)"
-                                        :disabled="store.courses.current_page === 1"
-                                    >
+                                    <button class="page-link" @click="setPage(store.courses.current_page - 1)"
+                                        :disabled="store.courses.current_page === 1">
                                         previous
                                     </button>
                                 </li>
-                                
-                                <li 
-                                    class="page-item" 
-                                    v-for="page in paginationRange" 
-                                    :key="page"
-                                    :class="{ active: page === store.courses.current_page }"
-                                >
+
+                                <li class="page-item" v-for="page in paginationRange" :key="page"
+                                    :class="{ active: page === store.courses.current_page }">
                                     <button class="page-link" @click="setPage(page)">{{ page }}</button>
                                 </li>
-                                
-                                <li class="page-item" :class="{ disabled: store.courses.current_page === store.courses.last_page }">
-                                    <button 
-                                        class="page-link" 
-                                        @click="setPage(store.courses.current_page + 1)"
-                                        :disabled="store.courses.current_page === store.courses.last_page"
-                                    >
+
+                                <li class="page-item"
+                                    :class="{ disabled: store.courses.current_page === store.courses.last_page }">
+                                    <button class="page-link" @click="setPage(store.courses.current_page + 1)"
+                                        :disabled="store.courses.current_page === store.courses.last_page">
                                         next
                                     </button>
                                 </li>
@@ -135,7 +112,8 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="per-page-selector">
                                 <label>Limit:</label>
-                                <select v-model="store.paginate" @change="setPaginate" class="form-control form-control-sm d-inline-block w-auto ml-1">
+                                <select v-model="store.paginate" @change="setPaginate"
+                                    class="form-control form-control-sm d-inline-block w-auto ml-1">
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
@@ -144,7 +122,8 @@
                             </div>
                             <div class="pagination-info">
                                 <span v-if="store.courses?.data?.length">
-                                    {{ store.courses.from }} - {{ store.courses.to }} of {{ store.courses.total }} results
+                                    {{ store.courses.from }} - {{ store.courses.to }} of {{ store.courses.total }}
+                                    results
                                 </span>
                             </div>
                         </div>
@@ -167,23 +146,23 @@ import { useCourseDetailsStore } from '../Store/courseDetailsStore.js';
 
 export default {
     name: 'AllCourse',
-    
+
     setup() {
         const store = useCourseDetailsStore();
         return { store };
     },
-    
+
     computed: {
         paginationRange() {
             if (!this.store.courses || !this.store.courses.last_page) return [];
-            
+
             const current = this.store.courses.current_page;
             const last = this.store.courses.last_page;
             const range = 3; // Show 3 pages on each side
-            
+
             let start = Math.max(1, current - range);
             let end = Math.min(last, current + range);
-            
+
             // Adjust if we're near the beginning or end
             if (end - start < range * 2) {
                 if (start === 1) {
@@ -192,7 +171,7 @@ export default {
                     start = Math.max(1, end - range * 2);
                 }
             }
-            
+
             const pages = [];
             for (let i = start; i <= end; i++) {
                 pages.push(i);
@@ -200,18 +179,19 @@ export default {
             return pages;
         }
     },
-    
+
     methods: {
         async editCourse(course) {
             // Navigate to edit route with course slug
             this.$router.push({ name: 'EditCourse', params: { id: course.slug } });
         },
-        
+
         async deleteCourse(course) {
-            if (await this.confirmAction('Are you sure you want to delete this course? Related milestones, modules, and classes will also be deleted.')) {
+            if (
+                await window.s_confirm('Are you sure you want to delete this course? Permanently delete this item and all related data.')) {
                 try {
                     await this.store.deleteCourse(course.slug);
-                    this.showSuccessMessage('Course deleted successfully! Related milestones, modules, and classes have also been deleted.');
+                    window.s_alert('Permanently deleted.');
                     await this.store.getCourses();
                 } catch (error) {
                     this.showErrorMessage('Error deleting course!');
@@ -259,7 +239,7 @@ export default {
             }
         }
     },
-    
+
     async mounted() {
         await this.store.getCourses();
     }
@@ -270,7 +250,8 @@ export default {
 .course-details-management {
     position: relative;
 }
-.card-header{
+
+.card-header {
     display: flex;
     justify-content: space-between;
 }
