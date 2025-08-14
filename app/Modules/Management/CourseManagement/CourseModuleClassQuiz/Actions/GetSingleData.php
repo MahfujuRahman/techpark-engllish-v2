@@ -23,7 +23,10 @@ class GetSingleData
             $assignments = self::$model::query()
                 ->with($with)
                 ->select($fields)
+                ->where('course_id', $firstRecord->course_id)
+                ->where('milestone_id', $firstRecord->milestone_id)
                 ->where('course_module_id', $firstRecord->course_module_id)
+                ->where('course_module_class_id', $firstRecord->course_module_class_id)
                 ->get();
                 
             return messageResponse('Data found', ['assignments' => $assignments], 200, 'success');

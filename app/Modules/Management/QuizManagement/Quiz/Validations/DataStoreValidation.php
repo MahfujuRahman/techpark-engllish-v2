@@ -50,7 +50,7 @@ class DataStoreValidation extends FormRequest
             'total_mark' => 'required | sometimes',
             'pass_mark' => 'required | sometimes',
             'is_negative_marking' => 'required | sometimes',
-            'negative_value' => 'required | sometimes',
+            'negative_value' => ' sometimes',
             'status' => ['sometimes', Rule::in(['active', 'inactive'])],
         ];
     }
