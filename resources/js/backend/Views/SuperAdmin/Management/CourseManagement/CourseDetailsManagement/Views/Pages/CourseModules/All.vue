@@ -31,13 +31,8 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <input 
-                                v-model="filters.search" 
-                                @input="applyFilters"
-                                type="text" 
-                                class="form-control" 
-                                placeholder="Search modules..."
-                            >
+                            <input v-model="filters.search" @input="applyFilters" type="text" class="form-control"
+                                placeholder="Search modules...">
                         </div>
                     </div>
                 </div>
@@ -62,33 +57,25 @@
                                     <small class="text-muted">
                                         Milestone: {{ module.milestone.title }} | Module #{{ module.module_no }}
                                     </small>
+
                                 </p>
+                                <small class="module-content" v-if="module.module_no">
+                                    <p class="module-description">Module Number: {{ module.module_no }}</p>
+                                </small>
                             </div>
                             <div class="module-actions">
-                                <span :class="'badge badge-' + (module.status === 'active' ? 'success' : 'secondary')">
+                                <span :class="'badge badge-' + (module.status === 'active' ? 'success' : 'danger')">
                                     {{ module.status }}
                                 </span>
                                 <div class="action-buttons ml-2">
                                     <button @click="editModule(module)" class="btn btn-outline-primary btn-sm">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button @click="deleteModule(module.id, index)" class="btn btn-outline-danger btn-sm ml-1">
+                                    <button @click="deleteModule(module.id, index)"
+                                        class="btn btn-outline-danger btn-sm ml-1">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="module-content" v-if="module.module_no">
-                            <p class="module-description">Module Number: {{ module.module_no }}</p>
-                        </div>
-                        <div class="module-stats">
-                            <div class="stat-item">
-                                <i class="fas fa-chalkboard-teacher"></i>
-                                <span>{{ module.classes_count || 0 }} Classes</span>
-                            </div>
-                            <div class="stat-item">
-                                <i class="fas fa-sort-numeric-up"></i>
-                                <span>Module #{{ module.module_no }}</span>
                             </div>
                         </div>
                     </div>
@@ -125,14 +112,11 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="milestone_id">Milestone *</label>
-                                        <select 
-                                            id="milestone_id"
-                                            v-model="currentModule.milestone_id"
-                                            class="form-control"
-                                            required
-                                        >
+                                        <select id="milestone_id" v-model="currentModule.milestone_id"
+                                            class="form-control" required>
                                             <option value="">Select Milestone</option>
-                                            <option v-for="milestone in milestones" :key="milestone.id" :value="milestone.id">
+                                            <option v-for="milestone in milestones" :key="milestone.id"
+                                                :value="milestone.id">
                                                 {{ milestone.title }}
                                             </option>
                                         </select>
@@ -141,36 +125,21 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="module_no">Module Number *</label>
-                                        <input 
-                                            type="number" 
-                                            id="module_no"
-                                            v-model="currentModule.module_no"
-                                            class="form-control"
-                                            min="1"
-                                            required
-                                        >
+                                        <input type="number" id="module_no" v-model="currentModule.module_no"
+                                            class="form-control" min="1" required>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="title">Module Title *</label>
-                                <input 
-                                    type="text" 
-                                    id="title"
-                                    v-model="currentModule.title"
-                                    class="form-control"
-                                    required
-                                >
+                                <input type="text" id="title" v-model="currentModule.title" class="form-control"
+                                    required>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="status">Status</label>
-                                <select 
-                                    id="status"
-                                    v-model="currentModule.status"
-                                    class="form-control"
-                                >
+                                <select id="status" v-model="currentModule.status" class="form-control">
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                 </select>
@@ -196,7 +165,7 @@ import { useCourseDetailsStore } from '../../../Store/courseDetailsStore.js';
 
 export default {
     name: 'CourseModulesAll',
-    
+
     data() {
         return {
             loading: false,
@@ -219,28 +188,28 @@ export default {
             }
         };
     },
-    
+
     computed: {
         ...mapState(useCourseDetailsStore, ['currentCourse']),
-        
+
         filteredModules() {
             let filtered = [...this.modules];
-            
+
             if (this.filters.milestone) {
                 filtered = filtered.filter(module => module.milestone_id == this.filters.milestone);
             }
-            
+
             if (this.filters.status) {
                 filtered = filtered.filter(module => module.status === this.filters.status);
             }
-            
+
             if (this.filters.search) {
                 const search = this.filters.search.toLowerCase();
-                filtered = filtered.filter(module => 
+                filtered = filtered.filter(module =>
                     module.title.toLowerCase().includes(search)
                 );
             }
-            
+
             return filtered.sort((a, b) => {
                 if (a.milestone_id !== b.milestone_id) {
                     return a.milestone_id - b.milestone_id;
@@ -249,21 +218,21 @@ export default {
             });
         }
     },
-    
+
     async created() {
         await this.loadData();
     },
-    
+
     methods: {
         ...mapActions(useCourseDetailsStore, ['getCourseDetails']),
-        
+
         async loadData() {
             await Promise.all([
                 this.loadModules(),
                 this.loadMilestones()
             ]);
         },
-        
+
         async loadModules() {
             this.loading = true;
             try {
@@ -278,7 +247,7 @@ export default {
                     console.error('Course ID not found');
                     return;
                 }
-                
+
                 const response = await axios.get(`course-modules?course_id=${courseId}&get_all=1`);
                 if (response.data && response.data.status === 'success') {
                     this.modules = response.data.data || [];
@@ -290,7 +259,7 @@ export default {
                 this.loading = false;
             }
         },
-        
+
         async loadMilestones() {
             try {
                 const courseSlug = this.$route.params.id;
@@ -304,7 +273,7 @@ export default {
                     console.error('Course ID not found');
                     return;
                 }
-                
+
                 const response = await axios.get(`course-milestones?course_id=${courseId}&get_all=1`);
                 if (response.data && response.data.status === 'success') {
                     this.milestones = response.data.data || [];
@@ -313,7 +282,7 @@ export default {
                 console.error('Error loading milestones:', error);
             }
         },
-        
+
         createNewModule() {
             this.isEditing = false;
             const store = useCourseDetailsStore();
@@ -326,19 +295,19 @@ export default {
             };
             this.showModal = true;
         },
-        
+
         editModule(module) {
             this.isEditing = true;
             this.currentModule = { ...module };
             this.showModal = true;
         },
-        
+
         async saveModule() {
             if (!this.currentModule.title.trim()) {
                 window.s_warning('Please enter a module title');
                 return;
             }
-            
+
             if (!this.currentModule.milestone_id) {
                 window.s_warning('Please select a milestone');
                 return;
@@ -348,7 +317,7 @@ export default {
                 window.s_warning('Please enter module number');
                 return;
             }
-            
+
             this.submitting = true;
             try {
                 const store = useCourseDetailsStore();
@@ -356,14 +325,14 @@ export default {
                     ...this.currentModule,
                     course_id: store.currentCourse?.id
                 };
-                
+
                 let response;
                 if (this.isEditing) {
                     response = await axios.post(`course-modules/update/${this.currentModule.slug}`, moduleData);
                 } else {
                     response = await axios.post('course-modules/store', moduleData);
                 }
-                
+
                 if (response.data && response.data.status === 'success') {
                     window.s_alert(this.isEditing ? 'Module updated successfully!' : 'Module created successfully!');
                     this.closeModal();
@@ -378,12 +347,12 @@ export default {
                 this.submitting = false;
             }
         },
-        
+
         async deleteModule(id, index) {
             if (!confirm('Are you sure you want to delete this module? This will also delete all classes in this module.')) {
                 return;
             }
-            
+
             try {
                 if (id) {
                     const module = this.modules[index];
@@ -396,7 +365,7 @@ export default {
                 window.s_error('Failed to delete module');
             }
         },
-        
+
         closeModal() {
             this.showModal = false;
             this.isEditing = false;
@@ -408,12 +377,12 @@ export default {
                 status: 'active'
             };
         },
-        
+
         applyFilters() {
             // Filters are automatically applied through computed property
         }
     },
-    
+
     mounted() {
         console.log('CourseModulesAll component mounted');
     },
@@ -496,10 +465,6 @@ export default {
     gap: 0.25rem;
 }
 
-.module-content {
-    margin-bottom: 1rem;
-}
-
 .module-description {
     color: #6c757d;
     margin: 0;
@@ -518,12 +483,12 @@ export default {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #6c757d;
+    color: #fff;
     font-size: 0.875rem;
 }
 
 .stat-item i {
-    color: #495057;
+    color: #fff;
 }
 
 .empty-state {
@@ -578,17 +543,17 @@ export default {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
-    
+
     .module-header {
         flex-direction: column;
         gap: 0.5rem;
     }
-    
+
     .module-actions {
         width: 100%;
         justify-content: space-between;
     }
-    
+
     .module-stats {
         flex-direction: column;
         gap: 0.5rem;

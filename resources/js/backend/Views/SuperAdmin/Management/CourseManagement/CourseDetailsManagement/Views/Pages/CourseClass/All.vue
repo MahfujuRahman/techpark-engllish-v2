@@ -12,6 +12,32 @@
                 </button>
             </div>
             <div class="card-body">
+
+                <!-- Filter Controls -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="filter-milestone">Filter by Milestone</label>
+                        <select id="filter-milestone" v-model="selectedMilestoneId" class="form-control">
+                            <option value="">All Milestones</option>
+                            <option v-for="milestone in milestones" :key="milestone.id" :value="milestone.id">
+                                {{ milestone.title }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="filter-module">Filter by Module</label>
+                        <select id="filter-module" v-model="selectedModuleId" class="form-control"
+                            :disabled="!selectedMilestoneId">
+                            <option value="">All Modules</option>
+                            <option
+                                v-for="module in modules.filter(m => String(m.milestone_id) === String(selectedMilestoneId))"
+                                :key="module.id" :value="module.id">
+                                {{ module.title }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
                 <!-- Loading State -->
                 <div v-if="loading" class="text-center py-4">
                     <div class="spinner-border text-primary" role="status">
@@ -20,8 +46,8 @@
                 </div>
 
                 <!-- Classes List -->
-                <div v-else-if="classes.length > 0" class="classes-list">
-                    <div v-for="(classItem, index) in classes" :key="classItem.id || index" class="class-item">
+                <div v-else-if="filteredClasses.length > 0" class="classes-list">
+                    <div v-for="(classItem, index) in filteredClasses" :key="classItem.id || index" class="class-item">
                         <div class="class-header">
                             <div class="class-info">
                                 <div class="class-video">
@@ -39,7 +65,8 @@
                                     <h6 class="class-title">{{ classItem.title }}</h6>
                                     <p class="class-meta">
                                         <span class="class-type" :class="'type-' + classItem.type">
-                                            <i :class="classItem.type === 'live' ? 'fas fa-broadcast-tower' : 'fas fa-video'"></i>
+                                            <i
+                                                :class="classItem.type === 'live' ? 'fas fa-broadcast-tower' : 'fas fa-video'"></i>
                                             {{ classItem.type }}
                                         </span>
                                         <span class="class-duration" v-if="classItem.duration">
@@ -50,7 +77,8 @@
                                     <p class="class-module" v-if="classItem.module">
                                         <small class="text-muted">
                                             Module: {{ classItem.module.title }}
-                                            <span v-if="classItem.milestone"> | Milestone: {{ classItem.milestone.title }}</span>
+                                            <span v-if="classItem.milestone"> | Milestone: {{ classItem.milestone.title
+                                            }}</span>
                                         </small>
                                     </p>
                                     <p class="class-number" v-if="classItem.class_no">
@@ -61,13 +89,14 @@
                                 </div>
                             </div>
                             <div class="class-actions">
-                                <span :class="'badge badge-' + (classItem.status === 'active' ? 'success' : 'secondary')">
+                                <span :class="'badge badge-' + (classItem.status === 'active' ? 'success' : 'danger')">
                                     {{ classItem.status }}
                                 </span>
                                 <button @click="editClass(classItem)" class="btn btn-outline-primary btn-sm ml-2">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button @click="deleteClass(classItem.id, index)" class="btn btn-outline-danger btn-sm ml-1">
+                                <button @click="deleteClass(classItem.id, index)"
+                                    class="btn btn-outline-danger btn-sm ml-1">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -106,15 +135,11 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="milestone_id">Milestone *</label>
-                                        <select 
-                                            id="milestone_id"
-                                            v-model="currentClass.milestone_id"
-                                            @change="filterModulesByMilestone"
-                                            class="form-control"
-                                            required
-                                        >
+                                        <select id="milestone_id" v-model="currentClass.milestone_id"
+                                            @change="filterModulesByMilestone" class="form-control" required>
                                             <option value="">Select Milestone</option>
-                                            <option v-for="milestone in milestones" :key="milestone.id" :value="milestone.id">
+                                            <option v-for="milestone in milestones" :key="milestone.id"
+                                                :value="milestone.id">
                                                 {{ milestone.title }}
                                             </option>
                                         </select>
@@ -123,42 +148,29 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="course_modules_id">Module *</label>
-                                        <select 
-                                            id="course_modules_id"
-                                            v-model="currentClass.course_modules_id"
-                                            class="form-control"
-                                            required
-                                            :disabled="!currentClass.milestone_id"
-                                        >
+                                        <select id="course_modules_id" v-model="currentClass.course_modules_id"
+                                            class="form-control" required :disabled="!currentClass.milestone_id">
                                             <option value="">Select Module</option>
-                                            <option v-for="module in filteredModules" :key="module.id" :value="module.id">
+                                            <option v-for="module in filteredModules" :key="module.id"
+                                                :value="module.id">
                                                 {{ module.title }}
                                             </option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="title">Class Title *</label>
-                                <input 
-                                    type="text" 
-                                    id="title"
-                                    v-model="currentClass.title"
-                                    class="form-control"
-                                    required
-                                >
+                                <input type="text" id="title" v-model="currentClass.title" class="form-control"
+                                    required>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="type">Class Type</label>
-                                        <select 
-                                            id="type"
-                                            v-model="currentClass.type"
-                                            class="form-control"
-                                        >
+                                        <select id="type" v-model="currentClass.type" class="form-control">
                                             <option value="live">Live</option>
                                             <option value="recorded">Recorded</option>
                                         </select>
@@ -167,38 +179,24 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="class_no">Class Number</label>
-                                        <input 
-                                            type="text" 
-                                            id="class_no"
-                                            v-model="currentClass.class_no"
-                                            class="form-control"
-                                        >
+                                        <input type="text" id="class_no" v-model="currentClass.class_no"
+                                            class="form-control">
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="class_video_link">Video Link</label>
-                                <input 
-                                    type="url" 
-                                    id="class_video_link"
-                                    v-model="currentClass.class_video_link"
-                                    class="form-control"
-                                    placeholder="https://..."
-                                >
+                                <input type="url" id="class_video_link" v-model="currentClass.class_video_link"
+                                    class="form-control" placeholder="https://...">
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="class_video_poster">Video Poster Image</label>
-                                        <input 
-                                            type="file" 
-                                            id="class_video_poster"
-                                            @change="handlePosterUpload"
-                                            class="form-control"
-                                            accept="image/*"
-                                        >
+                                        <input type="file" id="class_video_poster" @change="handlePosterUpload"
+                                            class="form-control" accept="image/*">
                                         <small class="text-muted" v-if="currentClass.class_video_poster">
                                             Current: {{ currentClass.class_video_poster }}
                                         </small>
@@ -207,11 +205,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="status">Status</label>
-                                        <select 
-                                            id="status"
-                                            v-model="currentClass.status"
-                                            class="form-control"
-                                        >
+                                        <select id="status" v-model="currentClass.status" class="form-control">
                                             <option value="active">Active</option>
                                             <option value="inactive">Inactive</option>
                                         </select>
@@ -239,18 +233,26 @@ import { useCourseDetailsStore } from '../../../Store/courseDetailsStore.js';
 
 export default {
     name: 'CourseClassAll',
-    
+
     computed: {
         ...mapState(useCourseDetailsStore, ['currentCourse']),
-        
+
         filteredModules() {
             if (!this.currentClass.milestone_id) {
                 return [];
             }
             return this.modules.filter(module => module.milestone_id == this.currentClass.milestone_id);
+        },
+
+        filteredClasses() {
+            return this.classes.filter(classItem => {
+                const milestoneMatch = this.selectedMilestoneId ? String(classItem.milestone_id) === String(this.selectedMilestoneId) : true;
+                const moduleMatch = this.selectedModuleId ? String(classItem.course_modules_id) === String(this.selectedModuleId) : true;
+                return milestoneMatch && moduleMatch;
+            });
         }
     },
-    
+
     data() {
         return {
             loading: false,
@@ -261,6 +263,8 @@ export default {
             isEditing: false,
             submitting: false,
             selectedPosterFile: null,
+            selectedMilestoneId: '',
+            selectedModuleId: '',
             currentClass: {
                 course_id: '',
                 milestone_id: '',
@@ -274,14 +278,14 @@ export default {
             }
         };
     },
-    
+
     async created() {
         await this.loadData();
     },
-    
+
     methods: {
         ...mapActions(useCourseDetailsStore, ['getCourseDetails']),
-        
+
         async loadData() {
             await Promise.all([
                 this.loadClasses(),
@@ -289,7 +293,7 @@ export default {
                 this.loadMilestones()
             ]);
         },
-        
+
         async loadClasses() {
             this.loading = true;
             try {
@@ -304,7 +308,7 @@ export default {
                     console.error('Course ID not found');
                     return;
                 }
-                
+
                 const response = await axios.get(`course-module-classes?course_id=${courseId}&get_all=1`);
                 if (response.data && response.data.status === 'success') {
                     this.classes = response.data.data || [];
@@ -316,7 +320,7 @@ export default {
                 this.loading = false;
             }
         },
-        
+
         async loadModules() {
             try {
                 const courseSlug = this.$route.params.id;
@@ -330,7 +334,7 @@ export default {
                     console.error('Course ID not found');
                     return;
                 }
-                
+
                 const response = await axios.get(`course-modules?course_id=${courseId}&get_all=1`);
                 if (response.data && response.data.status === 'success') {
                     this.modules = response.data.data || [];
@@ -339,7 +343,7 @@ export default {
                 console.error('Error loading modules:', error);
             }
         },
-        
+
         async loadMilestones() {
             try {
                 const courseSlug = this.$route.params.id;
@@ -353,7 +357,7 @@ export default {
                     console.error('Course ID not found');
                     return;
                 }
-                
+
                 const response = await axios.get(`course-milestones?course_id=${courseId}&get_all=1`);
                 if (response.data && response.data.status === 'success') {
                     this.milestones = response.data.data || [];
@@ -362,12 +366,12 @@ export default {
                 console.error('Error loading milestones:', error);
             }
         },
-        
+
         filterModulesByMilestone() {
             // Reset module selection when milestone changes
             this.currentClass.course_modules_id = '';
         },
-        
+
         handlePosterUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -376,7 +380,7 @@ export default {
                 console.log('Selected poster file:', file.name);
             }
         },
-        
+
         createNewClass() {
             this.isEditing = false;
             this.selectedPosterFile = null;
@@ -394,28 +398,28 @@ export default {
             };
             this.showModal = true;
         },
-        
+
         editClass(classItem) {
             this.isEditing = true;
             this.currentClass = { ...classItem };
             this.showModal = true;
         },
-        
+
         async saveClass() {
             if (!this.currentClass.title.trim()) {
                 window.s_warning('Please enter a title');
                 return;
             }
-            
+
             if (!this.currentClass.course_modules_id) {
                 window.s_warning('Please select a module');
                 return;
             }
-            
+
             this.submitting = true;
             try {
                 const store = useCourseDetailsStore();
-                
+
                 // Create FormData for file upload
                 const formData = new FormData();
                 formData.append('course_id', store.currentCourse?.id || '');
@@ -426,14 +430,14 @@ export default {
                 formData.append('type', this.currentClass.type || '');
                 formData.append('class_video_link', this.currentClass.class_video_link || '');
                 formData.append('status', this.currentClass.status || '');
-                
+
                 // Add the poster file if selected
                 if (this.selectedPosterFile) {
                     formData.append('class_video_poster', this.selectedPosterFile);
                 } else if (this.currentClass.class_video_poster && this.isEditing) {
                     formData.append('existing_poster', this.currentClass.class_video_poster);
                 }
-                
+
                 let response;
                 if (this.isEditing) {
                     response = await axios.post(`course-module-classes/update/${this.currentClass.slug}`, formData, {
@@ -448,7 +452,7 @@ export default {
                         }
                     });
                 }
-                
+
                 if (response.data && response.data.status === 'success') {
                     window.s_alert(this.isEditing ? 'Class updated successfully!' : 'Class created successfully!');
                     this.closeModal();
@@ -463,12 +467,12 @@ export default {
                 this.submitting = false;
             }
         },
-        
+
         async deleteClass(id, index) {
             if (!confirm('Are you sure you want to delete this class?')) {
                 return;
             }
-            
+
             try {
                 if (id) {
                     const classItem = this.classes[index];
@@ -481,7 +485,7 @@ export default {
                 window.s_error('Failed to delete class');
             }
         },
-        
+
         closeModal() {
             this.showModal = false;
             this.isEditing = false;
@@ -497,7 +501,7 @@ export default {
                 class_video_poster: '',
                 status: 'active'
             };
-            
+
             // Reset file input
             const fileInput = document.getElementById('class_video_poster');
             if (fileInput) {
@@ -683,11 +687,11 @@ export default {
         flex-direction: column;
         gap: 1rem;
     }
-    
+
     .class-info {
         flex-direction: column;
     }
-    
+
     .class-actions {
         width: 100%;
         justify-content: space-between;

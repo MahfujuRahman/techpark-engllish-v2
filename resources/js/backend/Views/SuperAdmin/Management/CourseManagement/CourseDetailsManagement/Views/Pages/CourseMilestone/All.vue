@@ -27,29 +27,23 @@
                                 <span class="milestone-number">{{ milestone.milestone_no || index + 1 }}</span>
                                 <div class="milestone-details">
                                     <h6 class="milestone-title">{{ milestone.title }}</h6>
-                                    <p class="milestone-description">
-                                        Milestone {{ milestone.milestone_no || index + 1 }} of the course
-                                    </p>
+                                    <small class="text-muted">
+                                        Milestone No: {{ milestone.milestone_no || index + 1 }}
+                                    </small>
                                 </div>
                             </div>
                             <div class="milestone-actions">
-                                <span :class="'badge badge-' + (milestone.status === 'active' ? 'success' : 'secondary')">
+                                <span :class="'badge badge-' + (milestone.status === 'active' ? 'success' : 'danger')">
                                     {{ milestone.status }}
                                 </span>
                                 <button @click="editMilestone(milestone)" class="btn btn-outline-primary btn-sm ml-2">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button @click="deleteMilestone(milestone.id, index)" class="btn btn-outline-danger btn-sm ml-1">
+                                <button @click="deleteMilestone(milestone.id, index)"
+                                    class="btn btn-outline-danger btn-sm ml-1">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
-                        </div>
-                        <div class="milestone-meta">
-                            <small class="text-muted">
-                                Milestone No: {{ milestone.milestone_no || index + 1 }} | 
-                                Status: {{ milestone.status }}
-                                <span v-if="milestone.created_at"> | Created: {{ formatDate(milestone.created_at) }}</span>
-                            </small>
                         </div>
                     </div>
                 </div>
@@ -83,39 +77,22 @@
                         <form @submit.prevent="saveMilestone">
                             <div class="form-group">
                                 <label for="title">Milestone Title *</label>
-                                <input 
-                                    type="text" 
-                                    id="title"
-                                    v-model="currentMilestone.title"
-                                    class="form-control"
-                                    placeholder="Enter milestone title"
-                                    required
-                                >
+                                <input type="text" id="title" v-model="currentMilestone.title" class="form-control"
+                                    placeholder="Enter milestone title" required>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="milestone_no">Milestone Number *</label>
-                                        <input 
-                                            type="number" 
-                                            id="milestone_no"
-                                            v-model="currentMilestone.milestone_no"
-                                            class="form-control"
-                                            placeholder="Enter milestone number"
-                                            min="1"
-                                            required
-                                        >
+                                        <input type="number" id="milestone_no" v-model="currentMilestone.milestone_no"
+                                            class="form-control" placeholder="Enter milestone number" min="1" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="status">Status</label>
-                                        <select 
-                                            id="status"
-                                            v-model="currentMilestone.status"
-                                            class="form-control"
-                                        >
+                                        <select id="status" v-model="currentMilestone.status" class="form-control">
                                             <option value="active">Active</option>
                                             <option value="inactive">Inactive</option>
                                         </select>
@@ -143,11 +120,11 @@ import { useCourseDetailsStore } from '../../../Store/courseDetailsStore.js';
 
 export default {
     name: 'CourseMilestoneAll',
-    
+
     computed: {
         ...mapState(useCourseDetailsStore, ['currentCourse']),
     },
-    
+
     data() {
         return {
             loading: false,
@@ -162,14 +139,14 @@ export default {
             }
         };
     },
-    
+
     async created() {
         await this.loadMilestones();
     },
-    
+
     methods: {
         ...mapActions(useCourseDetailsStore, ['getCourseDetails']),
-        
+
         async loadMilestones() {
             this.loading = true;
             try {
@@ -188,7 +165,7 @@ export default {
                 console.log('Fetching milestones for course ID:', courseId);
                 const response = await axios.get(`course-milestones?course_id=${courseId}`);
                 console.log('Milestones response:', response.data);
-                
+
                 if (response.data && response.data.status === 'success') {
                     this.milestones = response.data.data?.data || [];
                     console.log('Loaded milestones:', this.milestones);
@@ -203,7 +180,7 @@ export default {
                 this.loading = false;
             }
         },
-        
+
         createNewMilestone() {
             this.isEditing = false;
             this.currentMilestone = {
@@ -213,24 +190,24 @@ export default {
             };
             this.showModal = true;
         },
-        
+
         editMilestone(milestone) {
             this.isEditing = true;
             this.currentMilestone = { ...milestone };
             this.showModal = true;
         },
-        
+
         async saveMilestone() {
             if (!this.currentMilestone.title.trim()) {
                 window.s_warning('Please enter a milestone title');
                 return;
             }
-            
+
             if (!this.currentMilestone.milestone_no) {
                 window.s_warning('Please enter a milestone number');
                 return;
             }
-            
+
             this.submitting = true;
             try {
                 const courseId = this.currentCourse?.id;
@@ -243,16 +220,16 @@ export default {
                     ...this.currentMilestone,
                     course_id: courseId
                 };
-                
+
                 console.log('Saving milestone data:', milestoneData);
-                
+
                 let response;
                 if (this.isEditing) {
                     response = await axios.post(`course-milestones/update/${this.currentMilestone.slug}`, milestoneData);
                 } else {
                     response = await axios.post('course-milestones/store', milestoneData);
                 }
-                
+
                 console.log('Save response:', response.data);
                 if (response.data && response.data.status === 'success') {
                     window.s_alert(this.isEditing ? 'Milestone updated successfully!' : 'Milestone created successfully!');
@@ -268,12 +245,12 @@ export default {
                 this.submitting = false;
             }
         },
-        
+
         async deleteMilestone(id, index) {
             if (!confirm('Are you sure you want to delete this milestone?')) {
                 return;
             }
-            
+
             try {
                 if (id) {
                     const milestone = this.milestones[index];
@@ -286,7 +263,7 @@ export default {
                 window.s_error('Failed to delete milestone');
             }
         },
-        
+
         closeModal() {
             this.showModal = false;
             this.isEditing = false;
@@ -439,7 +416,7 @@ export default {
         flex-direction: column;
         gap: 1rem;
     }
-    
+
     .milestone-actions {
         width: 100%;
         justify-content: space-between;

@@ -46,12 +46,10 @@ import CourseTrainerCreate from '../Views/Pages/CourseTrainer/Create.vue';
 // Course Milestones
 import CourseMilestoneLayout from '../Views/Pages/CourseMilestone/Layout.vue';
 import CourseMilestoneAll from '../Views/Pages/CourseMilestone/All.vue';
-import CourseMilestoneCreate from '../Views/Pages/CourseMilestone/Create.vue';
 
 // Course Module Classes
 import CourseClassLayout from '../Views/Pages/CourseClass/Layout.vue';
 import CourseClassAll from '../Views/Pages/CourseClass/All.vue';
-import CourseClassCreate from '../Views/Pages/CourseClass/Create.vue';
 
 // Course Modules (Individual Module Management)
 import CourseModulesAll from '../Views/Pages/CourseModules/All.vue';
@@ -337,11 +335,6 @@ export default [
                                 name: 'CourseMilestoneAll',
                                 component: CourseMilestoneAll,
                             },
-                            {
-                                path: 'create',
-                                name: 'CourseMilestoneCreate',
-                                component: CourseMilestoneCreate,
-                            },
                         ]
                     },
 
@@ -359,11 +352,6 @@ export default [
                                 path: 'all',
                                 name: 'CourseClassAll',
                                 component: CourseClassAll,
-                            },
-                            {
-                                path: 'create',
-                                name: 'CourseClassCreate',
-                                component: CourseClassCreate,
                             },
                         ]
                     },
