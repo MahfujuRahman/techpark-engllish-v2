@@ -8,9 +8,10 @@
     </td>
     <template v-for="(row_item, index) in setup.table_row_data" :key="index">
       <td v-if="row_item == 'id'">
-       {{ (current_page - 1) * per_page + dataindex + 1 }}
+        {{ (current_page - 1) * per_page + dataindex + 1 }}
       </td>
-      <td v-else-if="row_item === 'image' || isImageFile(item[row_item])" class="text-wrap max-w-120">
+      <td v-else-if="row_item === 'image' || row_item === 'cover_photo' || isImageFile(item[row_item])"
+        class="text-wrap max-w-120">
         <a :href="item[row_item] || '/avatar.png'" data-fancybox="gallery" :data-caption="`Image ${dataindex + 1}`">
           <img :src="item[row_item] || '/avatar.png'" @error="handleImageError($event)"
             style="width: 40px; height: 40px; object-fit: cover" alt="image" />
