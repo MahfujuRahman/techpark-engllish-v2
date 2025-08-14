@@ -37,7 +37,6 @@
                         >
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
-                            <option value="draft">Draft</option>
                         </select>
                         <div v-if="errors.status" class="invalid-feedback">
                             {{ errors.status }}

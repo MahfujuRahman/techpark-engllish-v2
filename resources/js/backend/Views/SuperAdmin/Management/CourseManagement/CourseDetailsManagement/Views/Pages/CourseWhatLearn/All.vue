@@ -195,7 +195,6 @@ export default {
             const labels = {
                 'active': 'Active',
                 'inactive': 'Inactive',
-                'draft': 'Draft'
             };
             return labels[status] || 'Unknown';
         },
@@ -203,8 +202,7 @@ export default {
         getStatusClass(status) {
             const classes = {
                 'active': 'badge badge-success',
-                'inactive': 'badge badge-secondary',
-                'draft': 'badge badge-warning'
+                'inactive': 'badge badge-danger',
             };
             return classes[status] || 'badge badge-light';
         },

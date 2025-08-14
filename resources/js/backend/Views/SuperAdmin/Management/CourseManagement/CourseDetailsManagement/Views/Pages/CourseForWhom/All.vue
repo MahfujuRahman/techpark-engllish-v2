@@ -194,7 +194,7 @@ export default {
         getStatusClass(status) {
             return {
                 'badge badge-success': status === 'active',
-                'badge badge-secondary': status === 'inactive',
+                'badge badge-danger': status === 'inactive',
             };
         },
         

@@ -51,7 +51,7 @@ class GetAllData
                     ->with($with)
                     ->select($fields)
                     ->where($condition)
-                    ->where('status', $status)
+                    // ->where('status', $status)
                     ->limit($pageLimit)
                     ->orderBy($orderByColumn, $orderByType)
                     ->get();
@@ -68,7 +68,7 @@ class GetAllData
                     ->with($with)
                     ->select($fields)
                     ->where($condition)
-                    ->where('status', $status)
+                    // ->where('status', $status)
                     ->orderBy($orderByColumn, $orderByType)
                     ->paginate($pageLimit);
             }
