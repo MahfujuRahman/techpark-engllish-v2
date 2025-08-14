@@ -10,18 +10,14 @@
                         </h5>
                     </div>
                     <div class="col-auto">
-                        <button 
-                            class="btn btn-primary btn-sm" 
-                            @click="openCreateModal"
-                            :disabled="!course_id"
-                        >
+                        <button class="btn btn-primary btn-sm" @click="openCreateModal" :disabled="!course_id">
                             <i class="fas fa-plus mr-1"></i>
                             Add New Instructor
                         </button>
                         <!-- Debug info -->
                         <small class="text-muted ml-2" v-if="!course_id">
-                            Course ID: {{ course_id || 'Not found' }} | 
-                            Store Course: {{ currentCourse?.id || 'None' }} | 
+                            Course ID: {{ course_id || 'Not found' }} |
+                            Store Course: {{ currentCourse?.id || 'None' }} |
                             Route: {{ $route.params.id || 'None' }}
                         </small>
                     </div>
@@ -52,13 +48,8 @@
                         <div class="col-md-4">
                             <label class="form-label">Search</label>
                             <div class="input-group">
-                                <input 
-                                    v-model="searchTerm" 
-                                    type="text" 
-                                    class="form-control" 
-                                    placeholder="Instructor or course name..."
-                                    @input="debounceSearch"
-                                >
+                                <input v-model="searchTerm" type="text" class="form-control"
+                                    placeholder="Instructor or course name..." @input="debounceSearch">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="fas fa-search"></i>
@@ -96,12 +87,9 @@
                                     <i class="fas fa-user-tie"></i>
                                 </div>
                                 <div class="instructor-details">
-                                    <h6 class="instructor-name">{{ instructor.instructor?.full_name || instructor.instructor?.name || 'N/A' }}</h6>
+                                    <h6 class="instructor-name">{{ instructor.instructor?.full_name ||
+                                        instructor.instructor?.name || 'N/A' }}</h6>
                                     <div class="instructor-meta">
-                                        <span class="instructor-email">
-                                            <i class="fas fa-envelope"></i>
-                                            {{ instructor.instructor?.email || 'N/A' }}
-                                        </span>
                                         <span class="instructor-batch">
                                             <i class="fas fa-layer-group"></i>
                                             {{ instructor.batch?.batch_name || instructor.batch?.title || 'N/A' }}
@@ -120,49 +108,32 @@
                                 </div>
                             </div>
                             <div class="instructor-actions">
-                                <span 
-                                    :class="['badge', getBadgeClass(instructor.status)]"
-                                >
+                                <span :class="['badge', getBadgeClass(instructor.status)]">
                                     {{ getStatusText(instructor.status) }}
                                 </span>
                                 <div class="action-buttons">
-                                    <button 
-                                        class="btn btn-outline-success btn-sm" 
-                                        @click="toggleStatus(instructor)"
+                                    <button class="btn btn-outline-success btn-sm" @click="toggleStatus(instructor)"
                                         :title="instructor.status === 'active' ? 'Deactivate' : 'Activate'"
-                                        :disabled="statusToggling === instructor.slug"
-                                    >
+                                        :disabled="statusToggling === instructor.slug">
                                         <i class="fas fa-spinner fa-spin" v-if="statusToggling === instructor.slug"></i>
-                                        <i v-else :class="instructor.status === 'active' ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                                        <i v-else
+                                            :class="instructor.status === 'active' ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
                                     </button>
-                                    <button 
-                                        class="btn btn-outline-primary btn-sm" 
-                                        @click="editInstructor(instructor)"
-                                        :title="'Edit'"
-                                    >
+                                    <button class="btn btn-outline-primary btn-sm" @click="editInstructor(instructor)"
+                                        :title="'Edit'">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button 
-                                        class="btn btn-outline-info btn-sm" 
-                                        @click="viewInstructor(instructor)"
-                                        :title="'View Details'"
-                                    >
+                                    <button class="btn btn-outline-info btn-sm" @click="viewInstructor(instructor)"
+                                        :title="'View Details'">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                    <button 
-                                        class="btn btn-outline-danger btn-sm" 
-                                        @click="removeInstructor(instructor)"
-                                        :title="'Delete'"
-                                    >
+                                    <button class="btn btn-outline-danger btn-sm" @click="removeInstructor(instructor)"
+                                        :title="'Delete'">
                                         <i class="fas fa-trash"></i>
                                     </button>
-                                    <button 
-                                        v-if="instructor.deleted_at"
-                                        class="btn btn-outline-warning btn-sm" 
-                                        @click="restoreInstructor(instructor)"
-                                        :title="'Restore'"
-                                        :disabled="restoring === instructor.slug"
-                                    >
+                                    <button v-if="instructor.deleted_at" class="btn btn-outline-warning btn-sm"
+                                        @click="restoreInstructor(instructor)" :title="'Restore'"
+                                        :disabled="restoring === instructor.slug">
                                         <i class="fas fa-spinner fa-spin" v-if="restoring === instructor.slug"></i>
                                         <i v-else class="fas fa-undo"></i>
                                     </button>
@@ -176,20 +147,19 @@
                         <nav>
                             <ul class="pagination justify-content-center">
                                 <li class="page-item" :class="{ disabled: pagination.current_page === 1 }">
-                                    <button class="page-link" @click="changePage(pagination.current_page - 1)" :disabled="pagination.current_page === 1">
+                                    <button class="page-link" @click="changePage(pagination.current_page - 1)"
+                                        :disabled="pagination.current_page === 1">
                                         <i class="fas fa-chevron-left"></i>
                                     </button>
                                 </li>
-                                <li 
-                                    v-for="page in getVisiblePages()" 
-                                    :key="page" 
-                                    class="page-item" 
-                                    :class="{ active: page === pagination.current_page }"
-                                >
+                                <li v-for="page in getVisiblePages()" :key="page" class="page-item"
+                                    :class="{ active: page === pagination.current_page }">
                                     <button class="page-link" @click="changePage(page)">{{ page }}</button>
                                 </li>
-                                <li class="page-item" :class="{ disabled: pagination.current_page === pagination.last_page }">
-                                    <button class="page-link" @click="changePage(pagination.current_page + 1)" :disabled="pagination.current_page === pagination.last_page">
+                                <li class="page-item"
+                                    :class="{ disabled: pagination.current_page === pagination.last_page }">
+                                    <button class="page-link" @click="changePage(pagination.current_page + 1)"
+                                        :disabled="pagination.current_page === pagination.last_page">
                                         <i class="fas fa-chevron-right"></i>
                                     </button>
                                 </li>
@@ -208,11 +178,7 @@
                     <i class="fas fa-chalkboard-teacher fa-3x text-muted mb-3"></i>
                     <h5 class="text-muted">No Instructors Found</h5>
                     <p class="text-muted">No instructors have been added to this course yet.</p>
-                    <button 
-                        class="btn btn-primary" 
-                        @click="openCreateModal"
-                        :disabled="!course_id"
-                    >
+                    <button class="btn btn-primary" @click="openCreateModal" :disabled="!course_id">
                         <i class="fas fa-plus mr-1"></i>
                         Add First Instructor
                     </button>
@@ -229,7 +195,8 @@
                             <i class="fas fa-chalkboard-teacher mr-2"></i>
                             {{ editingInstructor ? 'Edit Instructor' : 'Add New Instructor' }}
                         </h5>
-                        <button type="button" class="close" @click="closeModal('instructorModal')" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" @click="closeModal('instructorModal')" data-dismiss="modal"
+                            aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -242,7 +209,7 @@
                                 <select v-model="formData.instructor_id" class="form-control" required>
                                     <option value="">Choose Instructor</option>
                                     <option v-for="user in availableInstructors" :key="user.id" :value="user.id">
-                                        {{ user.full_name || user.first_name }} ({{ user.email }})
+                                        {{ user.full_name || user.first_name }}
                                     </option>
                                 </select>
                             </div>
@@ -268,7 +235,8 @@
                             </div>
 
                             <div class="form-group text-right">
-                                <button type="button" class="btn btn-secondary mr-2" @click="closeModal('instructorModal')" data-dismiss="modal">
+                                <button type="button" class="btn btn-secondary mr-2"
+                                    @click="closeModal('instructorModal')" data-dismiss="modal">
                                     Cancel
                                 </button>
                                 <button type="submit" class="btn btn-primary" :disabled="saving">
@@ -291,7 +259,8 @@
                             <i class="fas fa-exclamation-triangle mr-2"></i>
                             Confirm Delete
                         </h5>
-                        <button type="button" class="close" @click="closeModal('deleteModal')" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" @click="closeModal('deleteModal')" data-dismiss="modal"
+                            aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -300,7 +269,8 @@
                         <p class="text-muted">This action cannot be undone.</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" @click="closeModal('deleteModal')" data-dismiss="modal">
+                        <button type="button" class="btn btn-secondary" @click="closeModal('deleteModal')"
+                            data-dismiss="modal">
                             Cancel
                         </button>
                         <button type="button" class="btn btn-danger" @click="confirmDelete" :disabled="deleting">
@@ -321,7 +291,8 @@
                             <i class="fas fa-eye mr-2"></i>
                             Instructor Details
                         </h5>
-                        <button type="button" class="close" @click="closeModal('viewModal')" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" @click="closeModal('viewModal')" data-dismiss="modal"
+                            aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -330,21 +301,8 @@
                             <div class="col-md-6">
                                 <div class="info-group">
                                     <label>Instructor Name:</label>
-                                    <p>{{ viewingInstructor.instructor?.full_name || viewingInstructor.instructor?.name || 'N/A' }}</p>
-                                </div>
-                                <div class="info-group">
-                                    <label>Email:</label>
-                                    <p>{{ viewingInstructor.instructor?.email || 'N/A' }}</p>
-                                </div>
-                                <div class="info-group">
-                                    <label>Course:</label>
-                                    <p>{{ viewingInstructor.course?.title || 'N/A' }}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="info-group">
-                                    <label>Batch:</label>
-                                    <p>{{ viewingInstructor.batch?.batch_name || viewingInstructor.batch?.title || 'N/A' }}</p>
+                                    <p>{{ viewingInstructor.instructor?.full_name || viewingInstructor.instructor?.name
+                                        || 'N/A' }}</p>
                                 </div>
                                 <div class="info-group">
                                     <label>Status:</label>
@@ -354,6 +312,14 @@
                                         </span>
                                     </p>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <label>Batch:</label>
+                                    <p>{{ viewingInstructor.batch?.batch_name || viewingInstructor.batch?.title || 'N/A'
+                                        }}</p>
+                                </div>
+
                                 <div class="info-group">
                                     <label>Created Date:</label>
                                     <p>{{ formatDate(viewingInstructor.created_at) }}</p>
@@ -374,7 +340,8 @@
                             <i class="fas fa-upload mr-2"></i>
                             Import Instructors
                         </h5>
-                        <button type="button" class="close" @click="closeModal('importModal')" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" @click="closeModal('importModal')" data-dismiss="modal"
+                            aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -382,24 +349,21 @@
                         <form @submit.prevent="importInstructors">
                             <div class="form-group mb-3">
                                 <label class="form-label">Select Excel File</label>
-                                <input 
-                                    type="file" 
-                                    ref="importFile"
-                                    class="form-control" 
-                                    accept=".xlsx,.xls,.csv"
-                                    required
-                                >
+                                <input type="file" ref="importFile" class="form-control" accept=".xlsx,.xls,.csv"
+                                    required>
                                 <small class="form-text text-muted">
                                     Only .xlsx, .xls, or .csv files are supported
                                 </small>
                             </div>
-                            
+
                             <div class="alert alert-info">
-                                <strong>Note:</strong> The file should contain instructor_id, course_id, batch_id, status columns.
+                                <strong>Note:</strong> The file should contain instructor_id, course_id, batch_id,
+                                status columns.
                             </div>
 
                             <div class="form-group text-right">
-                                <button type="button" class="btn btn-secondary mr-2" @click="closeModal('importModal')" data-dismiss="modal">
+                                <button type="button" class="btn btn-secondary mr-2" @click="closeModal('importModal')"
+                                    data-dismiss="modal">
                                     Cancel
                                 </button>
                                 <button type="submit" class="btn btn-success" :disabled="importing">
@@ -422,14 +386,14 @@ import { useCourseDetailsStore } from '../../../Store/courseDetailsStore.js';
 
 export default {
     name: 'CourseInstructor',
-    
+
     setup() {
         const courseDetailsStore = useCourseDetailsStore();
         return {
             courseDetailsStore,
         };
     },
-    
+
     data() {
         return {
             loading: false,
@@ -438,7 +402,7 @@ export default {
             importing: false,
             statusToggling: null,
             restoring: null,
-            
+
             instructors: [],
             batches: [],
             availableInstructors: [],
@@ -450,18 +414,18 @@ export default {
                 from: 0,
                 to: 0
             },
-            
+
             // Filters
             selectedBatch: '',
             selectedStatus: '',
             searchTerm: '',
             searchTimeout: null,
-            
+
             // Modal states
             editingInstructor: null,
             instructorToDelete: null,
             viewingInstructor: null,
-            
+
             // Form data
             formData: {
                 instructor_id: '',
@@ -470,16 +434,16 @@ export default {
             },
         };
     },
-    
+
     computed: {
         ...mapState(useCourseDetailsStore, ['currentCourse']),
-        
+
         course_id() {
             // Get course ID from the store's current course using proper mapState
             return this.currentCourse?.id;
         },
     },
-    
+
     methods: {
         // Debug method to check course_id
         checkCourseId() {
@@ -491,7 +455,7 @@ export default {
         },
         async loadInstructors(page = 1) {
             if (!this.course_id) return;
-            
+
             this.loading = true;
             try {
                 const params = {
@@ -499,27 +463,27 @@ export default {
                     page: page,
                     limit: this.pagination.per_page,
                 };
-                
+
                 if (this.selectedBatch) {
                     params.batch_id = this.selectedBatch;
                 }
-                
+
                 if (this.selectedStatus) {
                     params.status = this.selectedStatus;
                 }
-                
+
                 if (this.searchTerm) {
                     params.search = this.searchTerm;
                 }
-                
+
                 const response = await axios.get('/course-course-instructors', {
                     params: params
                 });
-                
+
                 if (response.data.status === 'success') {
                     // The API returns data in response.data.data.data (nested structure)
                     this.instructors = response.data.data.data || [];
-                    
+
                     // Handle pagination - the pagination info is in response.data.data
                     const paginationData = response.data.data;
                     this.pagination = {
@@ -530,7 +494,7 @@ export default {
                         from: paginationData.from,
                         to: paginationData.to
                     };
-                    
+
                     console.log('Loaded instructors:', this.instructors);
                     console.log('Pagination:', this.pagination);
                 } else {
@@ -544,10 +508,10 @@ export default {
             }
             this.loading = false;
         },
-        
+
         async loadBatches() {
             if (!this.course_id) return;
-            
+
             try {
                 const response = await axios.get('/course-batches', {
                     params: {
@@ -556,7 +520,7 @@ export default {
                         status: 'active'
                     }
                 });
-                
+
                 if (response.data.status === 'success') {
                     this.batches = response.data.data || [];
                 }
@@ -565,7 +529,7 @@ export default {
                 this.batches = [];
             }
         },
-        
+
         async loadAvailableInstructors() {
             try {
                 const response = await axios.get('/course-instructors', {
@@ -575,7 +539,7 @@ export default {
                         status: 'active'
                     }
                 });
-                
+
                 if (response.data.status === 'success') {
                     this.availableInstructors = response.data.data || [];
                 } else {
@@ -593,7 +557,7 @@ export default {
                 this.availableInstructors = [];
             }
         },
-        
+
         debounceSearch() {
             if (this.searchTimeout) {
                 clearTimeout(this.searchTimeout);
@@ -602,12 +566,12 @@ export default {
                 this.loadInstructors();
             }, 500);
         },
-        
+
         // Modal control methods
         closeModal(modalId) {
             $(`#${modalId}`).modal('hide');
         },
-        
+
         openCreateModal() {
             this.editingInstructor = null;
             this.formData = {
@@ -615,10 +579,10 @@ export default {
                 batch_id: '',
                 status: 'active',
             };
-            
+
             $('#instructorModal').modal('show');
         },
-        
+
         editInstructor(instructor) {
             this.editingInstructor = instructor;
             this.formData = {
@@ -626,16 +590,16 @@ export default {
                 batch_id: instructor.batch_id,
                 status: instructor.status,
             };
-            
+
             $('#instructorModal').modal('show');
         },
-        
+
         async saveInstructor() {
             if (!this.course_id) {
                 window.s_error && window.s_error('Course ID not found');
                 return;
             }
-            
+
             this.saving = true;
             try {
                 const formData = {
@@ -644,7 +608,7 @@ export default {
                     batch_id: this.formData.batch_id,
                     status: this.formData.status,
                 };
-                
+
                 let response;
                 if (this.editingInstructor) {
                     response = await axios.post(
@@ -654,7 +618,7 @@ export default {
                 } else {
                     response = await axios.post('/course-course-instructors/store', formData);
                 }
-                
+
                 if (response.data.status === 'success') {
                     window.s_success && window.s_success(this.editingInstructor ? 'Instructor updated successfully' : 'Instructor added successfully');
                     $('#instructorModal').modal('hide');
@@ -673,21 +637,21 @@ export default {
             }
             this.saving = false;
         },
-        
+
         removeInstructor(instructor) {
             this.instructorToDelete = instructor;
             $('#deleteModal').modal('show');
         },
-        
+
         async confirmDelete() {
             if (!this.instructorToDelete) return;
-            
+
             this.deleting = true;
             try {
                 const response = await axios.post('/course-course-instructors/soft-delete', {
                     slug: this.instructorToDelete.slug
                 });
-                
+
                 if (response.data.status === 'success') {
                     window.s_success && window.s_success('Instructor deleted successfully');
                     $('#deleteModal').modal('hide');
@@ -895,10 +859,10 @@ export default {
             this.importing = false;
         },
     },
-    
+
     async mounted() {
         console.log('CourseInstructor component mounted');
-        
+
         // Ensure we have course data
         const courseSlug = this.$route.params.id;
         if (courseSlug && !this.courseDetailsStore.currentCourse) {
@@ -908,10 +872,10 @@ export default {
                 console.error('Error loading course details:', error);
             }
         }
-        
+
         // Debug course_id availability
         this.checkCourseId();
-        
+
         if (this.course_id) {
             await this.loadBatches();
             await this.loadAvailableInstructors();
@@ -919,7 +883,7 @@ export default {
         } else {
             console.warn('Course ID not available. Button will remain disabled.');
         }
-        
+
         // Ensure modal close buttons work
         this.$nextTick(() => {
             // Re-initialize modals with proper jQuery
@@ -928,19 +892,19 @@ export default {
                 keyboard: true,
                 show: false
             });
-            
+
             $('#viewModal').modal({
                 backdrop: true,
                 keyboard: true,
                 show: false
             });
-            
+
             $('#deleteModal').modal({
                 backdrop: true,
                 keyboard: true,
                 show: false
             });
-            
+
             $('#importModal').modal({
                 backdrop: true,
                 keyboard: true,
@@ -948,7 +912,7 @@ export default {
             });
         });
     },
-    
+
     watch: {
         course_id: {
             immediate: true,
@@ -1148,28 +1112,28 @@ export default {
         flex-direction: column;
         gap: 1rem;
     }
-    
+
     .instructor-info {
         width: 100%;
     }
-    
+
     .instructor-actions {
         width: 100%;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
     }
-    
+
     .instructor-meta {
         flex-direction: row;
         flex-wrap: wrap;
         gap: 1rem;
     }
-    
+
     .filters .row {
         margin: 0;
     }
-    
+
     .filters .col-md-4 {
         padding: 0.25rem;
         margin-bottom: 0.5rem;
@@ -1235,6 +1199,7 @@ export default {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1325,7 +1290,7 @@ export default {
         justify-content: center;
         flex-wrap: wrap;
     }
-    
+
     .pagination .page-item {
         margin: 0.125rem;
     }

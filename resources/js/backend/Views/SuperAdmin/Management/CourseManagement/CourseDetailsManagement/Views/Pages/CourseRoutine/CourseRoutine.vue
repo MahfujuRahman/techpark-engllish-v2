@@ -88,7 +88,7 @@
                                 </div>
                             </div>
                             <div class="routine-actions">
-                                <span :class="'badge badge-' + (routine.status === 'active' ? 'success' : 'secondary')">
+                                <span :class="'badge badge-' + (routine.status === 'active' ? 'success' : 'danger')">
                                     {{ routine.status }}
                                 </span>
                                 <button @click="editRoutine(routine)" class="btn btn-outline-primary btn-sm ml-2">
