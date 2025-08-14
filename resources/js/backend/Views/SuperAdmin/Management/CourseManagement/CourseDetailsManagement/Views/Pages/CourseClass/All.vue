@@ -195,9 +195,21 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="class_video_poster">Video Poster Image</label>
-                                        <input type="file" id="class_video_poster" @change="handlePosterUpload"
-                                            class="form-control" accept="image/*">
-                                        <small class="text-muted" v-if="currentClass.class_video_poster">
+                                        <div class="image-upload-container">
+                                            <div v-if="imagePosterPreview" class="current-image">
+                                                <img :src="imagePosterPreview" alt="Video Poster" class="img-fluid rounded">
+                                                <button type="button" @click="removePosterImage" class="btn btn-sm btn-danger remove-image-btn">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                            <div v-else class="upload-placeholder" @click="$refs.posterInput.click()">
+                                                <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                                                <p>Upload Image</p>
+                                                <small>JPG, PNG, GIF (Max 2MB)</small>
+                                            </div>
+                                            <input ref="posterInput" type="file" id="class_video_poster" @change="handlePosterUpload" class="d-none" accept="image/*">
+                                        </div>
+                                        <small class="text-muted" v-if="currentClass.class_video_poster && !imagePosterPreview">
                                             Current: {{ currentClass.class_video_poster }}
                                         </small>
                                     </div>
@@ -265,6 +277,7 @@ export default {
             selectedPosterFile: null,
             selectedMilestoneId: '',
             selectedModuleId: '',
+            imagePosterPreview: null,
             currentClass: {
                 course_id: '',
                 milestone_id: '',
@@ -375,9 +388,24 @@ export default {
         handlePosterUpload(event) {
             const file = event.target.files[0];
             if (file) {
+                // Validate size (2MB) and type
+                if (file.size > 2 * 1024 * 1024) {
+                    window.s_alert('Image size must be less than 2MB', 'error');
+                    return;
+                }
+                if (!file.type.startsWith('image/')) {
+                    window.s_alert('Only image files are allowed', 'error');
+                    return;
+                }
+
+                // Create preview
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.imagePosterPreview = e.target.result;
+                };
+                reader.readAsDataURL(file);
+
                 this.selectedPosterFile = file;
-                // You can also preview the image here if needed
-                console.log('Selected poster file:', file.name);
             }
         },
 
@@ -396,12 +424,26 @@ export default {
                 class_video_poster: '',
                 status: 'active'
             };
+            this.imagePosterPreview = null;
+            if (this.$refs.posterInput) this.$refs.posterInput.value = '';
             this.showModal = true;
         },
 
         editClass(classItem) {
             this.isEditing = true;
             this.currentClass = { ...classItem };
+            // Set preview for existing poster
+            if (classItem.class_video_poster) {
+                if (classItem.class_video_poster.startsWith('http')) {
+                    this.imagePosterPreview = classItem.class_video_poster;
+                } else {
+                    this.imagePosterPreview = `${window.location.origin}/${classItem.class_video_poster}`;
+                }
+            } else {
+                this.imagePosterPreview = null;
+            }
+
+            if (this.$refs.posterInput) this.$refs.posterInput.value = '';
             this.showModal = true;
         },
 
@@ -490,6 +532,7 @@ export default {
             this.showModal = false;
             this.isEditing = false;
             this.selectedPosterFile = null;
+            this.imagePosterPreview = null;
             this.currentClass = {
                 course_id: '',
                 milestone_id: '',
@@ -696,5 +739,67 @@ export default {
         width: 100%;
         justify-content: space-between;
     }
+}
+
+/* Image upload styles - copied from CreateCourse.vue for exact parity */
+.image-upload-container {
+    position: relative;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.current-image {
+    position: relative;
+}
+
+.current-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    cursor: pointer;
+    color: #6c757d;
+    transition: all 0.3s ease;
+}
+
+.upload-placeholder:hover {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+.upload-placeholder i {
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+
+.upload-placeholder p {
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.upload-placeholder small {
+    font-size: 0.8rem;
+    opacity: 0.7;
 }
 </style>

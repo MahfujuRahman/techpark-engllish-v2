@@ -52,13 +52,9 @@
                         <div class="col-md-5">
                             <!-- Course Category -->
 
-                                                        <course-category-drop-down-el
-                                                            :key="formData.course_category_id"
-                                                            :name="'course_category_id'"
-                                                            :module_name="''"
-                                                            :multiple="false"
-                                                            :value="formData.course_category_id"
-                                                        />
+                            <course-category-drop-down-el :key="formData.course_category_id"
+                                :name="'course_category_id'" :module_name="''" :multiple="false"
+                                :value="formData.course_category_id" />
 
                             <!-- Course Image -->
                             <div class="form-group">

@@ -138,28 +138,23 @@
                         <div class="form_group">
                             <label for="">Class video poster</label>
                             <div class="input">
-                                <input :name="`class_video_poster[${classs.title}]`" accept="image/*" type="file"
-                                    class="form-control">
+                                <div class="image-upload-container">
+                                    <div v-if="classs.imagePreview" class="current-image">
+                                        <img :src="classs.imagePreview" alt="Class Poster" class="img-fluid rounded">
+                                        <button type="button" @click.prevent="removeClassPoster(index, moduleIndex, classIndex)" class="btn btn-sm btn-danger remove-image-btn">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div v-else class="upload-placeholder" @click.prevent="openClassPosterInput(index, moduleIndex, classIndex)">
+                                        <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                                        <p>Upload Image</p>
+                                        <small>JPG, PNG, GIF (Max 2MB)</small>
+                                    </div>
+                                    <input :ref="`posterInput_${index}_${moduleIndex}_${classIndex}`" type="file" :name="`class_video_poster[${classs.title}]`" accept="image/*" class="d-none" @change="handleClassPosterUpload($event, index, moduleIndex, classIndex)">
+                                </div>
                             </div>
                         </div>
-                        <div class="form_group">
-                            <label for="">Class Date</label>
-                            <div class="input">
-                                <input v-model="classs.routine.date" type="date" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form_group">
-                            <label for="">Class Time</label>
-                            <div class="input">
-                                <input v-model="classs.routine.time" type="time" class="form-control">
-                            </div>
-                        </div>
-                        <div class="form_group">
-                            <label for="">Class topic</label>
-                            <div class="input">
-                                <input v-model="classs.routine.topic" type="text" class="form-control">
-                            </div>
-                        </div>
+                      
                     </div>
 
                     <!-- Add Class Button -->
@@ -279,7 +274,9 @@ export default {
                                 resource: classs.resource || {
                                     resourse_content: "",
                                     resourse_link: ""
-                                }
+                                },
+                                // initialize preview property for UI
+                                imagePreview: classs.class_video_poster ? (classs.class_video_poster.startsWith('http') ? classs.class_video_poster : `${window.location.origin}/${classs.class_video_poster}`) : null
                             }))
                         }))
                     }));
@@ -353,6 +350,56 @@ export default {
             };
 
             module.classes.push(newClass);
+        },
+
+        handleClassPosterUpload(event, milestoneIndex, moduleIndex, classIndex) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.size > 2 * 1024 * 1024) {
+                window.s_alert('Image size must be less than 2MB', 'error');
+                return;
+            }
+            if (!file.type.startsWith('image/')) {
+                window.s_alert('Only image files are allowed', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.milestones[milestoneIndex].modules[moduleIndex].classes[classIndex].imagePreview = e.target.result;
+            };
+            reader.readAsDataURL(file);
+
+            // store the file object on the classs for later submission if needed
+            this.milestones[milestoneIndex].modules[moduleIndex].classes[classIndex].__selectedPosterFile = file;
+        },
+
+        removeClassPoster(milestoneIndex, moduleIndex, classIndex) {
+            const classs = this.milestones[milestoneIndex].modules[moduleIndex].classes[classIndex];
+            classs.imagePreview = null;
+            classs.__selectedPosterFile = null;
+            // also clear server-side reference if exists
+            classs.class_video_poster = '';
+            const refName = `posterInput_${milestoneIndex}_${moduleIndex}_${classIndex}`;
+            if (this.$refs[refName]) {
+                // if ref is an array (due to v-for) pick first
+                const refEl = Array.isArray(this.$refs[refName]) ? this.$refs[refName][0] : this.$refs[refName];
+                if (refEl && refEl.value !== undefined) refEl.value = '';
+            }
+        },
+
+        openClassPosterInput(milestoneIndex, moduleIndex, classIndex) {
+            const refName = `posterInput_${milestoneIndex}_${moduleIndex}_${classIndex}`;
+            const refEntry = this.$refs[refName];
+            let el = null;
+            if (!refEntry) return;
+            if (Array.isArray(refEntry)) el = refEntry[0]; else el = refEntry;
+            // Some frameworks wrap refs; ensure it's a DOM element with click
+            if (el && typeof el.click === 'function') {
+                el.click();
+            } else if (el && el.$el && typeof el.$el.click === 'function') {
+                el.$el.click();
+            }
         },
 
         async remove_class(classes, index) {
@@ -688,5 +735,67 @@ input[type="time"].form-control {
 .empty-state h5 {
     color: #6c757d;
     font-weight: 500;
+}
+
+/* Image upload styles - match CreateCourse.vue */
+.image-upload-container {
+    position: relative;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.current-image {
+    position: relative;
+}
+
+.current-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    cursor: pointer;
+    color: #6c757d;
+    transition: all 0.3s ease;
+}
+
+.upload-placeholder:hover {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+.upload-placeholder i {
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+
+.upload-placeholder p {
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.upload-placeholder small {
+    font-size: 0.8rem;
+    opacity: 0.7;
 }
 </style>
