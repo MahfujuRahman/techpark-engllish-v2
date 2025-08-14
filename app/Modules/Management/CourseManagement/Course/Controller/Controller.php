@@ -221,23 +221,106 @@ class Controller extends ControllersController
                                 if (isset($classData['id']) && $classData['id']) {
                                     $class = $existingClasses->find($classData['id']);
                                     if ($class) {
-                                        // Update existing class
-                                        $class->update([
-                                            'milestone_id' => $milestone->id,
-                                            'course_modules_id' => $module->id,
-                                            'class_no' => $classData['class_no'] ?? ($classIndex + 1),
-                                            'title' => $classData['title'],
-                                            'type' => $classData['class_type'] ?? 'recorded',
-                                            'class_video_link' => $classData['video_url'] ?? '',
-                                            'class_video_poster' => $classData['class_video_poster'] ?? '',
-                                            'status' => 'active'
-                                        ]);
+                                            // Determine poster path: uploaded file, base64 preview, deletion flag, or provided value
+                                            $posterPath = $classData['class_video_poster'] ?? '';
+
+                                            // If frontend sent nested file input, check for it using both dot and bracket notation
+                                            $fileKeyDot = "milestones.$milestoneIndex.modules.$moduleIndex.classes.$classIndex.class_video_poster";
+                                            $fileKeyBracket = "milestones[$milestoneIndex][modules][$moduleIndex][classes][$classIndex][class_video_poster]";
+
+                                            if ($request->hasFile($fileKeyDot)) {
+                                                $class_video_poster_file = $request->file($fileKeyDot);
+                                                // Handle image upload
+                                                $posterPath = uploader($class_video_poster_file, 'uploads/course/class_video_posters');
+                                            } elseif ($request->hasFile($fileKeyBracket)) {
+                                                $class_video_poster_file = $request->file($fileKeyBracket);
+                                                $posterPath = uploader($class_video_poster_file, 'uploads/course/class_video_posters');
+                                            } elseif (!empty($classData['imagePreview']) && strpos($classData['imagePreview'], 'data:') === 0) {
+                                                // Save base64 imagePreview to disk
+                                                try {
+                                                    $data = $classData['imagePreview'];
+                                                    $parts = explode(',', $data, 2);
+                                                    if (count($parts) === 2) {
+                                                        $meta = $parts[0];
+                                                        $content = $parts[1];
+                                                        // extract mime
+                                                        if (preg_match('/data:(.*);base64/', $meta, $m)) {
+                                                            $mime = $m[1];
+                                                        } else {
+                                                            $mime = 'image/jpeg';
+                                                        }
+                                                        $ext = explode('/', $mime)[1] ?? 'jpg';
+                                                        $decoded = base64_decode($content);
+                                                        $filename = time() . '_' . Str::random(6) . '.' . $ext;
+                                                        $relativePath = 'uploads/course/class_video_posters/' . $filename;
+                                                        file_put_contents(public_path($relativePath), $decoded);
+                                                        $posterPath = $relativePath;
+                                                    }
+                                                } catch (\Exception $e) {
+                                                    // ignore and keep existing posterPath
+                                                }
+                                            }
+
+                                            // If frontend indicated deletion explicitly
+                                            if (!empty($classData['poster_deleted'])) {
+                                                // delete existing file if present
+                                                if (!empty($class->class_video_poster) && file_exists(public_path($class->class_video_poster))) {
+                                                    @unlink(public_path($class->class_video_poster));
+                                                }
+                                                $posterPath = '';
+                                            }
+
+                                            // Update existing class
+                                            $class->update([
+                                                'milestone_id' => $milestone->id,
+                                                'course_modules_id' => $module->id,
+                                                'class_no' => $classData['class_no'] ?? ($classIndex + 1),
+                                                'title' => $classData['title'],
+                                                'type' => $classData['class_type'] ?? 'recorded',
+                                                'class_video_link' => $classData['class_video_link'] ?? '',
+                                                'class_video_poster' => $posterPath,
+                                                'status' => 'active'
+                                            ]);
                                         $submittedClassIds[] = $class->id;
                                     }
                                 }
                                 
                                 // Create new class if not found
                                 if (!$class) {
+                                    // Determine poster path for new class as well
+                                    $posterPath = $classData['class_video_poster'] ?? '';
+                                    $fileKeyDot = "milestones.$milestoneIndex.modules.$moduleIndex.classes.$classIndex.class_video_poster";
+                                    $fileKeyBracket = "milestones[$milestoneIndex][modules][$moduleIndex][classes][$classIndex][class_video_poster]";
+                                    if ($request->hasFile($fileKeyDot)) {
+                                        $class_video_poster_file = $request->file($fileKeyDot);
+                                        $posterPath = uploader($class_video_poster_file, 'uploads/course/class_video_posters');
+                                    } elseif ($request->hasFile($fileKeyBracket)) {
+                                        $class_video_poster_file = $request->file($fileKeyBracket);
+                                        $posterPath = uploader($class_video_poster_file, 'uploads/course/class_video_posters');
+                                    } elseif (!empty($classData['imagePreview']) && strpos($classData['imagePreview'], 'data:') === 0) {
+                                        try {
+                                            $data = $classData['imagePreview'];
+                                            $parts = explode(',', $data, 2);
+                                            if (count($parts) === 2) {
+                                                $meta = $parts[0];
+                                                $content = $parts[1];
+                                                if (preg_match('/data:(.*);base64/', $meta, $m)) {
+                                                    $mime = $m[1];
+                                                } else {
+                                                    $mime = 'image/jpeg';
+                                                }
+                                                $ext = explode('/', $mime)[1] ?? 'jpg';
+                                                $decoded = base64_decode($content);
+                                                $filename = time() . '_' . Str::random(6) . '.' . $ext;
+                                                $relativePath = 'uploads/course/class_video_posters/' . $filename;
+                                                file_put_contents(public_path($relativePath), $decoded);
+                                                $posterPath = $relativePath;
+                                            }
+                                        } catch (\Exception $e) {
+                                            // ignore
+                                        }
+                                    }
+
                                     $class = \App\Modules\Management\CourseManagement\CourseModuleClass\Models\Model::create([
                                         'course_id' => $course->id,
                                         'milestone_id' => $milestone->id,
@@ -245,8 +328,8 @@ class Controller extends ControllersController
                                         'class_no' => $classData['class_no'] ?? ($classIndex + 1),
                                         'title' => $classData['title'],
                                         'type' => $classData['class_type'] ?? 'recorded',
-                                        'class_video_link' => $classData['video_url'] ?? '',
-                                        'class_video_poster' => $classData['class_video_poster'] ?? '',
+                                        'class_video_link' => $classData['class_video_link'] ?? '',
+                                        'class_video_poster' => $posterPath,
                                         'slug' => Str::random(7),
                                         'status' => 'active'
                                     ]);
