@@ -52,8 +52,13 @@
                         <div class="col-md-5">
                             <!-- Course Category -->
 
-                            <course-category-drop-down-el :name="'course_category_id'" :module_name="''"
-                                :multiple="false" :value="formData.course_category_id" />
+                                                        <course-category-drop-down-el
+                                                            :key="formData.course_category_id"
+                                                            :name="'course_category_id'"
+                                                            :module_name="''"
+                                                            :multiple="false"
+                                                            :value="formData.course_category_id"
+                                                        />
 
                             <!-- Course Image -->
                             <div class="form-group">
@@ -334,7 +339,7 @@ export default {
                     // Show success message
                     const message = response.message || successMessage;
                     console.log('Showing success message:', message);
-                    
+
                     // Try both window.s_alert and regular alert for debugging
                     if (typeof window.s_alert === 'function') {
                         window.s_alert(message, 'success');
@@ -436,7 +441,7 @@ export default {
             // Set image preview for existing course
             console.log('Setting image preview for course data:', courseData);
             console.log('Course image:', courseData.image);
-            
+
             if (courseData.image) {
                 // If the image is a full URL, use it directly
                 if (courseData.image.startsWith('http')) {
@@ -460,17 +465,18 @@ export default {
                 const response = await this.store.getCourseDetails(this.id);
                 if (response && response.data) {
                     this.store.populateFormWithCourse(response.data);
-
+                    // Ensure category dropdown is set as a number
+                    if (response.data.course_category_id) {
+                        this.store.setFormData({ course_category_id: Number(response.data.course_category_id) });
+                    }
                     // Set image preview for existing course
                     this.setImagePreview(response.data);
-
                     // Set editor content after initialization
                     await this.$nextTick();
                     await this.initializeCKEditor();
                     if (this.editor && response.data.description) {
                         this.editor.setData(response.data.description);
                     }
-
                     // Set Summernote content
                     this.setSummernoteContent(response.data);
                 } else {
@@ -483,7 +489,6 @@ export default {
         } else {
             // Reset form data for new course
             this.store.resetFormData();
-
             // Initialize CKEditor
             await this.$nextTick();
             await this.initializeCKEditor();

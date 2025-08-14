@@ -71,26 +71,38 @@ export default {
   },
   created: function () {
     if (!this.all?.data?.length) {
-      this.get_all();
+      this.get_all().then(() => {
+        this.$watch("value", function (v) {
+          if (Array.isArray(v) && v.length && typeof v[0] === 'object') {
+            this.selected = v;
+          } else if (Array.isArray(v) && this.all && Array.isArray(this.all.data)) {
+            this.selected = this.all.data.filter(item => v.includes(item.id));
+          } else if (typeof v === 'object' && v !== null && v.id) {
+            this.selected = [v];
+          } else if ((typeof v === 'string' || typeof v === 'number') && this.all && Array.isArray(this.all.data)) {
+            const item = this.all.data.find(item => item.id == v);
+            this.selected = item ? [item] : [];
+          } else {
+            this.selected = [];
+          }
+        }, { immediate: true });
+      });
+    } else {
+      this.$watch("value", function (v) {
+        if (Array.isArray(v) && v.length && typeof v[0] === 'object') {
+          this.selected = v;
+        } else if (Array.isArray(v) && this.all && Array.isArray(this.all.data)) {
+          this.selected = this.all.data.filter(item => v.includes(item.id));
+        } else if (typeof v === 'object' && v !== null && v.id) {
+          this.selected = [v];
+        } else if ((typeof v === 'string' || typeof v === 'number') && this.all && Array.isArray(this.all.data)) {
+          const item = this.all.data.find(item => item.id == v);
+          this.selected = item ? [item] : [];
+        } else {
+          this.selected = [];
+        }
+      }, { immediate: true });
     }
-    this.$watch("value", function (v) {
-      // If value is an array of objects, set selected directly
-      if (Array.isArray(v) && v.length && typeof v[0] === 'object') {
-        this.selected = v;
-      } else if (Array.isArray(v) && this.all && Array.isArray(this.all.data)) {
-        // fallback for array of ids, only if all.data is available
-        this.selected = this.all.data.filter(item => v.includes(item.id));
-      } else if (typeof v === 'object' && v !== null && v.id) {
-        // Handle single object (like from relationship)
-        this.selected = [v];
-      } else if ((typeof v === 'string' || typeof v === 'number') && this.all && Array.isArray(this.all.data)) {
-        // Handle single ID (string or number)
-        const item = this.all.data.find(item => item.id == v);
-        this.selected = item ? [item] : [];
-      } else {
-        this.selected = [];
-      }
-    }, { immediate: true });
   },
   data: () => ({
     selected: [],
