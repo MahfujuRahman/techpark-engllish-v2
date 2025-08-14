@@ -2,7 +2,7 @@ name: CICD Test
 
 on:
   push:
-    branches: [main]
+    branches: [master]
 
 jobs:
   build:
@@ -18,5 +18,6 @@ jobs:
           port: 22
           script: |
             cd ${{ secrets.PROJECT_PATH }}
-            # git config --global --add safe.directory ${{ secrets.PROJECT_PATH }}
-            git pull origin main
+            git reset --hard HEAD
+            git clean -fd
+            git pull origin master --prune --force || true
