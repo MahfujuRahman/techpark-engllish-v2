@@ -43,37 +43,18 @@
                                 <div class="detail-value">{{ item.title || 'N/A' }}</div>
                             </div>
                         </div>
-                        
-                        <div class="col-md-6">
-                            <div class="detail-item">
-                                <label class="detail-label">Serial Number:</label>
-                                <div class="detail-value">
-                                    <span class="badge bg-secondary">{{ item.serial || 0 }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
                         <div class="col-md-6">
                             <div class="detail-item">
                                 <label class="detail-label">Status:</label>
                                 <div class="detail-value">
-                                    <span :class="['badge', item.status ? 'bg-success' : 'bg-danger']">
-                                        {{ item.status ? 'Active' : 'Inactive' }}
+                                    <span :class="['badge', item.status === 'active' ? 'bg-success' : 'bg-danger']">
+                                        {{ item.status === 'active' ? 'Active' : 'Inactive' }}
                                     </span>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-md-6">
-                            <div class="detail-item">
-                                <label class="detail-label">Course:</label>
-                                <div class="detail-value">{{ currentCourse?.title || 'N/A' }}</div>
-                            </div>
-                        </div>
                     </div>
-
+                
                     <div class="row mt-3" v-if="item.description">
                         <div class="col-12">
                             <div class="detail-item">
