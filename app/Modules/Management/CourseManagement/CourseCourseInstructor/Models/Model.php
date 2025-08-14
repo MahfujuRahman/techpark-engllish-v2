@@ -58,11 +58,6 @@ class Model extends EloquentModel
         return $this->belongsTo(self::$batch_model, 'batch_id', 'id');
     }
 
-    public function createdBy()
-    {
-        return $this->belongsTo(self::$user_model, 'creator', 'id');
-    }
-
     public function scopeTrased($q)
     {
         return $q->onlyTrashed();

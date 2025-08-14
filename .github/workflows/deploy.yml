@@ -21,3 +21,4 @@ jobs:
             git reset --hard HEAD
             git clean -fd
             git pull origin master --prune --force || true
+            npm run build
