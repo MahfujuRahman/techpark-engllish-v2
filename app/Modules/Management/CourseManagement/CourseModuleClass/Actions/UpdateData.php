@@ -13,8 +13,18 @@ class UpdateData
                 return messageResponse('Data not found...', $data, 404, 'error');
             }
             $requestData = $request->validated();
+
+            // Handle poster removal
+            if ($request->input('poster_deleted') && $data->class_video_poster) {
+                @unlink(public_path($data->class_video_poster));
+                $requestData['class_video_poster'] = null;
+            }
+
             // Handle image upload
             if ($request->hasFile('class_video_poster')) {
+                if ($data->class_video_poster) {
+                    @unlink(public_path($data->class_video_poster));
+                }
                 $class_video_poster = $request->file('class_video_poster');
                 $requestData['class_video_poster'] = uploader($class_video_poster, 'uploads/course/class_video_posters');
             }

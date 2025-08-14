@@ -78,7 +78,7 @@
                                         <small class="text-muted">
                                             Module: {{ classItem.module.title }}
                                             <span v-if="classItem.milestone"> | Milestone: {{ classItem.milestone.title
-                                            }}</span>
+                                                }}</span>
                                         </small>
                                     </p>
                                     <p class="class-number" v-if="classItem.class_no">
@@ -167,6 +167,34 @@
                             </div>
 
                             <div class="row">
+                                <!-- Left: Image Upload (col-md-6) -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="class_video_poster">Video Poster Image</label>
+                                        <div class="image-upload-container">
+                                            <div v-if="imagePosterPreview" class="current-image">
+                                                <img :src="imagePosterPreview" alt="Video Poster"
+                                                    class="img-fluid rounded">
+                                                <button type="button" @click="removePosterImage"
+                                                    class="btn btn-sm btn-danger remove-image-btn">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                            <div v-else class="upload-placeholder" @click.prevent="openPosterInput()">
+                                                <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                                                <p>Upload Image</p>
+                                                <small>JPG, PNG, GIF (Max 2MB)</small>
+                                            </div>
+                                            <input ref="posterInput" type="file" id="class_video_poster"
+                                                @change="handlePosterUpload" class="d-none" accept="image/*">
+                                        </div>
+                                        <small class="text-muted"
+                                            v-if="currentClass.class_video_poster && !imagePosterPreview">
+                                            Current: {{ currentClass.class_video_poster }}
+                                        </small>
+                                    </div>
+                                </div>
+                                <!-- Right: Other Fields (col-md-6) -->
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="type">Class Type</label>
@@ -175,47 +203,12 @@
                                             <option value="recorded">Recorded</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="class_no">Class Number</label>
                                         <input type="text" id="class_no" v-model="currentClass.class_no"
                                             class="form-control">
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="class_video_link">Video Link</label>
-                                <input type="url" id="class_video_link" v-model="currentClass.class_video_link"
-                                    class="form-control" placeholder="https://...">
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="class_video_poster">Video Poster Image</label>
-                                        <div class="image-upload-container">
-                                            <div v-if="imagePosterPreview" class="current-image">
-                                                <img :src="imagePosterPreview" alt="Video Poster" class="img-fluid rounded">
-                                                <button type="button" @click="removePosterImage" class="btn btn-sm btn-danger remove-image-btn">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </div>
-                                            <div v-else class="upload-placeholder" @click="$refs.posterInput.click()">
-                                                <i class="fas fa-cloud-upload-alt fa-3x"></i>
-                                                <p>Upload Image</p>
-                                                <small>JPG, PNG, GIF (Max 2MB)</small>
-                                            </div>
-                                            <input ref="posterInput" type="file" id="class_video_poster" @change="handlePosterUpload" class="d-none" accept="image/*">
-                                        </div>
-                                        <small class="text-muted" v-if="currentClass.class_video_poster && !imagePosterPreview">
-                                            Current: {{ currentClass.class_video_poster }}
-                                        </small>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="form-group mt-3">
                                         <label for="status">Status</label>
                                         <select id="status" v-model="currentClass.status" class="form-control">
                                             <option value="active">Active</option>
@@ -224,6 +217,14 @@
                                     </div>
                                 </div>
                             </div>
+
+                          
+                            <div class="form-group">
+                                <label for="class_video_link">Video Link</label>
+                                <input type="url" id="class_video_link" v-model="currentClass.class_video_link"
+                                    class="form-control" placeholder="https://...">
+                            </div>
+
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -275,6 +276,7 @@ export default {
             isEditing: false,
             submitting: false,
             selectedPosterFile: null,
+            posterRemoved: false,
             selectedMilestoneId: '',
             selectedModuleId: '',
             imagePosterPreview: null,
@@ -406,12 +408,43 @@ export default {
                 reader.readAsDataURL(file);
 
                 this.selectedPosterFile = file;
+                // If user picked a new file, it's no longer a removed poster
+                this.posterRemoved = false;
+            }
+        },
+
+        removePosterImage() {
+            console.log('removePosterImage called');
+            this.imagePosterPreview = null;
+            this.selectedPosterFile = null;
+            this.currentClass.class_video_poster = '';
+            // mark that the poster was intentionally removed so backend can handle deletion
+            this.posterRemoved = true;
+            if (this.$refs.posterInput) {
+                const refEl = Array.isArray(this.$refs.posterInput) ? this.$refs.posterInput[0] : this.$refs.posterInput;
+                try {
+                    if (refEl && refEl.value !== undefined) refEl.value = '';
+                } catch (err) {
+                    console.error('Error clearing poster input ref:', err);
+                }
+            }
+        },
+
+        openPosterInput() {
+            const ref = this.$refs.posterInput;
+            if (!ref) return;
+            const el = Array.isArray(ref) ? ref[0] : ref;
+            if (el && typeof el.click === 'function') {
+                el.click();
+            } else if (el && el.$el && typeof el.$el.click === 'function') {
+                el.$el.click();
             }
         },
 
         createNewClass() {
             this.isEditing = false;
             this.selectedPosterFile = null;
+            this.posterRemoved = false;
             const store = useCourseDetailsStore();
             this.currentClass = {
                 course_id: store.currentCourse?.id || '',
@@ -431,6 +464,7 @@ export default {
 
         editClass(classItem) {
             this.isEditing = true;
+            this.posterRemoved = false;
             this.currentClass = { ...classItem };
             // Set preview for existing poster
             if (classItem.class_video_poster) {
@@ -478,6 +512,11 @@ export default {
                     formData.append('class_video_poster', this.selectedPosterFile);
                 } else if (this.currentClass.class_video_poster && this.isEditing) {
                     formData.append('existing_poster', this.currentClass.class_video_poster);
+                }
+
+                // If the user removed the poster while editing, include a flag so backend deletes it
+                if (this.posterRemoved && this.isEditing) {
+                    formData.append('poster_deleted', '1');
                 }
 
                 let response;
@@ -533,6 +572,7 @@ export default {
             this.isEditing = false;
             this.selectedPosterFile = null;
             this.imagePosterPreview = null;
+            this.posterRemoved = false;
             this.currentClass = {
                 course_id: '',
                 milestone_id: '',
