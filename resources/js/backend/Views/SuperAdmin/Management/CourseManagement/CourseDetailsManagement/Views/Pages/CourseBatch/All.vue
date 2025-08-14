@@ -222,7 +222,8 @@ export default {
             if (!amount) return '$0';
             return new Intl.NumberFormat('en-US', {
                 style: 'currency',
-                currency: 'USD',
+                currency: 'BDT', // Use your desired currency symbol
+                currencyDisplay: 'narrowSymbol',
                 minimumFractionDigits: 0
             }).format(amount);
         },

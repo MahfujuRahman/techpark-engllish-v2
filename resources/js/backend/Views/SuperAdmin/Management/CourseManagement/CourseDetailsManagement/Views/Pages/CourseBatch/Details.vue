@@ -8,10 +8,9 @@
                         Batch Details
                     </h5>
                     <div class="header-actions">
-                        <router-link 
+                        <router-link
                             :to="{ name: 'CourseBatchEdit', params: { id: $route.params.id, batch_id: $route.params.batch_id } }"
-                            class="btn btn-sm btn-primary"
-                        >
+                            class="btn btn-sm btn-primary">
                             <i class="fas fa-edit mr-1"></i>
                             Edit
                         </router-link>
@@ -96,7 +95,8 @@
                                 <div class="detail-item">
                                     <strong>Class Time:</strong>
                                     <span v-if="batch.class_start_time && batch.class_end_time">
-                                        {{ formatTime(batch.class_start_time) }} - {{ formatTime(batch.class_end_time) }}
+                                        {{ formatTime(batch.class_start_time) }} - {{ formatTime(batch.class_end_time)
+                                        }}
                                     </span>
                                     <span v-else>Not set</span>
                                 </div>
@@ -130,7 +130,8 @@
                             <div class="col-md-4">
                                 <div class="detail-item">
                                     <strong>Final Price:</strong>
-                                    <span class="text-success font-weight-bold">{{ formatCurrency(batch.after_discount_price) }}</span>
+                                    <span class="text-success font-weight-bold">{{
+                                        formatCurrency(batch.after_discount_price) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -193,28 +194,21 @@
                     <!-- Actions -->
                     <div class="details-section">
                         <div class="action-buttons">
-                            <router-link 
+                            <router-link
                                 :to="{ name: 'CourseBatchEdit', params: { id: $route.params.id, batch_id: $route.params.batch_id } }"
-                                class="btn btn-primary"
-                            >
+                                class="btn btn-primary">
                                 <i class="fas fa-edit mr-1"></i>
                                 Edit Batch
                             </router-link>
-                            
-                            <button 
-                                @click="deleteBatch"
-                                class="btn btn-danger ml-2"
-                                :disabled="submitting"
-                            >
+
+                            <button @click="deleteBatch" class="btn btn-danger ml-2" :disabled="submitting">
                                 <i v-if="submitting" class="fas fa-spinner fa-spin mr-1"></i>
                                 <i v-else class="fas fa-trash mr-1"></i>
                                 Delete Batch
                             </button>
-                            
-                            <router-link 
-                                :to="{ name: 'CourseBatchAll', params: { id: $route.params.id } }"
-                                class="btn btn-secondary ml-2"
-                            >
+
+                            <router-link :to="{ name: 'CourseBatchAll', params: { id: $route.params.id } }"
+                                class="btn btn-secondary ml-2">
                                 <i class="fas fa-arrow-left mr-1"></i>
                                 Back to List
                             </router-link>
@@ -235,7 +229,7 @@
 <script>
 export default {
     name: 'CourseBatchDetails',
-    
+
     data() {
         return {
             loading: true,
@@ -243,18 +237,18 @@ export default {
             batch: null,
         };
     },
-    
+
     methods: {
         async fetchBatch() {
             try {
                 const batchSlug = this.$route.params.batch_id; // Now this contains the slug
                 console.log('Fetching batch details for slug:', batchSlug);
-                
+
                 // According to your routes: Route::get('{slug}', [Controller::class,'show']);
                 const response = await axios.get(`course-batches/${batchSlug}`);
-                
+
                 console.log('API Response:', response.data);
-                
+
                 // Check if response has the expected structure
                 if (response.data && response.data.status === 'success') {
                     this.batch = response.data.data;
@@ -263,7 +257,7 @@ export default {
                     console.error('Unexpected response structure:', response.data);
                     window.s_error('Failed to load batch information!');
                 }
-                
+
             } catch (error) {
                 window.s_error('Failed to load batch information!');
                 console.error('Error fetching batch:', error);
@@ -271,29 +265,29 @@ export default {
                 this.loading = false;
             }
         },
-        
+
         async deleteBatch() {
             const confirmed = await window.s_confirm('Are you sure you want to delete this batch?', 'Yes, delete it!');
             if (!confirmed) {
                 return;
             }
-            
+
             this.submitting = true;
-            
+
             try {
                 const batchSlug = this.batch.slug || this.$route.params.batch_id; // Use slug from data or route
                 console.log('Deleting batch with slug:', batchSlug);
-                
+
                 await axios.post(`course-batches/destroy/${batchSlug}`);
-                
+
                 window.s_alert('Batch deleted successfully!');
-                
+
                 // Navigate back to all batches
-                this.$router.push({ 
-                    name: 'CourseBatchAll', 
-                    params: { id: this.$route.params.id } 
+                this.$router.push({
+                    name: 'CourseBatchAll',
+                    params: { id: this.$route.params.id }
                 });
-                
+
             } catch (error) {
                 window.s_error('Failed to delete batch!');
                 console.error('Error deleting batch:', error);
@@ -301,7 +295,7 @@ export default {
                 this.submitting = false;
             }
         },
-        
+
         getStatusLabel(status) {
             const labels = {
                 'active': 'Active',
@@ -310,7 +304,7 @@ export default {
             };
             return labels[status] || 'Unknown';
         },
-        
+
         getStatusClass(status) {
             const classes = {
                 'active': 'badge badge-success',
@@ -319,7 +313,7 @@ export default {
             };
             return classes[status] || 'badge badge-light';
         },
-        
+
         formatDate(date) {
             if (!date) return 'Not set';
             return new Date(date).toLocaleDateString('en-US', {
@@ -328,7 +322,7 @@ export default {
                 day: 'numeric'
             });
         },
-        
+
         formatDateTime(date) {
             if (!date) return 'Not set';
             return new Date(date).toLocaleDateString('en-US', {
@@ -339,31 +333,32 @@ export default {
                 minute: '2-digit'
             });
         },
-        
+
         formatTime(time) {
             if (!time) return 'Not set';
             // Assuming time is in HH:MM format
             const [hours, minutes] = time.split(':');
             const date = new Date();
             date.setHours(parseInt(hours), parseInt(minutes));
-            
+
             return date.toLocaleTimeString('en-US', {
                 hour: '2-digit',
                 minute: '2-digit',
                 hour12: true
             });
         },
-        
+
         formatCurrency(amount) {
             if (!amount) return '$0';
             return new Intl.NumberFormat('en-US', {
                 style: 'currency',
-                currency: 'USD',
+                currency: 'BDT', // Use your desired currency symbol
+                currencyDisplay: 'narrowSymbol',
                 minimumFractionDigits: 0
             }).format(amount);
         },
     },
-    
+
     async mounted() {
         await this.fetchBatch();
     },
@@ -466,16 +461,16 @@ export default {
         min-width: auto;
         display: block;
     }
-    
+
     .action-buttons .btn {
         width: 100%;
         margin: 5px 0;
     }
-    
+
     .header-actions {
         margin-top: 15px;
     }
-    
+
     .stat-info h4 {
         font-size: 1.5rem;
     }
