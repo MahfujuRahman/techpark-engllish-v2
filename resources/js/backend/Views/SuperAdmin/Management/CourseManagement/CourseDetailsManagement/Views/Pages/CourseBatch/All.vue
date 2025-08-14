@@ -26,6 +26,7 @@
                                 <th>Admission End Date</th>
                                 <th>Price</th>
                                 <th>Sale Price</th>
+                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -56,6 +57,10 @@
                                 </td>
                                 <td>
                                     <strong class="text-success">{{ formatCurrency(batch.after_discount_price) }}</strong>
+                                </td>
+                                <td>
+                                    <span v-if="batch.status === 'active'" class="badge badge-success">Active</span>
+                                    <span v-else class="badge badge-danger">Inactive</span>
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
