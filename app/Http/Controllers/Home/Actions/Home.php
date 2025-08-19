@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home\Actions;
 
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use App\Modules\Management\SeminerManagement\Seminer\Models\Model as Seminars;
 use App\Modules\Management\WebsiteManagement\WebsiteBrand\Models\Model as Brand;
 use App\Modules\Management\WebsiteManagement\SubBanner\Models\Model as SubBanner;
@@ -21,6 +22,14 @@ class Home
 
     public static function execute()
     {
+        $cacheKey = 'home_page_html_v1';
+        $ttlMinutes = 60; // cache time-to-live
+
+        // if (Cache::has($cacheKey)) {
+        //     $html = Cache::get($cacheKey);
+        //     return response($html)->header('X-Cache-Status', 'HIT');
+        // }
+
         $banners = Banner::where('is_featured', 1)->where('status', 1)->orderBy('id', 'desc')->get();
         $subBanners = SubBanner::where('status', 1)->orderBy('id', 'desc')->get();
         $our_speciality = OurSpeciality::where('status', 1)->orderBy('id', 'desc')->get();
@@ -31,35 +40,30 @@ class Home
 
         $course_categories = CourseCategory::where('status', 'active')->get();
 
-        // $all = $this->all_course();
-        // $courses = $all['courses'];
-        // $course_types = $all['course_types'];
-
         $courseBatch = CourseBatches::active()->orderBy('id', 'DESC')->get();
-
 
         $course_learning_steps = CourseOutcomeStepModel::get();
 
-        return view(
-            'frontend.pages.home.home',
-            [
-                'banners' => $banners,
-                'subBanners' => $subBanners,
+        $data = [
+            'banners' => $banners,
+            'subBanners' => $subBanners,
+            'our_speciality' => $our_speciality,
+            'success_stories' => $success_stories,
+            'our_trainers' => $our_trainers,
+            "seminars" => $seminars,
+            'brands' => $brands,
+            'course_categories' => $course_categories,
+            'course_learning_steps' => $course_learning_steps,
+            'courseBatches' => $courseBatch
+        ];
 
-                'our_speciality' => $our_speciality,
-                'success_stories' => $success_stories,
-                'our_trainers' => $our_trainers,
-                "seminars" => $seminars,
-                'brands' => $brands,
+        // $html = view('frontend.pages.home.home', $data)->render();
+        // Cache::put($cacheKey, $html, now()->addMinutes($ttlMinutes));
 
+        // return response($html)->header('X-Cache-Status', 'MISS');
 
-                'course_categories' => $course_categories,
-                // 'course_types' => $course_types,
+        Cache::forget($cacheKey);
 
-                // 'courses' => $courses,
-                'course_learning_steps' => $course_learning_steps,
-                'courseBatches' => $courseBatch
-            ]
-        );
+        return view('frontend.pages.home.home', $data);
     }
 }

@@ -12,7 +12,7 @@ if (!function_exists('asset_or_default')) {
      * @param string|null $default
      * @return string
      */
-    function asset_or_default($path = null, $default = null)
+    function assetHelper($path = null, $default = null)
     {
         // allow passing the default as null -> set a sensible placeholder
         $default = $default ?: '/dummy.png';

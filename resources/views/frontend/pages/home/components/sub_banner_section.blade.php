@@ -3,9 +3,8 @@
         <div class="course_item_content">
             @foreach ($subBanners as $key => $cat)
                 <div class="course item_{{ $key + 1 }}">
-                    <a href="#">
-                        <img src="{{ asset($cat->image) }}" alt="">
-                    </a>
+                    <img class="rounded rounded-sm" src="{{ assetHelper(optional($cat)->image) }}"
+                        alt="techpark english sub-banner" loading="lazy" style="max-height: 210px; width: 100%;">
                 </div>
             @endforeach
         </div>

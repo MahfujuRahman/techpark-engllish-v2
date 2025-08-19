@@ -67,9 +67,9 @@ function error_response(data) {
     throw data;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    Turbolinks.start()
-});
+// document.addEventListener("DOMContentLoaded", () => {
+//     Turbolinks.start()
+// });
 
 document.addEventListener("turbolinks:load", function (event) {
 
@@ -92,8 +92,16 @@ document.addEventListener("turbolinks:render", function (event) {
 });
 
 function showVideo(video_link) {
+    // Extract YouTube video ID and start time from the link
+    const match = video_link.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\s&#]+)(?:.*[?&]t=(\d+))?/);
+    let embedUrl = video_link;
+    if (match) {
+        const videoId = match[1];
+        const startTime = match[2] ? `?start=${match[2]}` : '';
+        embedUrl = `https://www.youtube.com/embed/${videoId}${startTime}`;
+    }
     document.querySelector("#story_modal .modal-body").innerHTML = `
-        <iframe width="100%" height="450" src="${video_link}" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+        <iframe width="100%" height="450" src="${embedUrl}" frameborder="0" allow="autoplay" allowfullscreen></iframe>
     `;
     var modal1 = new bootstrap.Modal(document.getElementById('story_modal'));
     modal1.toggle();

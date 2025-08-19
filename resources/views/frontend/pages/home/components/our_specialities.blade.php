@@ -1,4 +1,4 @@
-<section class="our_course_specialty" {{-- style="background-image: url(http://techparkit.org/frontend/assets/images/home_page_image/our_course_specialty/bg_img.png);" --}} style="background: #43a5c9">
+<section class="our_course_specialty" style="background: #43a5c9">
     <div class="container">
         <div class="our_course_specialty_area_content">
 
@@ -15,7 +15,8 @@
                 @foreach ($our_speciality as $item)
                     <div class="c_card">
                         <div class="card_img_area">
-                            <img src="{{ asset($item->image) }}" alt="card tech park it">
+                            <img class="rounded rounded-sm" src="{{ assetHelper(optional($item)->image) }}"
+                                alt="card tech park it" loading="lazy">
                         </div>
                     </div>
                 @endforeach
