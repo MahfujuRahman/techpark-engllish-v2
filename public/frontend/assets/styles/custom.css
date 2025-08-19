@@ -46,7 +46,7 @@
   max-width: 400px;
 }
 .button_all:hover {
-  background-color: #dc2626;
+  background-color: #56aede;
   border: 1px solid transparent;
   color: #ffffff;
 }
@@ -428,4 +428,9 @@ li {
   color: white;
   position: relative;
   top: 5px;
+}
+.free_seminar_area_sub_title {
+  border: 0px solid red;
+  padding-top: 16px;
+  padding-bottom: 40px;
 }
