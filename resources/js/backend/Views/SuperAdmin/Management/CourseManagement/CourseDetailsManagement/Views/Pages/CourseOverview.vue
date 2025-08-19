@@ -25,9 +25,6 @@
                                     placeholder="Enter course title"
                                     @input="generateSlug"
                                 >
-                                <div v-if="errors.title" class="invalid-feedback">
-                                    {{ errors.title[0] }}
-                                </div>
                             </div>
 
                             <!-- What is this Course -->
@@ -35,9 +32,6 @@
                                 <label for="what_is_this_course" class="form-label">What is this Course</label>
                                 <div class="text-editor-wrapper" :class="{ 'is-invalid': errors.what_is_this_course }">
                                     <text-editor name="what_is_this_course" />
-                                </div>
-                                <div v-if="errors.what_is_this_course" class="invalid-feedback d-block">
-                                    {{ errors.what_is_this_course[0] }}
                                 </div>
                             </div>
 
@@ -48,9 +42,6 @@
                                 <label for="why_is_this_course" class="form-label">Why this Course</label>
                                 <div class="text-editor-wrapper" :class="{ 'is-invalid': errors.why_is_this_course }">
                                     <text-editor name="why_is_this_course" />
-                                </div>
-                                <div v-if="errors.why_is_this_course" class="invalid-feedback d-block">
-                                    {{ errors.why_is_this_course[0] }}
                                 </div>
                             </div>
                         </div>
@@ -88,7 +79,9 @@
                                         <p>Upload Image</p>
                                         <small>JPG, PNG, GIF (Max 2MB)</small>
                                     </div>
-                                    <input 
+                                   
+                                </div>
+                                 <input 
                                         ref="imageInput"
                                         type="file" 
                                         id="image"
@@ -96,10 +89,7 @@
                                         class="d-none"
                                         accept="image/*"
                                     >
-                                </div>
-                                <div v-if="errors.image" class="invalid-feedback d-block">
-                                    {{ errors.image[0] }}
-                                </div>
+                             
                             </div>
 
                             <!-- Intro Video -->
@@ -113,9 +103,6 @@
                                     :class="{ 'is-invalid': errors.intro_video }"
                                     placeholder="https://youtube.com/watch?v=..."
                                 >
-                                <div v-if="errors.intro_video" class="invalid-feedback">
-                                    {{ errors.intro_video[0] }}
-                                </div>
                             </div>
 
                             <!-- Published Date -->
@@ -128,9 +115,6 @@
                                     class="form-control"
                                     :class="{ 'is-invalid': errors.published_at }"
                                 >
-                                <div v-if="errors.published_at" class="invalid-feedback">
-                                    {{ errors.published_at[0] }}
-                                </div>
                             </div>
 
                             <!-- Is Published -->
@@ -149,9 +133,6 @@
                                         Publish this course
                                     </label>
                                 </div>
-                                <div v-if="errors.is_published" class="invalid-feedback d-block">
-                                    {{ errors.is_published[0] }}
-                                </div>
                             </div>
 
                             <!-- Course Status -->
@@ -166,9 +147,6 @@
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                 </select>
-                                <div v-if="errors.status" class="invalid-feedback">
-                                    {{ errors.status[0] }}
-                                </div>
                             </div>
 
                             <!-- SEO Section -->
@@ -183,9 +161,6 @@
                                         :class="{ 'is-invalid': errors.meta_title }"
                                         placeholder="SEO Meta Title"
                                     >
-                                    <div v-if="errors.meta_title" class="invalid-feedback">
-                                        {{ errors.meta_title[0] }}
-                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -198,9 +173,6 @@
                                         rows="2" 
                                         placeholder="SEO Meta Description"
                                     ></textarea>
-                                    <div v-if="errors.meta_description" class="invalid-feedback">
-                                        {{ errors.meta_description[0] }}
-                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -214,9 +186,6 @@
                                         placeholder="keyword1, keyword2, keyword3"
                                     >
                                     <small class="form-text text-muted">Separate keywords with commas</small>
-                                    <div v-if="errors.meta_keywords" class="invalid-feedback">
-                                        {{ errors.meta_keywords[0] }}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -383,9 +352,11 @@ export default {
                 }
 
                 // Get course_category_id from the hidden input created by dropdown
+                // Always include the category field. If nothing is selected, send an empty string
+                // so the backend won't reuse a previous value.
                 const categoryInput = document.getElementById('course_category_id');
-                if (categoryInput && categoryInput.value) {
-                    formData.set('course_category_id', categoryInput.value);
+                if (categoryInput) {
+                    formData.set('course_category_id', categoryInput.value || '');
                 }
 
                 // Add content from Summernote editors (always send, even if empty)
@@ -413,20 +384,9 @@ export default {
                     formData.append('why_is_this_course', fallbackContent);
                 }
 
-                // Debug: Log all form data entries
-                console.log('=== FormData Debug ===');
-                for (let [key, value] of formData.entries()) {
-                    console.log(`${key}:`, value);
-                }
-                console.log('======================');
 
                 const response = await this.updateCourse(this.currentCourse.slug, formData);
                 
-                console.log('API Response:', response);
-                console.log('Response status:', response.status);
-                console.log('Response statusCode:', response.statusCode);
-                console.log('Response message:', response.message);
-
                 // Check statusCode specifically (it's a number), not status (which is a string)
                 if ([200, 201].includes(response.statusCode)) {
                     // Show success message
@@ -441,10 +401,9 @@ export default {
                         this.$toast.success(message); // Fallback to toast
                     }
                 } else {
-                    console.log('Unexpected response statusCode:', response.statusCode);
                     // Handle unexpected response
                     if (typeof window.s_alert === 'function') {
-                        window.s_alert('Unexpected response from server', 'error');
+                        window.s_alert('Validation error', 'error');
                     } else {
                         this.$toast.error('Unexpected response from server');
                     }
@@ -458,7 +417,6 @@ export default {
                         this.$toast.error('Fill the input fields.');
                     }
                 }
-                console.error('Error saving course overview:', error);
             }
         },
         

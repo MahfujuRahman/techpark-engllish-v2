@@ -41,8 +41,8 @@ class DataStoreValidation extends FormRequest
      */
     public function rules(): array
     {
-        // Determine if this is an update request (PUT/PATCH) or a create (POST)
-        $isUpdate = in_array($this->method(), ['PUT', 'PATCH']);
+        // Determine if this is an update request or a create
+        $isUpdate = $this->route('slug') !== null;
 
         // Image should be required on create, optional on update
         $imageRule = $isUpdate
