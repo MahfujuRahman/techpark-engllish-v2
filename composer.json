@@ -36,7 +36,8 @@
         },
         "files": [
             "app/Modules/Helpers/Index.php",
-            "app/Http/Common.php"
+            "app/Http/Common.php",
+            "app/Helpers/image_helpers.php"
         ]
     },
     "autoload-dev": {

@@ -1,24 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Modules\Controllers\Frontend\FrontendController;
-use App\Modules\Controllers\Frontend\Auth\AuthController;
-
 use App\Http\Controllers\WebsiteController;
-// use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Auth\CourseManagerController;
-use App\Http\Controllers\Auth\WebsiteCoreInformationController;
-use App\Http\Controllers\Auth\CounselingController;
-use App\Http\Controllers\Auth\SeminarController;
+use App\Http\Controllers\Auth\AuthController;
+
+use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Auth\ProfileController;
-use App\Models\Course\Course;
-use App\Models\Quiz\Quiz;
-use App\Models\Quiz\QuizQuestion;
-use App\Models\Quiz\QuizQuestionOption;
+use App\Http\Controllers\Auth\SeminarController;
+use App\Http\Controllers\Auth\CounselingController;
+use App\Http\Controllers\Auth\CourseManagerController;
+use App\Modules\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Auth\WebsiteCoreInformationController;
+use App\Modules\Controllers\Frontend\Auth\AuthController as BackendAuthController;
 
 
-
-Route::get('/', [FrontendController::class, 'HomePage'])->name('HomePage');
+// Route::get('/', [FrontendController::class, 'HomePage'])->name('HomePage');
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +22,9 @@ Route::get('/', [FrontendController::class, 'HomePage'])->name('HomePage');
 |--------------------------------------------------------------------------
 */
 
-Route::get('/login', [AuthController::class, 'LoginPage'])->name('LoginPage');
-Route::get('/register', [AuthController::class, 'RegisterPage'])->name('RegisterPage');
-Route::get('/forgot-password', [AuthController::class, 'ForgotPassword'])->name('ForgotPassword');
+Route::get('/admin-login', [BackendAuthController::class, 'LoginPage'])->name('LoginPage');
+// Route::get('/register', [AuthController::class, 'RegisterPage'])->name('RegisterPage');
+// Route::get('/forgot-password', [AuthController::class, 'ForgotPassword'])->name('ForgotPassword');
 
 /*
 |--------------------------------------------------------------------------
@@ -36,8 +32,17 @@ Route::get('/forgot-password', [AuthController::class, 'ForgotPassword'])->name(
 |--------------------------------------------------------------------------
 */
 
+// Auth Routes
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'login_submit'])->name('login_sumbit');
+
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register-sumbit', [AuthController::class, 'register_sumbit'])->name('register_sumbit');
+
+Route::post('logout', [AuthController::class, 'logout_submit'])->name('logout');
+
 // Website Routes
-// Route::get('/', [WebsiteController::class, 'index'])->name("website");
+Route::get('/', [HomeController::class, 'index'])->name("website");
 Route::get('/about', [WebsiteController::class, 'about'])->name("about");
 Route::get('/contact', [WebsiteController::class, 'contact'])->name("contact");
 Route::post('/contact', [WebsiteController::class, 'contact_submit'])->name("contact_submit");
@@ -114,14 +119,6 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-// Auth Routes
-// Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'login_submit'])->name('login_sumbit');
-
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register-sumbit', [AuthController::class, 'register_sumbit'])->name('register_sumbit');
-
-Route::post('logout', [AuthController::class, 'logout_submit'])->name('logout');
 
 // Profile Routes
 Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');

@@ -19,8 +19,8 @@ class AuthController extends Controller
         if (auth()->check()) {
             return redirect('/');
         }
-        $website_about = WebsiteCoreInformation::where('status', 1)->first();
-        return view('frontend.pages.login', compact('website_about'));
+
+        return view('frontend.pages.auth.login');
     }
 
     public function login_submit()
