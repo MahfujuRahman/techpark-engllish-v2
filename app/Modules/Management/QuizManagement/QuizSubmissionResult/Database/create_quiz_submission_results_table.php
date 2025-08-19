@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('quiz_submission_results', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->nullable();
+            $table->bigInteger('course_id')->nullable();
             $table->string('quiz_id', 100)->nullable();
             $table->tinyInteger('submission_no')->default(0);
             $table->string('course_module_class_id', 100)->nullable();

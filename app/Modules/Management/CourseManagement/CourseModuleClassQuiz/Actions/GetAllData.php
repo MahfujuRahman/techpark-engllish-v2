@@ -20,11 +20,11 @@ class GetAllData
 
             $with = ['course:id,title', 'milestone:id,title', 'module:id,title', 'module_class:id,title', 'quiz:id,title'];
 
-            $condition = [];
+            $condition = ['course_id' => $course_id];
 
             $data = self::$model::query();
-            
-           
+
+
             if (request()->has('search') && request()->input('search')) {
                 $searchKey = request()->input('search');
                 $data = $data->where(function ($q) use ($searchKey) {
@@ -81,7 +81,6 @@ class GetAllData
                     ->where('status', $status)
                     ->orderBy($orderByColumn, $orderByType)
                     ->paginate($pageLimit);
-            
             }
 
             return entityResponse([

@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('quiz_submissions', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->nullable();
+            $table->bigInteger('course_id')->nullable();
             $table->bigInteger('quiz_id')->nullable();
             $table->bigInteger('quiz_question_id')->nullable();
             $table->json('quiz_question_option_id')->nullable();

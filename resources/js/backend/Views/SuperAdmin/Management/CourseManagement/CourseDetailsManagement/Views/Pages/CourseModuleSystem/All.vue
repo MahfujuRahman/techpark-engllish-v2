@@ -57,7 +57,7 @@
                         <label for="">
                             Milestone no
                         </label>
-                        <input type="text" class="form-control" v-model="milestone.milestone_no">
+                        <input type="number" class="form-control" v-model="milestone.milestone_no">
                     </div>
                 </div>
 
@@ -77,6 +77,12 @@
                             </div>
                         </div>
                         <div class="form_group">
+                            <label for="">Module title</label>
+                            <div class="input">
+                                <input type="text" class="form-control" v-model="module.title">
+                            </div>
+                        </div>
+                        <div class="form_group">
                             <label for="">
                                 Module No
                             </label>
@@ -84,12 +90,7 @@
                                 <input type="number" class="form-control" v-model="module.module_no">
                             </div>
                         </div>
-                        <div class="form_group">
-                            <label for="">Module title</label>
-                            <div class="input">
-                                <input type="text" class="form-control" v-model="module.title">
-                            </div>
-                        </div>
+                        
                     </div>
 
                     <!-- Classes within Module -->
