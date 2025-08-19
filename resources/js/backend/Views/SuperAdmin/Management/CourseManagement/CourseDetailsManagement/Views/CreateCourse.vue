@@ -72,9 +72,9 @@
                                         <p>Upload Image</p>
                                         <small>JPG, PNG, GIF (Max 2MB)</small>
                                     </div>
-                                    <input ref="imageInput" type="file" id="image" @change="handleImageUpload"
-                                        class="d-none" accept="image/*">
                                 </div>
+                                <input ref="imageInput" type="file" id="image" @change="handleImageUpload"
+                                    class="d-none" accept="image/*">
                             </div>
 
                             <!-- Intro Video -->
@@ -360,9 +360,9 @@ export default {
                         }
                     }, 2000); // 2 second delay
                 } else {
-                    console.log('Unexpected response statusCode:', response.statusCode);
+                    console.log('Unexpected response statusCode:', response.status);
                     // Handle unexpected response
-                    window.s_alert('Unexpected response from server', 'error');
+                    window.s_alert('Validation Error', 'error');
                 }
 
             } catch (error) {

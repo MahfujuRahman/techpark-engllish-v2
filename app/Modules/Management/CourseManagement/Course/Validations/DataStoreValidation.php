@@ -41,16 +41,23 @@ class DataStoreValidation extends FormRequest
      */
     public function rules(): array
     {
+        // Determine if this is an update request (PUT/PATCH) or a create (POST)
+        $isUpdate = in_array($this->method(), ['PUT', 'PATCH']);
+
+        // Image should be required on create, optional on update
+        $imageRule = $isUpdate
+            ? 'sometimes|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048'
+            : 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048';
+
         return [
             'course_category_id' => 'required | sometimes',
             'title' => 'required | sometimes',
-            'image' => 'nullable | sometimes',
+            'image' => $imageRule,
             'intro_video' => 'required | sometimes',
             'published_at' => 'required | sometimes',
             'is_published' => 'required | sometimes',
             'what_is_this_course' => 'required | sometimes',
             'why_is_this_course' => 'required | sometimes',
-            'type' => 'required | sometimes',
             'status' => ['sometimes', Rule::in(['active', 'inactive'])],
             'meta_title' => 'sometimes',
             'meta_description' => 'sometimes',
