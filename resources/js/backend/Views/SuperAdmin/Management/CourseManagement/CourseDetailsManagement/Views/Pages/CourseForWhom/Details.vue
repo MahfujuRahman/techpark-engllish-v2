@@ -7,21 +7,11 @@
                     Course For Whom Details
                 </h5>
                 <div class="btn-group" role="group">
-                    <button 
-                        type="button" 
-                        class="btn btn-sm btn-primary"
-                        @click="editItem"
-                        :disabled="loading"
-                    >
+                    <button type="button" class="btn btn-sm btn-primary" @click="editItem" :disabled="loading">
                         <i class="fas fa-edit me-1"></i>
                         Edit
                     </button>
-                    <button 
-                        type="button" 
-                        class="btn btn-sm btn-danger"
-                        @click="confirmDelete"
-                        :disabled="loading"
-                    >
+                    <button type="button" class="btn btn-sm btn-danger" @click="confirmDelete" :disabled="loading">
                         <i class="fas fa-trash me-1"></i>
                         Delete
                     </button>
@@ -43,7 +33,7 @@
                                 <div class="detail-value">{{ item.title || 'N/A' }}</div>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-6">
                             <div class="detail-item">
                                 <label class="detail-label">Status:</label>
@@ -92,11 +82,7 @@
                 </div>
 
                 <div class="form-actions mt-4">
-                    <button 
-                        type="button" 
-                        class="btn btn-secondary"
-                        @click="goBack"
-                    >
+                    <button type="button" class="btn btn-secondary" @click="goBack">
                         <i class="fas fa-arrow-left me-1"></i>
                         Back to List
                     </button>
@@ -111,14 +97,14 @@ import { mapState, mapActions } from 'pinia';
 import { useCourseDetailsStore } from '../../../Store/courseDetailsStore.js';
 export default {
     name: 'CourseForWhomDetails',
-    
+
     data() {
         return {
             item: null,
             loading: true
         };
     },
-    
+
     computed: {
         ...mapState(useCourseDetailsStore, ['currentCourse'])
     },
@@ -129,9 +115,9 @@ export default {
         async loadItemDetails() {
             try {
                 const itemSlug = this.$route.params.slug;
-                
+
                 const response = await axios.get(`course-for-whoms/${itemSlug}`);
-                
+
                 if (response.data.status === 'success') {
                     this.item = response.data.data;
                 } else {
@@ -150,7 +136,7 @@ export default {
         editItem() {
             this.$router.push({
                 name: 'CourseForWhomEdit',
-                params: { 
+                params: {
                     slug: this.$route.params.slug
                 }
             });
@@ -158,12 +144,12 @@ export default {
 
         async confirmDelete() {
             const result = await window.s_confirm(
-                'Delete Confirmation',
                 'Are you sure you want to delete this item? This action cannot be undone.',
+                'Confirm',
                 'warning'
             );
 
-            if (result.isConfirmed) {
+            if (result && (result.isConfirmed || result === true)) {
                 await this.deleteItem();
             }
         },
@@ -171,9 +157,9 @@ export default {
         async deleteItem() {
             try {
                 const itemSlug = this.$route.params.slug;
-                
+
                 const response = await axios.post(`course-for-whoms/destroy/${itemSlug}`);
-                
+
                 if (response.data.status === 'success') {
                     window.s_alert('Target audience item deleted successfully!');
                     this.goBack();
@@ -211,7 +197,7 @@ export default {
             });
         }
     },
-    
+
     async mounted() {
         console.log('CourseForWhomDetails component mounted');
         await this.loadCourseDetails();
@@ -360,20 +346,20 @@ export default {
         flex-direction: column;
         align-items: flex-start !important;
     }
-    
+
     .btn-group {
         margin-top: 0.5rem;
         width: 100%;
     }
-    
+
     .btn-group .btn {
         flex: 1;
     }
-    
+
     .details-content {
         padding: 1rem;
     }
-    
+
     .form-actions .btn {
         width: 100%;
     }

@@ -193,20 +193,20 @@
                 </div>
                 
                 <!-- Error Message -->
-                <div v-if="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <!-- <div v-if="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{ errorMessage }}
                     <button type="button" class="close" @click="clearMessages" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                </div>
+                </div> -->
                 
                 <!-- Success Message -->
-                <div v-if="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+                <!-- <div v-if="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ successMessage }}
                     <button type="button" class="close" @click="clearMessages" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                </div>
+                </div> -->
                 
                 <!-- Router View for Course Content -->
                 <router-view />

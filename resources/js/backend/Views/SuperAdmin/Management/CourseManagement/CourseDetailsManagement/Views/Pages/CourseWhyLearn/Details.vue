@@ -156,13 +156,13 @@ export default {
         },
 
         async confirmDelete() {
-            const result = await window.s_confirm(
-                'Delete Confirmation',
+           const result = await window.s_confirm(
                 'Are you sure you want to delete this item? This action cannot be undone.',
+                'Confirm',
                 'warning'
             );
 
-            if (result.isConfirmed) {
+            if (result && (result.isConfirmed || result === true)) {
                 await this.deleteItem();
             }
         },

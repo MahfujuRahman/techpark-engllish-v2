@@ -234,7 +234,7 @@ export default {
         const confirmDelete = async () => {
             const confirmed = await window.s_confirm(
                 'Are you sure you want to delete this learning item?',
-                'This action cannot be undone!'
+                'Yes!'
             );
             
             if (confirmed) {
@@ -244,7 +244,7 @@ export default {
         
         const deleteItem = async () => {
             try {
-                const response = await axios.delete(`course-you-will-learns/destroy/${itemSlug.value}`);
+                const response = await axios.post(`course-you-will-learns/destroy/${itemSlug.value}`);
                 
                 if (response.data && response.data.status === 'success') {
                     window.s_alert('Learning item deleted successfully!', 'success');

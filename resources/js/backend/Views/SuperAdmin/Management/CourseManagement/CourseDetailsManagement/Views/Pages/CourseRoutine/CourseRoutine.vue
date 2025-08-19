@@ -32,13 +32,8 @@
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <input 
-                                v-model="filters.date" 
-                                @change="applyFilters"
-                                type="date" 
-                                class="form-control" 
-                                placeholder="Filter by date"
-                            >
+                            <input v-model="filters.date" @change="applyFilters" type="date" class="form-control"
+                                placeholder="Filter by date">
                         </div>
                         <div class="col-md-3">
                             <select v-model="filters.status" @change="applyFilters" class="form-control">
@@ -94,7 +89,8 @@
                                 <button @click="editRoutine(routine)" class="btn btn-outline-primary btn-sm ml-2">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button @click="deleteRoutine(routine.id, index)" class="btn btn-outline-danger btn-sm ml-1">
+                                <button @click="deleteRoutine(routine.id, index)"
+                                    class="btn btn-outline-danger btn-sm ml-1">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -133,13 +129,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="module_id">Module *</label>
-                                        <select 
-                                            id="module_id"
-                                            v-model="currentRoutine.module_id"
-                                            @change="filterClassesByModule"
-                                            class="form-control"
-                                            required
-                                        >
+                                        <select id="module_id" v-model="currentRoutine.module_id"
+                                            @change="filterClassesByModule" class="form-control" required>
                                             <option value="">Select Module</option>
                                             <option v-for="module in modules" :key="module.id" :value="module.id">
                                                 {{ module.title }}
@@ -150,68 +141,44 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="class_id">Class *</label>
-                                        <select 
-                                            id="class_id"
-                                            v-model="currentRoutine.class_id"
-                                            class="form-control"
-                                            required
-                                            :disabled="!currentRoutine.module_id"
-                                        >
+                                        <select id="class_id" v-model="currentRoutine.class_id" class="form-control"
+                                            required :disabled="!currentRoutine.module_id">
                                             <option value="">Select Class</option>
-                                            <option v-for="classItem in modalFilteredClasses" :key="classItem.id" :value="classItem.id">
+                                            <option v-for="classItem in modalFilteredClasses" :key="classItem.id"
+                                                :value="classItem.id">
                                                 {{ classItem.title }}
                                             </option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="topic">Topic *</label>
-                                <input 
-                                    type="text" 
-                                    id="topic"
-                                    v-model="currentRoutine.topic"
-                                    class="form-control"
-                                    placeholder="Enter class topic"
-                                    required
-                                >
+                                <input type="text" id="topic" v-model="currentRoutine.topic" class="form-control"
+                                    placeholder="Enter class topic" required>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="date">Date *</label>
-                                        <input 
-                                            type="date" 
-                                            id="date"
-                                            v-model="currentRoutine.date"
-                                            class="form-control"
-                                            required
-                                        >
+                                        <input type="date" id="date" v-model="currentRoutine.date" class="form-control"
+                                            required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="time">Time *</label>
-                                        <input 
-                                            type="time" 
-                                            id="time"
-                                            v-model="currentRoutine.time"
-                                            class="form-control"
-                                            required
-                                        >
+                                        <input type="time" id="time" v-model="currentRoutine.time" class="form-control"
+                                            required>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label for="status">Status</label>
-                                <select 
-                                    id="status"
-                                    v-model="currentRoutine.status"
-                                    class="form-control"
-                                >
+                                <select id="status" v-model="currentRoutine.status" class="form-control">
                                     <option value="active">Active</option>
                                     <option value="inactive">Inactive</option>
                                 </select>
@@ -237,43 +204,43 @@ import { useCourseDetailsStore } from '../../../Store/courseDetailsStore.js';
 
 export default {
     name: 'CourseRoutineAll',
-    
+
     computed: {
         ...mapState(useCourseDetailsStore, ['currentCourse']),
-        
+
         filteredClasses() {
             if (!this.filters.module) {
                 return this.classes;
             }
             return this.classes.filter(classItem => classItem.course_modules_id == this.filters.module);
         },
-        
+
         modalFilteredClasses() {
             if (!this.currentRoutine.module_id) {
                 return [];
             }
             return this.classes.filter(classItem => classItem.course_modules_id == this.currentRoutine.module_id);
         },
-        
+
         filteredRoutines() {
             let filtered = [...this.routines];
-            
+
             if (this.filters.module) {
                 filtered = filtered.filter(routine => routine.module_id == this.filters.module);
             }
-            
+
             if (this.filters.class) {
                 filtered = filtered.filter(routine => routine.class_id == this.filters.class);
             }
-            
+
             if (this.filters.date) {
                 filtered = filtered.filter(routine => routine.date === this.filters.date);
             }
-            
+
             if (this.filters.status) {
                 filtered = filtered.filter(routine => routine.status === this.filters.status);
             }
-            
+
             return filtered.sort((a, b) => {
                 const dateA = new Date(a.date + ' ' + a.time);
                 const dateB = new Date(b.date + ' ' + b.time);
@@ -281,7 +248,7 @@ export default {
             });
         }
     },
-    
+
     data() {
         return {
             loading: false,
@@ -308,14 +275,14 @@ export default {
             }
         };
     },
-    
+
     async created() {
         await this.loadData();
     },
-    
+
     methods: {
         ...mapActions(useCourseDetailsStore, ['getCourseDetails']),
-        
+
         async loadData() {
             await Promise.all([
                 this.loadRoutines(),
@@ -323,7 +290,7 @@ export default {
                 this.loadClasses()
             ]);
         },
-        
+
         async loadRoutines() {
             this.loading = true;
             try {
@@ -338,7 +305,7 @@ export default {
                     console.error('Course ID not found');
                     return;
                 }
-                
+
                 const response = await axios.get(`course-module-class-routines?course_id=${courseId}&get_all=1`);
                 if (response.data && response.data.status === 'success') {
                     this.routines = response.data.data || [];
@@ -350,7 +317,7 @@ export default {
                 this.loading = false;
             }
         },
-        
+
         async loadModules() {
             try {
                 const courseSlug = this.$route.params.id;
@@ -364,7 +331,7 @@ export default {
                     console.error('Course ID not found');
                     return;
                 }
-                
+
                 const response = await axios.get(`course-modules?course_id=${courseId}&get_all=1`);
                 if (response.data && response.data.status === 'success') {
                     this.modules = response.data.data || [];
@@ -373,7 +340,7 @@ export default {
                 console.error('Error loading modules:', error);
             }
         },
-        
+
         async loadClasses() {
             try {
                 const courseSlug = this.$route.params.id;
@@ -387,7 +354,7 @@ export default {
                     console.error('Course ID not found');
                     return;
                 }
-                
+
                 const response = await axios.get(`course-module-classes?course_id=${courseId}&get_all=1`);
                 if (response.data && response.data.status === 'success') {
                     this.classes = response.data.data || [];
@@ -396,12 +363,12 @@ export default {
                 console.error('Error loading classes:', error);
             }
         },
-        
+
         filterClassesByModule() {
             // Reset class selection when module changes
             this.currentRoutine.class_id = '';
         },
-        
+
         createNewRoutine() {
             this.isEditing = false;
             const store = useCourseDetailsStore();
@@ -416,39 +383,39 @@ export default {
             };
             this.showModal = true;
         },
-        
+
         editRoutine(routine) {
             this.isEditing = true;
             this.currentRoutine = { ...routine };
             this.showModal = true;
         },
-        
+
         async saveRoutine() {
             if (!this.currentRoutine.topic.trim()) {
                 window.s_warning('Please enter a topic');
                 return;
             }
-            
+
             if (!this.currentRoutine.module_id) {
                 window.s_warning('Please select a module');
                 return;
             }
-            
+
             if (!this.currentRoutine.class_id) {
                 window.s_warning('Please select a class');
                 return;
             }
-            
+
             if (!this.currentRoutine.date) {
                 window.s_warning('Please select a date');
                 return;
             }
-            
+
             if (!this.currentRoutine.time) {
                 window.s_warning('Please select a time');
                 return;
             }
-            
+
             this.submitting = true;
             try {
                 const store = useCourseDetailsStore();
@@ -456,14 +423,14 @@ export default {
                     ...this.currentRoutine,
                     course_id: store.currentCourse?.id
                 };
-                
+
                 let response;
                 if (this.isEditing) {
                     response = await axios.post(`course-module-class-routines/update/${this.currentRoutine.slug}`, routineData);
                 } else {
                     response = await axios.post('course-module-class-routines/store', routineData);
                 }
-                
+
                 if (response.data && response.data.status === 'success') {
                     window.s_alert(this.isEditing ? 'Routine updated successfully!' : 'Routine created successfully!');
                     this.closeModal();
@@ -478,25 +445,30 @@ export default {
                 this.submitting = false;
             }
         },
-        
+
         async deleteRoutine(id, index) {
-            if (!confirm('Are you sure you want to delete this routine?')) {
-                return;
-            }
-            
-            try {
-                if (id) {
-                    const routine = this.routines[index];
-                    await axios.post(`course-module-class-routines/destroy/${routine.slug}`);
+           
+            const result = await window.s_confirm(
+                'Are you sure you want to delete this item? This action cannot be undone.',
+                'Confirm',
+                'warning'
+            );
+
+            if (result && (result.isConfirmed || result === true)) {
+                try {
+                    if (id) {
+                        const routine = this.routines[index];
+                        await axios.post(`course-module-class-routines/destroy/${routine.slug}`);
+                    }
+                    this.routines.splice(index, 1);
+                    window.s_alert('Routine deleted successfully!');
+                } catch (error) {
+                    console.error('Error deleting routine:', error);
+                    window.s_error('Failed to delete routine');
                 }
-                this.routines.splice(index, 1);
-                window.s_alert('Routine deleted successfully!');
-            } catch (error) {
-                console.error('Error deleting routine:', error);
-                window.s_error('Failed to delete routine');
             }
         },
-        
+
         closeModal() {
             this.showModal = false;
             this.isEditing = false;
@@ -510,25 +482,25 @@ export default {
                 status: 'active'
             };
         },
-        
+
         applyFilters() {
             // Filters are automatically applied through computed property
         },
-        
+
         formatDay(date) {
             if (!date) return '';
             const d = new Date(date);
             return d.getDate().toString().padStart(2, '0');
         },
-        
+
         formatMonth(date) {
             if (!date) return '';
             const d = new Date(date);
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             return months[d.getMonth()];
         },
-        
+
         formatTime(time) {
             if (!time) return '';
             const [hours, minutes] = time.split(':');
@@ -720,26 +692,26 @@ input[type="time"].form-control {
         flex-direction: column;
         gap: 1rem;
     }
-    
+
     .routine-info {
         width: 100%;
     }
-    
+
     .routine-actions {
         width: 100%;
         justify-content: space-between;
     }
-    
+
     .routine-meta {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
     }
-    
+
     .filters .row {
         margin: 0;
     }
-    
+
     .filters .col-md-3 {
         padding: 0.25rem;
     }
@@ -808,6 +780,7 @@ input[type="time"].form-control {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
