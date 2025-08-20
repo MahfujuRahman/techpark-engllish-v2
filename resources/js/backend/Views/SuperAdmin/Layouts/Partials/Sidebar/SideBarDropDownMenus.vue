@@ -8,8 +8,8 @@
             <div class="menu-title">{{ menu_title }}</div>
         </a>
         <ul :class="`mm-collapse ${is_show && 'mm-show'}`">
-            <li v-for="(menu, index) in menus" :key="index" :class="{ 'active': isActiveRoute(menu.route_name) }">
-                <router-link :to="{ name: menu.route_name }" :class="{ 'active': isActiveRoute(menu.route_name) }">
+            <li v-for="(menu, index) in menus" :key="index" :class="{ 'active': isActiveRoute(menu) }">
+                <router-link :to="menu.route ? menu.route : { name: menu.route_name }" :class="{ 'active': isActiveRoute(menu) }">
                     <i :class="menu.icon"></i>
                     {{ menu.title }}
                 </router-link>
@@ -37,8 +37,8 @@ export default {
     }),
     computed: {
         isCurrentMenuActive() {
-            // Check if any child route is currently active
-            return this.menus.some(menu => this.$route.name === menu.route_name);
+            // Check if any child route is currently active (supports menu.route object or legacy route_name)
+            return this.menus.some(menu => this.isActiveRoute(menu));
         }
     },
     watch: {
@@ -89,8 +89,19 @@ export default {
                 this.is_show = true;
             }
         },
-        isActiveRoute(routeName) {
-            return this.$route.name === routeName;
+        isActiveRoute(menu) {
+            if (!menu) return false;
+            if (menu.route && menu.route.name) {
+                return this.$route.name === menu.route.name;
+            }
+            if (menu.route_name) {
+                return this.$route.name === menu.route_name;
+            }
+            // fallback if a plain string is passed
+            if (typeof menu === 'string') {
+                return this.$route.name === menu;
+            }
+            return false;
         }
     }
 }

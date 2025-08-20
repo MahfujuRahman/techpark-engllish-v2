@@ -48,13 +48,13 @@
           route_name: `AllCourses`,
           title: `All Courses`,
           icon: `zmdi zmdi-dot-circle-alt`,
-        }, 
+        },
         // {
         //   route_name: `AllCourse`,
         //   title: `Course`,
         //   icon: `zmdi zmdi-dot-circle-alt`,
         // },
-         {
+        {
           route_name: `AllCourseInstructors`,
           title: `CourseInstructors`,
           icon: `zmdi zmdi-dot-circle-alt`,
@@ -84,8 +84,7 @@
           route_name: `AllWebsiteBanner`,
           title: `Website Banner`,
           icon: `zmdi zmdi-dot-circle-alt`,
-        },
-        {
+        },{
           route_name: `AllSubBanner`,
           title: `Sub Banner`,
           icon: `zmdi zmdi-dot-circle-alt`,
@@ -98,7 +97,7 @@
           title: `Our Speciality`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
-          route_name: `AllOurTrainer`,
+          route: { name: `EditOurTrainer`, params: { id: 'our-trainers' } },
           title: `Our Trainer`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
@@ -106,10 +105,10 @@
           title: `Website Brand`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
-          route_name: `AllAboutUs`,
+          route: { name: `EditAboutUs`, params: { id: 'about-us' } },
           title: `About Us`,
           icon: `zmdi zmdi-dot-circle-alt`,
-        },{
+        }, {
           route_name: `AllOurMoto`,
           title: `Our Moto`,
           icon: `zmdi zmdi-dot-circle-alt`,

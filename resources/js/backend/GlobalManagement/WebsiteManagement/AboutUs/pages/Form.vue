@@ -103,7 +103,7 @@ import form_fields from "../setup/form_fields";
                 // await this.get_all();
                 if ([200, 201].includes(response.status)) {
                     window.s_alert("Data successfully updated");
-                    this.$router.push({ name: `Details${this . setup . route_prefix}` });
+                    this.$router.push({ name: `Edit${this . setup . route_prefix}` });
                 }
             } else {
                 this.setSummerEditor();

@@ -57,6 +57,7 @@ class Home
             'courseBatches' => $courseBatch
         ];
 
+
         // $html = view('frontend.pages.home.home', $data)->render();
         // Cache::put($cacheKey, $html, now()->addMinutes($ttlMinutes));
 
