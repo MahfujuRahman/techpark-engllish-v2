@@ -9,6 +9,7 @@
 @endphp
 @extends('frontend.layouts.layout', $meta)
 @section('contents')
+
     <!-- banner_part start -->
     @include('frontend.pages.home.components.banner_section')
     <!-- banner_part end -->

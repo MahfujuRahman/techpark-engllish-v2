@@ -94,11 +94,14 @@
         <!-- go_to_top_area end -->
     </section>
     <!-- chating_and_go_to_top_area end -->
+    
     <script>
         $('.owl-carousel').owlCarousel({
             loop: true,
             margin: 10,
             nav: true,
+            autoplay: true,
+            autoplayTimeout: 3000,
             responsive: {
                 0: {
                     items: 1
@@ -108,5 +111,4 @@
     </script>
 
 </body>
-
 </html>

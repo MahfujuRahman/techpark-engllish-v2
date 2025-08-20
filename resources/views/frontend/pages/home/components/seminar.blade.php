@@ -1,4 +1,4 @@
-<div class="container">
+<div class="free_seminar_area">
     <div class="free_seminar_area_content">
         <div class="row">
             <!-- left_area start -->
