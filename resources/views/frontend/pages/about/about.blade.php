@@ -21,4 +21,14 @@
     <!-- our moto area start -->
     @include('frontend.pages.about.components.our_moto')
     <!-- our moto area end -->
+
+    <!-- our mission area start -->
+    @include('frontend.pages.about.components.our_mission')
+    <!-- our mission area end -->
+
+    <!-- our vision area start -->
+    @include('frontend.pages.about.components.our_vision')
+    <!-- our vision area end -->
+
+
 @endsection

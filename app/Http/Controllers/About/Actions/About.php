@@ -12,6 +12,8 @@ use App\Modules\Management\GalleryManagement\Gallery\Models\Model as Gallery;
 use App\Modules\Management\WebsiteManagement\AboutUs\Models\Model as AboutUs;
 use App\Modules\Management\WebsiteManagement\WebsiteBrand\Models\Model as Brand;
 use App\Modules\Management\WebsiteManagement\OurMoto\Models\Model as OurMoto;
+use App\Modules\Management\WebsiteManagement\OurMission\Models\Model as OurMission;
+use App\Modules\Management\WebsiteManagement\OurVision\Models\Model as OurVision;
 
 
 class About
@@ -41,6 +43,8 @@ class About
         $AboutUs = AboutUs::where('status', 1)->first();
         $brands = Brand::where('status', 1)->get();
         $our_moto = OurMoto::where('status', 1)->first();
+        $our_mission = OurMission::where('status', 1)->first();
+        $our_vision = OurVision::where('status', 1)->first();
 
         // $teachers = CourseInstructors::where('status', 'active')->with('instructor', 'courses', 'batches')->limit(3)->get();
 
@@ -56,10 +60,8 @@ class About
             'AboutUs' => $AboutUs,
             'brands' => $brands,
             'our_moto' => $our_moto,
-            //    'website_about' => $website_about,
-            //    'teachers' => $teachers,
-            //    'courses' => $courses,
-            //    'course_types' => $course_types,
+            'our_mission' => $our_mission,
+            'our_vision' => $our_vision,
         ];
 
         // $html = view('frontend.pages.home.home', $data)->render();

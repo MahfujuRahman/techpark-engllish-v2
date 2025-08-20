@@ -15,66 +15,8 @@
    
 
     
-    <!-- mission -->
-    <section class="mission_part" id="our_mission">
-        <div class="container">
-            <div class="mission_part_details">
-                <div class="mission_part_image">
-                    <img src="/{{ $website_about->aboutus_mission_image }}" alt="" />
-                </div>
-                <div class="mission_part_description">
-                    <div class="mission_part_title">
-                        {{-- <h2 class="mission_title_bangla">আমাদের মিশন</h2> --}}
-                        <h2 class="mission_title_bangla">{{ $website_about->aboutus_mission_heading }}</h2>
-                    </div>
-                    <div class="mission_part_info">
-                        {!! $website_about->aboutus_mission_description !!}
-                        {{-- <p>
-                            ৩ বছরেরও বেশি সময় ধরে ওয়েব ডিজাইন ও ডেভোলাপম্যান্ট ট্রেইনার
-                            হিসেবে কর্মরত আছেন। এছাড়াও তিনি গত ৫ বছর ধরে Fiverr, Upwork ও
-                            Freelancer.com এ সফলতার সাথে ফ্রিলান্সিং করে আসছেন, ও ৩০০+
-                            প্রজেক্ট সম্পন্ন করেছেন
-                        </p>
-                        <p>
-                            তিনি ৫০০+ স্টুডেন্টকে ট্রেনিং করিয়েছেন, যারা বর্তমানে বাংলাদেশের
-                            বিভিন্ন স্বনামধন্য প্রতিষ্ঠানে কর্মরত আছেন।
-                        </p> --}}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- /mission -->
-    <!-- vision -->
-    <section class="vision_part" id="our_vision">
-        <div class="container">
-            <div class="vision_part_details">
-                <div class="vision_part_description">
-                    <div class="vision_part_title">
-                        {{-- <h2 class="vision_title_bangla">আমাদের ভিশন</h2> --}}
-                        <h2 class="vision_title_bangla">{{ $website_about->aboutus_vision_heading }}</h2>
-                    </div>
-                    <div class="vision_part_info">
-                        {!! $website_about->aboutus_vision_description !!}
-                        {{-- <p>
-                            আমাদের ভিশন ৩ বছরেরও বেশি সময় ধরে ওয়েব ডিজাইন ও ডেভোলাপম্যান্ট
-                            ট্রেইনার হিসেবে কর্মরত আছেন। এছাড়াও তিনি গত ৫ বছর ধরে Fiverr,
-                            Upwork ও Freelancer.com এ সফলতার সাথে ফ্রিলান্সিং করে আসছেন, ও
-                            ৩০০+ প্রজেক্ট সম্পন্ন করেছেন
-                        </p>
-                        <p>
-                            তিনি ৫০০+ স্টুডেন্টকে ট্রেনিং করিয়েছেন, যারা বর্তমানে বাংলাদেশের
-                            বিভিন্ন স্বনামধন্য প্রতিষ্ঠানে কর্মরত আছেন।
-                        </p> --}}
-                    </div>
-                </div>
-                <div class="vision_part_image">
-                    <img src="/{{ $website_about->aboutus_vision_image }}" alt="" />
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- /vision -->
+   
+   
 
 
     <!-- training part start -->

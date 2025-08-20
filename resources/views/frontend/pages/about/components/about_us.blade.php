@@ -17,7 +17,7 @@
             <div class="col-md-5 aboutus_media">
                 <div class="aboutus_image">
                     <img class="rounded rounded-sm" src="{{ assetHelper(optional($AboutUs)->image) }}"
-                        alt="techpark english banner" loading="lazy">
+                        alt="{{ $AboutUs->title }}" loading="lazy">
                 </div>
             </div>
         </div>
