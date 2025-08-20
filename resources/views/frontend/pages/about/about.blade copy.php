@@ -14,20 +14,7 @@
 @section('contents')
    
 
-    <!-- motivation -->
-    <section class="motivation_part" id="our_moto">
-        <div class="container">
-            <div class="motivation_title">
-                {{-- <h2 class="motivation_title_bangla">আমাদের মটো</h2> --}}
-                <h2 class="motivation_title_bangla">{{ $website_about->aboutus_moto_heading }}</h2>
-                <p class="motivation_title_english">
-                    {{-- “Empowering learners through technology” --}}
-                    "{{ $website_about->aboutus_moto_description }}"
-                </p>
-            </div>
-        </div>
-    </section>
-    <!-- /motivation -->
+    
     <!-- mission -->
     <section class="mission_part" id="our_mission">
         <div class="container">

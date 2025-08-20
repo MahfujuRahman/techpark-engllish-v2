@@ -11,6 +11,8 @@ use App\Modules\Management\GalleryManagement\Gallery\Models\Model as Gallery;
 
 use App\Modules\Management\WebsiteManagement\AboutUs\Models\Model as AboutUs;
 use App\Modules\Management\WebsiteManagement\WebsiteBrand\Models\Model as Brand;
+use App\Modules\Management\WebsiteManagement\OurMoto\Models\Model as OurMoto;
+
 
 class About
 {
@@ -36,8 +38,9 @@ class About
             $team_related_image = Gallery::where('gallery_category_id', $category->id)->orderBy('top_image', 'DESC')->skip(1)->take(7)->get();
         }
 
-        $AboutUs = AboutUs::first();
+        $AboutUs = AboutUs::where('status', 1)->first();
         $brands = Brand::where('status', 1)->get();
+        $our_moto = OurMoto::where('status', 1)->first();
 
         // $teachers = CourseInstructors::where('status', 'active')->with('instructor', 'courses', 'batches')->limit(3)->get();
 
@@ -52,6 +55,7 @@ class About
             'team_related_image' => $team_related_image,
             'AboutUs' => $AboutUs,
             'brands' => $brands,
+            'our_moto' => $our_moto,
             //    'website_about' => $website_about,
             //    'teachers' => $teachers,
             //    'courses' => $courses,
