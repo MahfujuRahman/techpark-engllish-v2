@@ -8,17 +8,6 @@
                         {{ param_id ? `${setup.edit_page_title}` : `${setup . create_page_title}` }}
 
                     </h5>
-                    <div>
-                        <router-link v-if="item.slug" class="btn btn-outline-info mr-2 btn-sm" :to="{
-                            name: `Details${setup.route_prefix}`,
-                            params: { id: item.slug },
-                        }">
-                            {{ setup.details_page_title }}
-                        </router-link>
-                        <router-link class="btn btn-outline-warning btn-sm" :to="{ name: `All${setup.route_prefix}` }">
-                            {{ setup.all_page_title }}
-                        </router-link>
-                    </div>
                 </div>
                 <div class="card-body card_body_fixed_height">
                     <div class="row">

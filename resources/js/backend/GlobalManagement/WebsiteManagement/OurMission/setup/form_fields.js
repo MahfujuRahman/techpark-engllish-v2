@@ -7,16 +7,17 @@ export default [
 	},
 
 	{
+		name: "image",
+		label: "Enter your image",
+		type: "file",
+		value: "",
+	},
+
+		{
 		name: "description",
 		label: "Enter your description",
 		type: "textarea",
 		value: "",
-	},
-
-	{
-		name: "image",
-		label: "Enter your image",
-		type: "text",
-		value: "",
+		row_col_class: "col-12",
 	},
 ];

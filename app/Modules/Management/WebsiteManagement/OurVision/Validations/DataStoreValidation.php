@@ -41,10 +41,17 @@ class DataStoreValidation extends FormRequest
      */
     public function rules(): array
     {
+         // Determine if this is an update request or a create
+        $isUpdate = $this->route('slug') !== null;
+
+        // Image should be required on create, optional on update
+        $imageRule = $isUpdate
+            ? 'sometimes|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120'
+            : 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120';
         return [
             'title' => 'required | sometimes',
             'description' => 'required | sometimes',
-            'image' => 'required | sometimes',
+            'image' => $imageRule,
             'status' => ['sometimes', Rule::in(['active', 'inactive'])],
         ];
     }

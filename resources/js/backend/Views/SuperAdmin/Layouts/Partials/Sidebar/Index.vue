@@ -109,19 +109,19 @@
           title: `About Us`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
-          route_name: `AllOurMoto`,
+          route: { name: `EditOurMoto`, params: { id: 'our-moto' } },
           title: `Our Moto`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
-          route_name: `AllOurMission`,
+          route: { name: `EditOurMission`, params: { id: 'our-mission' } },
           title: `Our Mission`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
-          route_name: `AllOurVision`,
+          route: { name: `EditOurVision`, params: { id: 'our-vision' } },
           title: `Our Vision`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
-          route_name: `AllOurTeam`,
+          route: { name: `EditOurTeam`, params: { id: 'our-team' } },
           title: `Our Team`,
           icon: `zmdi zmdi-dot-circle-alt`,
         },

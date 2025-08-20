@@ -7,17 +7,17 @@ export default [
 	},
 
 	{
-		name: "description",
-		label: "Enter your description",
-		type: "textarea",
+		name: "image",
+		label: "Enter your image",
+		type: "file",
 		value: "",
 	},
 
 	{
-		name: "image",
-		label: "Enter your image",
+		name: "description",
+		label: "Enter your description",
 		type: "textarea",
-		placeholder: "Enter JSON data",
 		value: "",
+		row_col_class: "col-12",
 	},
 ];
