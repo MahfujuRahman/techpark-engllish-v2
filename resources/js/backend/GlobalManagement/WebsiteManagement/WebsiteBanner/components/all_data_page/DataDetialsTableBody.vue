@@ -7,22 +7,18 @@
       <th class="text-center">:</th>
       <th class="text-trim">
         <template v-if="row_item === 'image'">
-          <a 
-            :href="item[row_item] || '/avatar.png'" 
-            data-fancybox="detail-gallery" 
-            :data-caption="`${row_item} - Detail View`"
-          >
-            <img
-              :src="item[row_item] || '/avatar.png'"
-              @error="handleImageError($event)"
-              style="width: 120px; height: 120px; object-fit: cover"
-              alt="image"
-            />
+          <a :href="item[row_item] || '/avatar.png'" data-fancybox="detail-gallery"
+            :data-caption="`${row_item} - Detail View`">
+            <img :src="item[row_item] || '/avatar.png'" @error="handleImageError($event)"
+              style="width: 120px; height: 120px; object-fit: cover" alt="image" />
           </a>
         </template>
-        <template v-else>
-          {{ trim_content(item[row_item], row_item) }}
-        </template>
+      <td v-else-if="row_item === 'is_featured'">
+        {{ item[row_item] === 1 ? 'Yes' : 'No' }}
+      </td>
+      <template v-else>
+        {{ trim_content(item[row_item], row_item) }}
+      </template>
       </th>
     </tr>
   </template>

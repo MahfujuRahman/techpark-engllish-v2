@@ -204,24 +204,24 @@ class WebsiteController extends Controller
 
     public function about()
     {
-        $team_top_image = null;
-        $team_related_image = null;
+    $team_top_image = null;
+    $team_related_image = null;
 
-        $category = GalleryCategory::where('title', 'আমাদের টিম')->first();
+    $category = GalleryCategory::where('title', 'আমাদের টিম')->first();
 
-        if ($category) {
-            $team_top_image = Gallery::where('gallery_category_id', $category->id)->orderBy('top_image', 'DESC')->first();
-            $team_related_image = Gallery::where('gallery_category_id', $category->id)->orderBy('top_image', 'DESC')->skip(1)->take(7)->get();
-        }
+    if ($category) {
+        $team_top_image = Gallery::where('gallery_category_id', $category->id)->orderBy('top_image', 'DESC')->first();
+        $team_related_image = Gallery::where('gallery_category_id', $category->id)->orderBy('top_image', 'DESC')->skip(1)->take(7)->get();
+    }
 
-        $website_about = WebsiteCoreInformation::where('status', 1)->first();
-        $teachers = CourseInstructors::where('status', 'active')->with('instructor', 'courses', 'batches')->limit(3)->get();
+    $website_about = WebsiteCoreInformation::where('status', 1)->first();
+    $teachers = CourseInstructors::where('status', 'active')->with('instructor', 'courses', 'batches')->limit(3)->get();
 
-        $all = $this->all_course();
-        $courses = $all['courses'];
-        $course_types = $all['course_types'];
+    $all = $this->all_course();
+    $courses = $all['courses'];
+    $course_types = $all['course_types'];
 
-        return view('frontend.pages.about', compact('team_top_image', 'team_related_image', 'website_about', 'teachers', 'courses', 'course_types'));
+    return view('frontend.pages.about', compact('team_top_image', 'team_related_image', 'website_about', 'teachers', 'courses', 'course_types'));
     }
 
     public function contact()

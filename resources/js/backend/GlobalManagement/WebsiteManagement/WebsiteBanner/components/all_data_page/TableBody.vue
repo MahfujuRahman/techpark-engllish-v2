@@ -32,6 +32,9 @@
           </a>
         </template>
       </td>
+      <td v-else-if="row_item === 'is_featured'" class="text-wrap max-w-120">
+            {{ item[row_item] === 1 ? 'Yes' : 'No' }}
+      </td>
       <td v-else class="text-wrap max-w-120">
         {{ trim_content(item[row_item], row_item) }}
       </td>

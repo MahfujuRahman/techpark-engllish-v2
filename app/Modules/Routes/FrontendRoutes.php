@@ -2,9 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebsiteController;
+use App\Http\Controllers\About\Actions\About;
 use App\Http\Controllers\Auth\AuthController;
 
 use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\About\AboutController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\SeminarController;
 use App\Http\Controllers\Auth\CounselingController;
@@ -43,7 +45,7 @@ Route::post('logout', [AuthController::class, 'logout_submit'])->name('logout');
 
 // Website Routes
 Route::get('/', [HomeController::class, 'index'])->name("website");
-Route::get('/about', [WebsiteController::class, 'about'])->name("about");
+Route::get('/about', [AboutController::class, 'index'])->name("about");
 Route::get('/contact', [WebsiteController::class, 'contact'])->name("contact");
 Route::post('/contact', [WebsiteController::class, 'contact_submit'])->name("contact_submit");
 Route::get('/courses', [WebsiteController::class, 'courses'])->name("courses");

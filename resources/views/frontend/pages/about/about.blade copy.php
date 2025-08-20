@@ -12,63 +12,7 @@
 {{-- @dd($website_about) --}}
 @extends('frontend.layouts.layout', $meta)
 @section('contents')
-    <!-- aboutus -->
-    <section class="aboutus_part">
-        <div class="container">
-            <div class="aboutus_title">
-                <h2 class="aboutus_title_bangla">
-                    {{-- আমাদের সম্পর্কে --}}
-                    {{ $website_about->aboutus_heading }}
-                </h2>
-            </div>
-            <div class="aboutus_relation_description">
-                <p class="aboutus_info">
-                    {{ $website_about->aboutus_description }}
-                </p>
-                {{-- <p class="aboutus_info">
-                    দেশের মানুষের বেকারত্বের সমাধান ও আইটি সেক্টরে দক্ষ জনবল তৈরি, মূলত
-                    এই মৌলিক বিষয়কে ধারণ করেই টেক পার্ক আইটির যাত্রা শুরু। টেক পার্ক
-                    আইটি এদেশের মানুষের মধ্যে আইসিটিতে দক্ষতার উন্নয়ন ঘটাতে চায়, যার
-                    মাধ্যমে মানুষের কর্মসংস্থান তৈরির পাশাপাশি এদেশের অর্থনৈতিক উন্নয়নে
-                    ভূমিকা পালন করা যাবে।
-                </p>
-                <p class="aboutus_info">
-                    শিক্ষার্থীদের চাহিদার কথা বিবেচনায় রেখে কোর্স কারিকুলাম নিয়মিত আপডেট
-                    করার কারণে আমরা শিক্ষার্থীদেরকে সর্বাধুনিক প্রশিক্ষণ দিতে পারছি বলে
-                    আমরা আশাবাদী। নির্দিষ্ট সময়ে কোর্স করিয়ে দিয়েই দায়িত্ব পালন সম্পন্ন
-                    হয়েছে মনে না করে, আমাদের সাথে সংযুক্ত হওয়া শিক্ষার্থীদেরকে 'টেক
-                    পার্ক আইটি পরিবার'-এর সদস্য হিসেবে বিবেচনা করে তাদেরকে প্রফেশনাল
-                    প্রতিষ্ঠানে জবের সুযোগ করে দেওয়া এবং প্রফেশনাল উন্নয়ন দেখে আনন্দিত
-                    হওয়াটা আমাদের স্বপ্নের মতো। যে স্বপ্ন পূরণে আছে আত্মীক প্রশান্তি। এ
-                    প্রশান্তির পথে আমরা এগিয়ে যেতে চাই বহু দূরের পথ।
-                </p> --}}
-            </div>
-            @php
-                $brands = \App\Models\WebsiteBrand::where('status', 1)->get();
-            @endphp
-            <div class="aboutus_partner">
-                <div class="container">
-                    <div class="aboutus_partner_title">
-                        <h3 class="aboutus_partner_title_text">
-                            {{-- আমরা যাদের সাথে কাজ করেছি --}}
-                            {{ $website_about->our_brand_heading }}
-                        </h3>
-                    </div>
-                    <div class="aboutus_partner_items_container">
-                        <div class="items">
-                            @foreach ($brands as $brand)
-                                {{-- @dd($brand) --}}
-                                <div class="item">
-                                    <img src="/{{ $brand->image }}" alt="{{ $brand->title }}" />
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- /aboutus -->
+   
 
     <!-- motivation -->
     <section class="motivation_part" id="our_moto">

@@ -79,51 +79,51 @@
           icon: `zmdi zmdi-dot-circle-alt`,
         },
       ]" />
-      <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`WebsiteManagement`" :menus="[
+      <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`Website Management`" :menus="[
         {
           route_name: `AllWebsiteBanner`,
-          title: `WebsiteBanner`,
+          title: `Website Banner`,
           icon: `zmdi zmdi-dot-circle-alt`,
         },
         {
           route_name: `AllSubBanner`,
-          title: `SubBanner`,
+          title: `Sub Banner`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
           route_name: `AllSuccssStories`,
-          title: `SuccssStories`,
+          title: `Succss Stories`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
           route_name: `AllOurSpeciality`,
-          title: `OurSpeciality`,
+          title: `Our Speciality`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
           route_name: `AllOurTrainer`,
-          title: `OurTrainer`,
-          icon: `zmdi zmdi-dot-circle-alt`,
-        }, {
-          route_name: `AllAboutUs`,
-          title: `AboutUs`,
+          title: `Our Trainer`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
           route_name: `AllWebsiteBrand`,
-          title: `WebsiteBrand`,
+          title: `Website Brand`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
+          route_name: `AllAboutUs`,
+          title: `About Us`,
+          icon: `zmdi zmdi-dot-circle-alt`,
+        },{
           route_name: `AllOurMoto`,
-          title: `OurMoto`,
+          title: `Our Moto`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
           route_name: `AllOurMission`,
-          title: `OurMission`,
+          title: `Our Mission`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
           route_name: `AllOurVision`,
-          title: `OurVision`,
+          title: `Our Vision`,
           icon: `zmdi zmdi-dot-circle-alt`,
         }, {
           route_name: `AllOurTeam`,
-          title: `OurTeam`,
+          title: `Our Team`,
           icon: `zmdi zmdi-dot-circle-alt`,
         },
       ]" />

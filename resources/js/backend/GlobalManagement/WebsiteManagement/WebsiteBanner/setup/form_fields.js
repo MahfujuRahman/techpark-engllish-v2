@@ -7,13 +7,6 @@ export default [
 	},
 
 	{
-		name: "subtitle",
-		label: "Enter your subtitle",
-		type: "textarea",
-		value: "",
-	},
-
-	{
 		name: "is_featured",
 		label: "Enter your is featured",
 		type: "select",
@@ -29,14 +22,6 @@ export default [
 				value: "0",
 			},
 		],
-		value: "",
-	},
-
-	{
-		name: "image",
-		label: "Enter your image",
-		type: "file",
-		multiple: "false",
 		value: "",
 	},
 
@@ -65,6 +50,19 @@ export default [
 		name: "btn_two_url",
 		label: "Enter your btn two url",
 		type: "text",
+		value: "",
+	},
+	{
+		name: "subtitle",
+		label: "Enter your subtitle",
+		type: "textarea",
+		value: "",
+	},
+	{
+		name: "image",
+		label: "Enter your image",
+		type: "file",
+		multiple: "false",
 		value: "",
 	},
 ];
