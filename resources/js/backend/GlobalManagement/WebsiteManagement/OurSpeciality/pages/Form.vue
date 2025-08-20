@@ -28,7 +28,7 @@
                             <common-input :label="form_field.label" :type="form_field.type" :name="form_field.name"
                                 :multiple="form_field.multiple" :value="form_field.value"
                                 :data_list="form_field.data_list" :is_visible="form_field.is_visible"
-                                :row_col_class="form_field.row_col_class" />
+                                :row_col_class="form_field.row_col_class" :item="form_field.item"/>
 
                         </template>
                     </div>
@@ -92,6 +92,10 @@ import form_fields from "../setup/form_fields";
                             $(`#${field . name}`).summernote("code", value[1]);
                         }
                     });
+                    // attach the loaded item to each field so child components (like image) can access slug
+                    if (this.item) {
+                        this.form_fields[index].item = this.item;
+                    }   
                 });
             }
         },
