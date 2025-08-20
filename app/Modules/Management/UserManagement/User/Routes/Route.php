@@ -19,5 +19,6 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('user-profile-update', [Controller::class, 'UserProfileUpdate']);
         Route::post('user-change-password', [Controller::class, 'UserChangePassword']);
+        Route::post('{dbName}/image-delete/{slug}', [Controller::class, 'imageDelete']);
     });
 });

@@ -58,6 +58,7 @@
           :name="name"
           :accept="`.jpg,.jpeg,.png`"
           :value="value"
+          :item="item"
         ></image-component>
       </div>
     </div>
@@ -109,6 +110,11 @@ export default {
       required: false,
       type: Array,
     },
+    item: {
+      required: false,
+      type: Object,
+      default: null,
+    },
     row_col_class: {
       required: false,
       type: String,
@@ -146,6 +152,19 @@ export default {
     removeTag: function (item) {
       this.remove_tag(item);
     },
+  },
+  computed: {
+    // Resolve item: prefer explicit prop, otherwise fallback to parent form's item
+    resolvedItem() {
+      if (this.item) return this.item;
+      try {
+        // parent may be the Form page which has computed `item`
+        if (this.$parent && this.$parent.item) return this.$parent.item;
+      } catch (e) {
+        // ignore
+      }
+      return null;
+    }
   },
   created: async function () {},
 };
