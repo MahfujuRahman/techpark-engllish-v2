@@ -120,10 +120,6 @@
           route: { name: `EditOurVision`, params: { id: 'our-vision' } },
           title: `Our Vision`,
           icon: `zmdi zmdi-dot-circle-alt`,
-        }, {
-          route: { name: `EditOurTeam`, params: { id: 'our-team' } },
-          title: `Our Team`,
-          icon: `zmdi zmdi-dot-circle-alt`,
         },
       ]" />
       <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`BlogManagement`" :menus="[

@@ -58,7 +58,6 @@ include_once base_path("app/Modules/Management/WebsiteManagement/WebsiteBrand/Ro
 include_once base_path("app/Modules/Management/WebsiteManagement/OurMoto/Routes/Route.php");
 include_once base_path("app/Modules/Management/WebsiteManagement/OurMission/Routes/Route.php");
 include_once base_path("app/Modules/Management/WebsiteManagement/OurVision/Routes/Route.php");
-include_once base_path("app/Modules/Management/WebsiteManagement/OurTeam/Routes/Route.php");
 include_once base_path("app/Modules/Management/BlogManagement/BlogCategory/Routes/Route.php");
 include_once base_path("app/Modules/Management/BlogManagement/Blog/Routes/Route.php");
 include_once base_path("app/Modules/Management/BlogManagement/BlogWriter/Routes/Route.php");

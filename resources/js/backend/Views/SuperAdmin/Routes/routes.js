@@ -24,7 +24,6 @@ import BlogTagRoutes from '../../../GlobalManagement/BlogManagement/BlogTag/setu
 import BlogWriterRoutes from '../../../GlobalManagement/BlogManagement/BlogWriter/setup/routes.js';
 import BlogRoutes from '../../../GlobalManagement/BlogManagement/Blog/setup/routes.js';
 import BlogCategoryRoutes from '../../../GlobalManagement/BlogManagement/BlogCategory/setup/routes.js';
-import OurTeamRoutes from '../../../GlobalManagement/WebsiteManagement/OurTeam/setup/routes.js';
 import OurVisionRoutes from '../../../GlobalManagement/WebsiteManagement/OurVision/setup/routes.js';
 import OurMissionRoutes from '../../../GlobalManagement/WebsiteManagement/OurMission/setup/routes.js';
 import OurMotoRoutes from '../../../GlobalManagement/WebsiteManagement/OurMoto/setup/routes.js';
@@ -68,7 +67,6 @@ const routes = {
         BlogWriterRoutes,
         BlogRoutes,
         BlogCategoryRoutes,
-        OurTeamRoutes,
         OurVisionRoutes,
         OurMissionRoutes,
         OurMotoRoutes,
