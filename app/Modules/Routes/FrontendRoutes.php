@@ -10,6 +10,7 @@ use App\Http\Controllers\About\AboutController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\SeminarController;
 use App\Http\Controllers\Auth\CounselingController;
+use App\Http\Controllers\Gallery\GalleryController;
 use App\Http\Controllers\Auth\CourseManagerController;
 use App\Modules\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Auth\WebsiteCoreInformationController;
@@ -51,7 +52,7 @@ Route::post('/contact', [WebsiteController::class, 'contact_submit'])->name("con
 Route::get('/courses', [WebsiteController::class, 'courses'])->name("courses");
 Route::get('/course/{slug}', [WebsiteController::class, 'course_details'])->name("course_details");
 
-Route::get('/gallery', [WebsiteController::class, 'gallery'])->name("gallery");
+Route::get('/gallery', [GalleryController::class, 'gallery'])->name("gallery");
 Route::get('/blog', [WebsiteController::class, 'blog'])->name("blog");
 Route::get('/blog/{slug}', [WebsiteController::class, 'blog_details'])->name("blog_details");
 Route::get('/seminar', [WebsiteController::class, 'seminar'])->name("seminar");

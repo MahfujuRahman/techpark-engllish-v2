@@ -22,7 +22,7 @@
                                 </a>
                             </li>
                             @php
-                                $galleryCategories = \App\Models\GalleryCategory::where('status', 'active')->get();
+                                $galleryCategories = App\Modules\Management\GalleryManagement\GalleryCategory\Models\Model::where('status', 'active')->get();
                             @endphp
                             @foreach ($galleryCategories as $gcat)
                                 <li>

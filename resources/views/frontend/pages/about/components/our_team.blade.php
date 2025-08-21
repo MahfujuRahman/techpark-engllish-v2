@@ -284,7 +284,7 @@
             <div class="team-area-carousel">
                 <!-- Main Image Display -->
                 <div class="carousel-main-image">
-                    <img id="mainTeamImage" src="{{ asset($team_top_image->image) }}" alt="{{ $team_top_image->title }}"
+                    <img id="mainTeamImage" src="{{ assetHelper(optional($team_top_image)->image) }}" alt="{{ $team_top_image->title }}"
                         loading="lazy">
                 </div>
 
@@ -292,7 +292,7 @@
                 <div class="carousel-thumbnails owl-carousel">
                     @foreach ($team_related_image as $single_image)
                         <div class="carousel-thumb-item">
-                            <img src="{{ asset($single_image->image) }}" alt="{{ $single_image->title }}" loading="lazy"
+                            <img src="{{ assetHelper(optional($single_image)->image) }}" alt="{{ $single_image->title }}" loading="lazy"
                                 onclick="changeMainImage(this)">
                         </div>
                     @endforeach
