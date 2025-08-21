@@ -7,22 +7,18 @@
       <th class="text-center">:</th>
       <th class="text-trim">
         <template v-if="row_item === 'image'">
-          <a 
-            :href="item[row_item] || '/avatar.png'" 
-            data-fancybox="detail-gallery" 
-            :data-caption="`${row_item} - Detail View`"
-          >
-            <img
-              :src="item[row_item] || '/avatar.png'"
-              @error="handleImageError($event)"
-              style="width: 120px; height: 120px; object-fit: cover"
-              alt="image"
-            />
+          <a :href="item[row_item] || '/avatar.png'" data-fancybox="detail-gallery"
+            :data-caption="`${row_item} - Detail View`">
+            <img :src="item[row_item] || '/avatar.png'" @error="handleImageError($event)"
+              style="width: 120px; height: 120px; object-fit: cover" alt="image" />
           </a>
         </template>
-        <template v-else>
-          {{ trim_content(item[row_item], row_item) }}
-        </template>
+      <template v-else-if="row_item === 'top_image'">
+        {{ item[row_item] == 1 ? 'Yes' : item[row_item] == 0 ? 'No' : '' }}
+      </template>
+      <template v-else>
+        {{ trim_content(item[row_item], row_item) }}
+      </template>
       </th>
     </tr>
   </template>
@@ -120,8 +116,36 @@ export default {
             second: "2-digit",
           }).format(new Date(content));
         }
-        return content.length > 50 ? content.substring(0, 50) + "..." : content;
+
+        // Strip HTML tags and decode HTML entities
+        let textContent = content;
+
+        // Remove HTML tags
+        textContent = textContent.replace(/<[^>]*>/g, '');
+
+        // Decode common HTML entities
+        const entityMap = {
+          '&amp;': '&',
+          '&lt;': '<',
+          '&gt;': '>',
+          '&quot;': '"',
+          '&#39;': "'",
+          '&nbsp;': ' ',
+          '&copy;': '©',
+          '&reg;': '®',
+          '&trade;': '™'
+        };
+
+        textContent = textContent.replace(/&[a-zA-Z0-9#]+;/g, (entity) => {
+          return entityMap[entity] || entity;
+        });
+
+        // Clean up extra whitespace
+        textContent = textContent.replace(/\s+/g, ' ').trim();
+
+        return textContent.length > 50 ? textContent.substring(0, 25) + "..." : textContent;
       }
+
       if (content && typeof content === "object") {
         for (const key of Object.keys(content)) {
           if (key === "title" && content.title) {

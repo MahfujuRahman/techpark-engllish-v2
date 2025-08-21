@@ -32,6 +32,9 @@
           </a>
         </template>
       </td>
+      <td v-else-if="row_item === 'top_image'" class="text-wrap max-w-120">
+            {{ item[row_item] == 1 ? 'Yes' : item[row_item] == 0 ? 'No' : '' }}
+      </td>
       <td v-else class="text-wrap max-w-120">
         {{ trim_content(item[row_item], row_item) }}
       </td>
@@ -159,8 +162,36 @@ export default {
             second: "2-digit",
           }).format(new Date(content));
         }
-        return content.length > 50 ? content.substring(0, 25) + "..." : content;
+        
+        // Strip HTML tags and decode HTML entities
+        let textContent = content;
+        
+        // Remove HTML tags
+        textContent = textContent.replace(/<[^>]*>/g, '');
+        
+        // Decode common HTML entities
+        const entityMap = {
+          '&amp;': '&',
+          '&lt;': '<',
+          '&gt;': '>',
+          '&quot;': '"',
+          '&#39;': "'",
+          '&nbsp;': ' ',
+          '&copy;': '©',
+          '&reg;': '®',
+          '&trade;': '™'
+        };
+        
+        textContent = textContent.replace(/&[a-zA-Z0-9#]+;/g, (entity) => {
+          return entityMap[entity] || entity;
+        });
+        
+        // Clean up extra whitespace
+        textContent = textContent.replace(/\s+/g, ' ').trim();
+        
+        return textContent.length > 50 ? textContent.substring(0, 25) + "..." : textContent;
       }
+      
       if (content && typeof content === "object") {
         for (const key of Object.keys(content)) {
           if (key === "title" && content.title) {
