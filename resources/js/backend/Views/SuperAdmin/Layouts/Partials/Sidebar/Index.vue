@@ -84,7 +84,7 @@
           route_name: `AllWebsiteBanner`,
           title: `Website Banner`,
           icon: `zmdi zmdi-dot-circle-alt`,
-        },{
+        }, {
           route_name: `AllSubBanner`,
           title: `Sub Banner`,
           icon: `zmdi zmdi-dot-circle-alt`,
@@ -119,6 +119,11 @@
         }, {
           route: { name: `EditOurVision`, params: { id: 'our-vision' } },
           title: `Our Vision`,
+          icon: `zmdi zmdi-dot-circle-alt`,
+        },
+        {
+          route: { name: `EditOurTeam`, params: { id: 'our-team' } },
+          title: `OurTeam`,
           icon: `zmdi zmdi-dot-circle-alt`,
         },
       ]" />
@@ -182,6 +187,8 @@
           icon: `zmdi zmdi-dot-circle-alt`,
         },
       ]" />
+
+      />
       <!-- Management end -->
     </ul>
   </div>

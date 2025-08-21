@@ -7,6 +7,7 @@ import SettingsRoutes from "../Management/Settings/setup/routes.js";
 //UserRoutes
 import UserRoutes from "../Management/UserManagement/User/setup/routes.js";
 //routes
+import OurTeamRoutes from '../../../GlobalManagement/WebsiteManagement/OurTeam/setup/routes.js';
 import CourseInstructorsRoutes from '../../../GlobalManagement/CourseManagement/CourseInstructors/setup/routes.js';
 import CourseCategoryRoutes from '../../../GlobalManagement/CourseManagement/CourseCategory/setup/routes.js';
 import WebsiteBannerRoutes from '../../../GlobalManagement/WebsiteManagement/WebsiteBanner/setup/routes.js';
@@ -50,6 +51,7 @@ const routes = {
       name: "adminDashboard",
     },
     //management routes
+        OurTeamRoutes,
         CourseInstructorsRoutes,
         CourseCategoryRoutes,
         WebsiteBannerRoutes,

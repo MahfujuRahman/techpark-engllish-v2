@@ -82,7 +82,7 @@ php artisan make:module WebsiteManagement/WebsiteBrand [title:string-255,image:f
 php artisan make:module WebsiteManagement/OurMoto [title:string-255,description:text,image:string-255] --vue
 php artisan make:module WebsiteManagement/OurMission [title:string-255,description:text,image:string-255] --vue
 php artisan make:module WebsiteManagement/OurVision [title:string-255,description:text,image:string-255] --vue
-php artisan make:module WebsiteManagement/OurTeam [title:string-255,description:text,image:json] --vue
+php artisan make:module WebsiteManagement/OurTeam [title:string-255,description:text] --vue
 
 /*
 |--------------------------------------------------------------------------

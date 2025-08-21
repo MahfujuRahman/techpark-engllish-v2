@@ -49,6 +49,8 @@
 
     {{-- pwa setup --}}
     {{-- <script src="{{ asset('main.js') }}" defer></script> --}}
+
+    @stack('styles')
 </head>
 
 <body id="top">
@@ -109,6 +111,8 @@
             }
         })
     </script>
+
+    @stack('scripts')
 
 </body>
 </html>

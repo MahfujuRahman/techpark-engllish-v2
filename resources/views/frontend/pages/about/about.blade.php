@@ -30,5 +30,6 @@
     @include('frontend.pages.about.components.our_vision')
     <!-- our vision area end -->
 
+    @include('frontend.pages.about.components.our_team')
 
 @endsection
