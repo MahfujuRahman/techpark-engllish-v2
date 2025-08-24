@@ -16,11 +16,11 @@ use App\Modules\Management\WebsiteManagement\OurMission\Models\Model as OurMissi
 use App\Modules\Management\WebsiteManagement\OurVision\Models\Model as OurVision;
 use App\Modules\Management\WebsiteManagement\OurTeam\Models\Model as OurTeam;
 
+use App\Modules\Management\CourseManagement\CourseInstructors\Models\Model as CourseInstructors;
+
 
 class About
 {
-    static $model = \App\Modules\Management\CommunicationManagement\ContactMessage\Models\Model::class;
-
     public static function execute()
     {
         $cacheKey = 'About_page_html_v1';
@@ -52,7 +52,7 @@ class About
         $our_vision = OurVision::where('status', 1)->first();
         $our_team = OurTeam::where('status', 1)->first();
 
-        // $teachers = CourseInstructors::where('status', 'active')->with('instructor', 'courses', 'batches')->limit(3)->get();
+        $teachers = CourseInstructors::where('status', 'active')->with( 'courses', 'batches')->limit(3)->get();
 
         // $all = $this->all_course();
         // $courses = $all['courses'];
@@ -69,6 +69,7 @@ class About
             'our_team' => $our_team,
             'team_top_image' => $team_top_image,
             'team_related_image' => $team_related_image,
+            'teachers' => $teachers,
         ];
 
         // $html = view('frontend.pages.home.home', $data)->render();

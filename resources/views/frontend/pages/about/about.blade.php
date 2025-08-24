@@ -32,4 +32,8 @@
 
     @include('frontend.pages.about.components.our_team')
 
+    <!-- professional trainers area start -->
+    @include('frontend.pages.about.components.professional_trainers')
+    <!-- professional trainers area end -->
+
 @endsection
