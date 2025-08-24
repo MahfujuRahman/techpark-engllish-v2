@@ -62,7 +62,7 @@ class Model extends Authenticatable
     {
         return $this->belongsTo(self::$roleModel);
     }
-
+  
     public function address()
     {
         return $this->hasOne(self::$UserAddressModel, 'user_id', 'id');

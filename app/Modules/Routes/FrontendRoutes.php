@@ -2,20 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebsiteController;
-use App\Http\Controllers\About\Actions\About;
 use App\Http\Controllers\Auth\AuthController;
 
+use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\About\AboutController;
-use App\Http\Controllers\Auth\ProfileController;
-use App\Http\Controllers\Auth\SeminarController;
-use App\Http\Controllers\Auth\CounselingController;
 use App\Http\Controllers\Contact\ContactController;
 use App\Http\Controllers\Gallery\GalleryController;
 use App\Http\Controllers\Teacher\TeacherController;
-use App\Http\Controllers\Auth\CourseManagerController;
-use App\Modules\Controllers\Frontend\FrontendController;
-use App\Http\Controllers\Auth\WebsiteCoreInformationController;
+
 use App\Modules\Controllers\Frontend\Auth\AuthController as BackendAuthController;
 
 
@@ -51,21 +46,23 @@ Route::get('/', [HomeController::class, 'index'])->name("website");
 Route::get('/about', [AboutController::class, 'index'])->name("about");
 Route::get('/contact', [ContactController::class, 'contact'])->name("contact");
 Route::post('/contact', [ContactController::class, 'store'])->name("contact_store");
+Route::get('/gallery', [GalleryController::class, 'gallery'])->name("gallery");
+
+Route::get('/teacher/{teacher_name}/{slug}', [TeacherController::class, 'teacher_details'])->name("teacher.details");
+Route::get('/trainers', [TeacherController::class, 'trainer_details'])->name("trainer.details");
+
 
 Route::get('/courses', [WebsiteController::class, 'courses'])->name("courses");
 Route::get('/course/{slug}', [WebsiteController::class, 'course_details'])->name("course_details");
 
-Route::get('/gallery', [GalleryController::class, 'gallery'])->name("gallery");
+Route::get('/blog', [BlogController::class, 'blog'])->name("blog");
+Route::get('/blog/{slug}', [BlogController::class, 'blog_details'])->name("blog_details");
 
-Route::get('/blog', [WebsiteController::class, 'blog'])->name("blog");
-Route::get('/blog/{slug}', [WebsiteController::class, 'blog_details'])->name("blog_details");
 Route::get('/seminar', [WebsiteController::class, 'seminar'])->name("seminar");
 Route::get('/seminar/details/{id}', [WebsiteController::class, 'seminar_details'])->name("seminar.details");
 Route::get('/it-solution-services', [WebsiteController::class, 'it_solution_services'])->name("it_solution_services");
 Route::post('/seminar-registration', [WebsiteController::class, 'registerSeminar'])->name("registerSeminar");
 
-Route::get('/teacher/{teacher_name}/{slug}', [TeacherController::class, 'teacher_details'])->name("teacher.details");
-Route::get('/trainers', [TeacherController::class, 'trainer_details'])->name("trainer.details");
 
 Route::get('/stories', [WebsiteController::class, 'stories'])->name("stories");
 Route::post('/career-counseling', [WebsiteController::class, 'career_counseling'])->name("career.counseling");

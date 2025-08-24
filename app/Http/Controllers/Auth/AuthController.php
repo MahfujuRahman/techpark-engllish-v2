@@ -25,6 +25,8 @@ class AuthController extends Controller
 
     public function login_submit()
     {
+        $studentRoleSerial = config('roleManagement.student');
+
         $this->validate(request(), [
             "email" => ["required"],
             "password" => ["required"],
@@ -34,10 +36,11 @@ class AuthController extends Controller
 
         if (!$user) {
             $error = ValidationException::withMessages([
-                'email' => ['invalid email or phone number'],
+                'email' => ['invalid email'],
             ]);
             throw $error;
         }
+
         $check_password = Hash::check(request()->password, $user->password);
 
         if (!$check_password) {
@@ -46,35 +49,25 @@ class AuthController extends Controller
             ]);
             throw $error;
         }
+        $studentRoleSerial = config('roleManagement.student');
+        $check_student = $user->where('role_id', $studentRoleSerial)->exists();
 
-        Auth::login($user);
 
-        $check_admin = $user->roles()->whereIn('role_serial', ['1', '2'])->exists();
-        $check_course_manager = $user->roles()->where('role_serial', '3')->exists();
+        if ($check_student) {
+            Auth::login($user);
 
-        if ($check_course_manager) {
-            // $this->remove_access_token();
-            // $token = $user->createToken('accessToken');
-            // $token_c = cookie("AXRF-TOKEN", $token->accessToken, Carbon::now()->addMinute(60)->format('i'), '/', null, null, false, true);
-            return redirect()->route('course_manager_dashboard');
-        }
-        if ($check_admin) {
-            $this->remove_access_token();
-            $token = $user->createToken('accessToken');
-            $token_c = cookie("AXRF-TOKEN", $token->accessToken, Carbon::now()->addMinutes(120)->format('i'), '/', null, null, false, true);
-            return redirect()->route('dashboard')->withCookie($token_c);
-        }
+            $urls = Session::get('url');
 
-        $urls = Session::get('url');
-        if (isset($urls['intended'])) {
+            if (isset($urls['intended'])) {
 
-            $redirect_url = $urls['intended'];
-            return redirect($redirect_url);
+                $redirect_url = $urls['intended'];
+                return redirect($redirect_url);
+            } else {
+                return redirect()->route('myCourse');
+            }
         } else {
-            return redirect()->route('myCourse');
+            return redirect()->back()->with('error', 'You are not authorized to access this platform.');
         }
-        $redirect_url = $urls['intended'];
-        return redirect($redirect_url);
     }
 
     public function logout_submit()
