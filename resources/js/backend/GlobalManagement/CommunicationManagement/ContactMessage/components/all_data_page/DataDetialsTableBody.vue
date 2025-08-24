@@ -20,6 +20,11 @@
             />
           </a>
         </template>
+        <template v-else-if="row_item === 'is_seen'">
+          <span :class="`badge ${item[row_item] === 1 ? 'badge-success' : item[row_item] === 0 ? 'badge-danger' : 'badge-secondary'}`">
+            {{ item[row_item] === 0 ? 'No' : item[row_item] === 1 ? 'Yes' : item[row_item] }}
+          </span>
+        </template>
         <template v-else>
           {{ trim_content(item[row_item], row_item) }}
         </template>
@@ -120,15 +125,42 @@ export default {
             second: "2-digit",
           }).format(new Date(content));
         }
-        return content.length > 50 ? content.substring(0, 50) + "..." : content;
+
+        // Strip HTML tags and decode HTML entities
+        let textContent = content;
+
+        // Remove HTML tags
+        textContent = textContent.replace(/<[^>]*>/g, '');
+
+        // Decode common HTML entities
+        const entityMap = {
+          '&amp;': '&',
+          '&lt;': '<',
+          '&gt;': '>',
+          '&quot;': '"',
+          '&#39;': "'",
+          '&nbsp;': ' ',
+          '&copy;': '©',
+          '&reg;': '®',
+          '&trade;': '™'
+        };
+
+        textContent = textContent.replace(/&[a-zA-Z0-9#]+;/g, (entity) => {
+          return entityMap[entity] || entity;
+        });
+
+        // Clean up extra whitespace
+        textContent = textContent.replace(/\s+/g, ' ').trim();
+
+        return textContent.length > 50 ? textContent.substring(0, 50) + "..." : textContent;
       }
       if (content && typeof content === "object") {
         for (const key of Object.keys(content)) {
-          if (key === "title" && content.title) {
-            return content.title;
+          if (key === "first_name" && content.first_name) {
+            return content.first_name;
           }
-          if (key === "name" && content.name) {
-            return content.name;
+          if (key === "last_name" && content.last_name) {
+            return content.last_name;
           }
         }
       }

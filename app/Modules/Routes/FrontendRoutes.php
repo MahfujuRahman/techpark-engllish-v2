@@ -49,7 +49,8 @@ Route::post('logout', [AuthController::class, 'logout_submit'])->name('logout');
 Route::get('/', [HomeController::class, 'index'])->name("website");
 Route::get('/about', [AboutController::class, 'index'])->name("about");
 Route::get('/contact', [ContactController::class, 'contact'])->name("contact");
-Route::post('/contact', [ContactController::class, 'contact_submit'])->name("contact_submit");
+Route::post('/contact', [ContactController::class, 'store'])->name("contact_store");
+
 Route::get('/courses', [WebsiteController::class, 'courses'])->name("courses");
 Route::get('/course/{slug}', [WebsiteController::class, 'course_details'])->name("course_details");
 

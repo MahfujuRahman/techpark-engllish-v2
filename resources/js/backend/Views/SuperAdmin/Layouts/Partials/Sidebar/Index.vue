@@ -187,8 +187,6 @@
           icon: `zmdi zmdi-dot-circle-alt`,
         },
       ]" />
-
-      />
       <!-- Management end -->
     </ul>
   </div>
