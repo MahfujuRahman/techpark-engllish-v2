@@ -81,3 +81,4 @@ include_once base_path("app/Modules/Management/CourseManagement/CourseFaq/Routes
 include_once base_path("app/Modules/Management/CourseManagement/CourseCourseInstructor/Routes/Route.php");
 include_once base_path("app/Modules/Management/CourseManagement/CourseModuleClassQuiz/Routes/Route.php");
 include_once base_path("app/Modules/Management/WebsiteManagement/OurTeam/Routes/Route.php");
+include_once base_path("app/Modules/Management/WebsiteManagement/Faq/Routes/Route.php");

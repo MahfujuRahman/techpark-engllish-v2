@@ -84,6 +84,9 @@ php artisan make:module WebsiteManagement/OurMission [title:string-255,descripti
 php artisan make:module WebsiteManagement/OurVision [title:string-255,description:text,image:string-255] --vue
 php artisan make:module WebsiteManagement/OurTeam [title:string-255,description:text] --vue
 
+php artisan make:module WebsiteManagement/Faq [title:string-255,description:text] --vue
+
+
 /*
 |--------------------------------------------------------------------------
 | Blog Page 

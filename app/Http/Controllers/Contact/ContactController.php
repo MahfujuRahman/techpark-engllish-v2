@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Contact;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Modules\Management\CommunicationManagement\ContactMessage\Models\Model as Contact;
+use App\Modules\Management\WebsiteManagement\Faq\Models\Model as Faq;
 
 class ContactController extends Controller
 {
     public function contact()
     {
-
-        return view('frontend.pages.contact.contact');
+        $faqs = Faq::active()->get();
+        return view('frontend.pages.contact.contact', compact('faqs'));
     }
 
     public function store(Request $request)

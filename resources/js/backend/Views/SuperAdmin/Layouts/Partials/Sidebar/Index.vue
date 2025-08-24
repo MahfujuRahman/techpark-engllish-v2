@@ -126,6 +126,11 @@
           title: `OurTeam`,
           icon: `zmdi zmdi-dot-circle-alt`,
         },
+        {
+          route_name: `AllFaq`,
+          title: `Faqs`,
+          icon: `zmdi zmdi-dot-circle-alt`,
+        },
       ]" />
       <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`BlogManagement`" :menus="[
         {
@@ -187,6 +192,7 @@
           icon: `zmdi zmdi-dot-circle-alt`,
         },
       ]" />
+
       <!-- Management end -->
     </ul>
   </div>
