@@ -21,6 +21,13 @@ return new class extends Migration
             $table->text('short_description')->nullable();
             $table->longtext('description')->nullable();
 
+            $table->string('email', 100)->nullable();
+            $table->string('phone', 20)->nullable();
+            $table->string('facebook', 100)->nullable();
+            $table->string('linkedin', 100)->nullable();
+            $table->string('instagram', 100)->nullable();
+            $table->string('twitter', 100)->nullable();
+
             $table->bigInteger('creator')->unsigned()->nullable();
             $table->string('slug', 50)->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');

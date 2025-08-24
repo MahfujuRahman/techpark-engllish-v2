@@ -49,6 +49,13 @@ class DataStoreValidation extends FormRequest
             'short_description' => 'required | sometimes',
             'description' => 'required | sometimes',
             'status' => ['sometimes', Rule::in(['active', 'inactive'])],
+
+            'email' => 'required | sometimes | email',
+            'phone' => 'required | sometimes | numeric',
+            'facebook' => 'required | sometimes | url',
+            'linkedin' => 'required | sometimes | url',
+            'instagram' => 'required | sometimes | url',
+            'twitter' => 'required | sometimes | url',
         ];
     }
 }

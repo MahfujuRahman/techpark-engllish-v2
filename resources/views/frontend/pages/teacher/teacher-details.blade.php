@@ -25,6 +25,28 @@
                     </div>
                     <div class="right">
                         <h2 class="teacher_name">{{ $teacher?->full_name }}</h2>
+                        <div class="social-links mt-2">
+                            @if($teacher?->facebook)
+                                <a href="{{ $teacher->facebook }}" target="_blank" class="me-2" title="Facebook">
+                                    <i class="fab fa-facebook fa-lg"></i>
+                                </a>
+                            @endif
+                            @if($teacher?->linkedin)
+                                <a href="{{ $teacher->linkedin }}" target="_blank" class="me-2" title="LinkedIn">
+                                    <i class="fab fa-linkedin fa-lg"></i>
+                                </a>
+                            @endif
+                            @if($teacher?->twitter)
+                                <a href="{{ $teacher->twitter }}" target="_blank" class="me-2" title="Twitter">
+                                    <i class="fab fa-twitter fa-lg"></i>
+                                </a>
+                            @endif
+                            @if($teacher?->instagram)
+                                <a href="{{ $teacher->instagram }}" target="_blank" class="me-2" title="Instagram">
+                                    <i class="fab fa-instagram fa-lg"></i>
+                                </a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -34,9 +56,19 @@
     <section class="mt-4">
         <div class="container">
             <div class="mwidth" style="">
-                <div class="mb-3">
+                <div>
                     <span class="fw-bold">Designation:</span>
                     <span class="text-muted">{{ $teacher?->designation }}</span>
+                </div>
+
+                <div>
+                    <span class="fw-bold">Email:</span>
+                    <span class="text-muted">{{ $teacher?->email }}</span>
+                </div>
+                
+                <div class="mb-3">
+                    <span class="fw-bold">Phone:</span>
+                    <span class="text-muted">{{ $teacher?->phone }}</span>
                 </div>
 
                 <div class="teacher-description mb-4" style="line-height: 1.7;">

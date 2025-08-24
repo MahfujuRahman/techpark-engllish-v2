@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Management\CourseManagement\CourseInstructors\Models\Model as CourseInstructors;
+use App\Modules\Management\WebsiteManagement\OurTrainer\Models\Model as OurTrainer;
 
 class TeacherController extends Controller
 {
@@ -18,11 +19,8 @@ class TeacherController extends Controller
     public function trainer_details()
     {
 
-        // $teacher = CourseInstructors::where('slug', $slug)->first();
-        // $trainers = CourseInstructors::with('instructor', 'courses', 'batches')->limit(6)->get();
-        $website_about = WebsiteCoreInformation::where('status', 1)->first();
-        $trainers = CourseInstructors::where('status', 'active')->with('instructor', 'courses', 'batches')->paginate(9);
-
-        return view('frontend.pages.trainer-details', compact('website_about', 'trainers'));
+        $trainers = CourseInstructors::where('status', 'active')->with( 'courses', 'batches')->paginate(9);
+        $heading = OurTrainer::where('status', 'active')->first();
+        return view('frontend.pages.teacher.trainer-details', compact( 'trainers', 'heading'));
     }
 }

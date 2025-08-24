@@ -38,4 +38,41 @@ export default [
     type: "textarea",
     value: "",
   },
+  {
+    name: "email",
+    label: "Enter your email",
+    type: "email",
+    value: "",
+  },
+  {
+    name: "phone",
+    label: "Enter your phone",
+    type: "number",
+    value: "",
+  },
+  {
+    name: "facebook",
+    label: "Enter your Facebook profile link",
+    type: "url",
+    value: "",
+  },
+  {
+    name: "linkedin",
+    label: "Enter your LinkedIn profile link",
+    type: "url",
+    value: "",
+  },
+  {
+    name: "instagram",
+    label: "Enter your Instagram profile link",
+    type: "url",
+    value: "",
+  },
+  {
+    name: "twitter",
+    label: "Enter your twitter profile link",
+    type: "url",
+    value: "",
+  },
+
 ];
