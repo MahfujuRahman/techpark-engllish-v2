@@ -158,26 +158,6 @@ class WebsiteController extends Controller
         return view('frontend.home', compact('seminar'));
     }
 
-    public function contact_submit(Request $request)
-    {
-        // dd(request()->all());
-        $request->validate([
-            'full_name' => ['required'],
-            'subject' => ['required'],
-            'email' => ['email', 'required'],
-            'message' => ['string', 'required'],
-        ]);
-
-
-        $contact_message = new ContactMessage();
-        $contact_message->full_name = request()->full_name;
-        $contact_message->email = request()->email;
-        $contact_message->subject = request()->subject;
-        $contact_message->message = request()->message;
-        $contact_message->save();
-
-        return redirect()->back()->with('success', 'Your data has been successfully received!');
-    }
 
     public function courses()
     {
@@ -418,26 +398,6 @@ class WebsiteController extends Controller
         return response()->json(['message' => 'Registraiton for the seminar completed'], 200);
     }
 
-
-    public function teacher_details($teacher_name, $slug)
-    {
-
-        // $teacher = CourseInstructors::where('slug', $slug)->first();
-        $teacher = CourseInstructors::where('slug', $slug)->with('instructor', 'courses', 'batches')->first();
-
-        return view('frontend.pages.teacher-details', compact('teacher'));
-    }
-
-    public function trainer_details()
-    {
-
-        // $teacher = CourseInstructors::where('slug', $slug)->first();
-        // $trainers = CourseInstructors::with('instructor', 'courses', 'batches')->limit(6)->get();
-        $website_about = WebsiteCoreInformation::where('status', 1)->first();
-        $trainers = CourseInstructors::where('status', 'active')->with('instructor', 'courses', 'batches')->paginate(9);
-
-        return view('frontend.pages.trainer-details', compact('website_about', 'trainers'));
-    }
 
     public function stories()
     {

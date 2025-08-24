@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\SeminarController;
 use App\Http\Controllers\Auth\CounselingController;
 use App\Http\Controllers\Contact\ContactController;
 use App\Http\Controllers\Gallery\GalleryController;
+use App\Http\Controllers\Teacher\TeacherController;
 use App\Http\Controllers\Auth\CourseManagerController;
 use App\Modules\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Auth\WebsiteCoreInformationController;
@@ -63,8 +64,9 @@ Route::get('/seminar/details/{id}', [WebsiteController::class, 'seminar_details'
 Route::get('/it-solution-services', [WebsiteController::class, 'it_solution_services'])->name("it_solution_services");
 Route::post('/seminar-registration', [WebsiteController::class, 'registerSeminar'])->name("registerSeminar");
 
-Route::get('/teacher/{teacher_name}/{slug}', [WebsiteController::class, 'teacher_details'])->name("teacher.details");
-Route::get('/trainers', [WebsiteController::class, 'trainer_details'])->name("trainer.details");
+Route::get('/teacher/{teacher_name}/{slug}', [TeacherController::class, 'teacher_details'])->name("teacher.details");
+Route::get('/trainers', [TeacherController::class, 'trainer_details'])->name("trainer.details");
+
 Route::get('/stories', [WebsiteController::class, 'stories'])->name("stories");
 Route::post('/career-counseling', [WebsiteController::class, 'career_counseling'])->name("career.counseling");
 
@@ -89,46 +91,46 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/quizes/details/{id}', [WebsiteController::class, 'quiz_details'])->name("website.quizes.details");
     Route::any('/quiz-submit', [WebsiteController::class, 'quiz_submit'])->name("quiz_submit");
 
-    // Course Manager Routes
-    Route::prefix('course-manager')->group(function () {
-        Route::get('/', [CourseManagerController::class, 'dashboard'])->name("course_manager_dashboard");
-        Route::get('/courses', [CourseManagerController::class, 'courses'])->name("course_manager_courses");
-        Route::get('/quizes', [CourseManagerController::class, 'quizes'])->name("course_manager_quizes");
-        Route::get('/teachers', [CourseManagerController::class, 'teachers'])->name("course_manager_teacher");
-        Route::get('/gallerycs', [CourseManagerController::class, 'gallerycs'])->name("course_manager_gallerycs");
-        Route::get('/gallery', [CourseManagerController::class, 'gallery'])->name("course_manager_gallery");
-    });
+    // // Course Manager Routes
+    // Route::prefix('course-manager')->group(function () {
+    //     Route::get('/', [CourseManagerController::class, 'dashboard'])->name("course_manager_dashboard");
+    //     Route::get('/courses', [CourseManagerController::class, 'courses'])->name("course_manager_courses");
+    //     Route::get('/quizes', [CourseManagerController::class, 'quizes'])->name("course_manager_quizes");
+    //     Route::get('/teachers', [CourseManagerController::class, 'teachers'])->name("course_manager_teacher");
+    //     Route::get('/gallerycs', [CourseManagerController::class, 'gallerycs'])->name("course_manager_gallerycs");
+    //     Route::get('/gallery', [CourseManagerController::class, 'gallery'])->name("course_manager_gallery");
+    // });
 
-    // Website Core Routes
-    Route::prefix('website-core')->group(function () {
-        Route::get('/', [WebsiteCoreInformationController::class, 'webiste_core'])->name("website_core");
-    });
+    // // Website Core Routes
+    // Route::prefix('website-core')->group(function () {
+    //     Route::get('/', [WebsiteCoreInformationController::class, 'webiste_core'])->name("website_core");
+    // });
 
-    // Website Brand Routes
-    Route::prefix('website-brand')->group(function () {
-        Route::get('/', [WebsiteCoreInformationController::class, 'webiste_brand'])->name("webiste_brand");
-    });
+    // // Website Brand Routes
+    // Route::prefix('website-brand')->group(function () {
+    //     Route::get('/', [WebsiteCoreInformationController::class, 'webiste_brand'])->name("webiste_brand");
+    // });
 
-    // Website Banner Routes
-    Route::prefix('website-banner')->group(function () {
-        Route::get('/', [WebsiteCoreInformationController::class, 'webiste_banner'])->name("webiste_banner");
-    });
+    // // Website Banner Routes
+    // Route::prefix('website-banner')->group(function () {
+    //     Route::get('/', [WebsiteCoreInformationController::class, 'webiste_banner'])->name("webiste_banner");
+    // });
 
-    // Career Counseling Routes
-    Route::prefix('career-counseling')->group(function () {
-        Route::get('/', [CounselingController::class, 'career_counseling'])->name("career_counseling");
-    });
+    // // Career Counseling Routes
+    // Route::prefix('career-counseling')->group(function () {
+    //     Route::get('/', [CounselingController::class, 'career_counseling'])->name("career_counseling");
+    // });
 
-    // Backend Seminar Routes
-    Route::prefix('backend/seminar')->group(function () {
-        Route::get('/', [SeminarController::class, 'seminar'])->name("backend.seminar");
-    });
+    // // Backend Seminar Routes
+    // Route::prefix('backend/seminar')->group(function () {
+    //     Route::get('/', [SeminarController::class, 'seminar'])->name("backend.seminar");
+    // });
 });
 
 
 // Profile Routes
-Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
-Route::post('/profile', [ProfileController::class, 'profileUpdate'])->name('update_profile');
+// Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+// Route::post('/profile', [ProfileController::class, 'profileUpdate'])->name('update_profile');
 
 // Dashboard Route
 Route::get('/dashboard', function () {

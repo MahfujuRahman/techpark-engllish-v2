@@ -16,13 +16,15 @@
                     <div class="course_schedule_name">
                         <ul class="flex-wrap pt-4 gallery_nav">
                             <li>
-                                <a href="?page=1"
-                                    class="{{ !request()->has('gallery_category_id') ? ' active' : ' ' }}">
-                                        সকল কোর্স
+                                <a href="?page=1" class="{{ !request()->has('gallery_category_id') ? ' active' : ' ' }}">
+                                    সকল কোর্স
                                 </a>
                             </li>
                             @php
-                                $galleryCategories = App\Modules\Management\GalleryManagement\GalleryCategory\Models\Model::where('status', 'active')->get();
+                                $galleryCategories = App\Modules\Management\GalleryManagement\GalleryCategory\Models\Model::where(
+                                    'status',
+                                    'active',
+                                )->get();
                             @endphp
                             @foreach ($galleryCategories as $gcat)
                                 <li>
