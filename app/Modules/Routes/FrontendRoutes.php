@@ -10,6 +10,7 @@ use App\Http\Controllers\About\AboutController;
 use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\Auth\SeminarController;
 use App\Http\Controllers\Auth\CounselingController;
+use App\Http\Controllers\Contact\ContactController;
 use App\Http\Controllers\Gallery\GalleryController;
 use App\Http\Controllers\Auth\CourseManagerController;
 use App\Modules\Controllers\Frontend\FrontendController;
@@ -47,12 +48,13 @@ Route::post('logout', [AuthController::class, 'logout_submit'])->name('logout');
 // Website Routes
 Route::get('/', [HomeController::class, 'index'])->name("website");
 Route::get('/about', [AboutController::class, 'index'])->name("about");
-Route::get('/contact', [WebsiteController::class, 'contact'])->name("contact");
-Route::post('/contact', [WebsiteController::class, 'contact_submit'])->name("contact_submit");
+Route::get('/contact', [ContactController::class, 'contact'])->name("contact");
+Route::post('/contact', [ContactController::class, 'contact_submit'])->name("contact_submit");
 Route::get('/courses', [WebsiteController::class, 'courses'])->name("courses");
 Route::get('/course/{slug}', [WebsiteController::class, 'course_details'])->name("course_details");
 
 Route::get('/gallery', [GalleryController::class, 'gallery'])->name("gallery");
+
 Route::get('/blog', [WebsiteController::class, 'blog'])->name("blog");
 Route::get('/blog/{slug}', [WebsiteController::class, 'blog_details'])->name("blog_details");
 Route::get('/seminar', [WebsiteController::class, 'seminar'])->name("seminar");
@@ -131,45 +133,3 @@ Route::post('/profile', [ProfileController::class, 'profileUpdate'])->name('upda
 Route::get('/dashboard', function () {
     return view('backend.dashboard');
 })->name('dashboard')->middleware('auth');
-
-// Test Routes
-// Route::get('/tests', function () {
-//     $quiz = Quiz::where('id', 1)->with([
-//         'questions' => function ($q) {
-//             $q->with([
-//                 'options' => function ($q) {
-//                     $q->select(['id', 'quiz_id', 'question_id', 'title']);
-//                 },
-//             ]);
-//         }
-//     ])->first();
-//     return view('quiz', compact('quiz'));
-// });
-
-// Route::post('/qsubmit', function () {
-//     $corrects = [];
-//     $total = 0;
-
-//     $quiz = Quiz::find(request()->quiz_id);
-
-//     foreach (request()->submission as $question_id => $submission_ids) {
-//         sort($submission_ids);
-//         $correct_answers = QuizQuestionOption::where('question_id', $question_id)->where('is_correct', 1)
-//             ->get()->map(function ($i) {
-//                 return $i->id;
-//             })->toArray();
-
-//         $question = QuizQuestion::find($question_id);
-
-//         $corrects[] = [
-//             $question_id => $submission_ids == $correct_answers,
-//             "mark" => $question->mark,
-//             "correct" => $correct_answers,
-//             "given" => $submission_ids,
-//         ];
-//         if ($submission_ids == $correct_answers) {
-//             $total += $question->mark;
-//         }
-//     }
-//     dd(request()->all(), $corrects, $total, $quiz->questions()->count());
-// })->name('qsubmit');

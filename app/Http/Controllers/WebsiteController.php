@@ -41,50 +41,6 @@ use App\Modules\Management\WebsiteManagement\WebsiteBrand\Models\Model as Brand;
 
 class WebsiteController extends Controller
 {
-    public function index()
-    {
-        $banners = Banner::where('is_featured', 1)->where('status', 1)->orderBy('id', 'desc')->get();
-        $subBanners = SubBanner::where('status', 1)->orderBy('id', 'desc')->get();
-
-        $our_speciality = OurSpeciality::where('status', 1)->orderBy('id', 'desc')->get();
-        $success_stories = SuccessStory::where('status', 1)->limit(6)->orderBy('id', 'desc')->get();
-        $our_trainers = OurTrainer::where('status', 1)->orderBy('id', 'desc')->first();
-        $seminars = Seminars::where('date_time', '>', Carbon::today())->where('status', 'active')->get();
-        $brands = Brand::where('status', 1)->get();
-
-        $course_categories = CourseCategory::where('status', 'active')->get();
-
-        $all = $this->all_course();
-        $courses = $all['courses'];
-        $course_types = $all['course_types'];
-
-        $courseBatch = CourseBatches::active()->orderBy('id', 'DESC')->get();
-
-
-        $course_learning_steps = CourseOutcomeStepModel::get();
-
-        return view(
-            'frontend.pages.home.home',
-            [
-                'banners' => $banners,
-                'subBanners' => $subBanners,
-
-                'our_speciality' => $our_speciality,
-                'success_stories' => $success_stories,
-                'our_trainers' => $our_trainers,
-                "seminars" => $seminars,
-                'brands' => $brands,
-
-
-                'course_categories' => $course_categories,
-                'course_types' => $course_types,
-
-                'courses' => $courses,
-                'course_learning_steps' => $course_learning_steps,
-                'courseBatches' => $courseBatch
-            ]
-        );
-    }
 
     public function all_types()
     {
@@ -202,33 +158,6 @@ class WebsiteController extends Controller
         return view('frontend.home', compact('seminar'));
     }
 
-    public function about()
-    {
-    $team_top_image = null;
-    $team_related_image = null;
-
-    $category = GalleryCategory::where('title', 'আমাদের টিম')->first();
-
-    if ($category) {
-        $team_top_image = Gallery::where('gallery_category_id', $category->id)->orderBy('top_image', 'DESC')->first();
-        $team_related_image = Gallery::where('gallery_category_id', $category->id)->orderBy('top_image', 'DESC')->skip(1)->take(7)->get();
-    }
-
-    $website_about = WebsiteCoreInformation::where('status', 1)->first();
-    $teachers = CourseInstructors::where('status', 'active')->with('instructor', 'courses', 'batches')->limit(3)->get();
-
-    $all = $this->all_course();
-    $courses = $all['courses'];
-    $course_types = $all['course_types'];
-
-    return view('frontend.pages.about', compact('team_top_image', 'team_related_image', 'website_about', 'teachers', 'courses', 'course_types'));
-    }
-
-    public function contact()
-    {
-        return view('frontend.pages.contact');
-    }
-
     public function contact_submit(Request $request)
     {
         // dd(request()->all());
@@ -266,17 +195,6 @@ class WebsiteController extends Controller
             'courses' => $courses,
             'courseBatches' => $courseBatch
         ]);
-    }
-
-    public function gallery()
-    {
-        if (request()->get('gallery_category_id')) {
-            $galleryImages = Gallery::where('status', 'active')->where('gallery_category_id', request()->get('gallery_category_id'))->orderBy('top_image', 'DESC')->paginate(18);
-            $galleryImages->appends('gallery_category_id', request()->gallery_category_id);
-        } else {
-            $galleryImages = Gallery::where('status', 'active')->orderBy('top_image', 'DESC')->paginate(18);
-        }
-        return view('frontend.pages.gallery', compact('galleryImages'));
     }
 
     public function blog()

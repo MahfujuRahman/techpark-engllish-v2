@@ -17,6 +17,6 @@ class GalleryController extends Controller
         } else {
             $galleryImages = Gallery::where('status', 'active')->orderBy('top_image', 'DESC')->paginate(18);
         }
-        return view('frontend.pages.gallery', compact('galleryImages'));
+        return view('frontend.pages.gallery.gallery', compact('galleryImages'));
     }
 }
