@@ -18,8 +18,7 @@ class GetAllData
             $start_date = request()->input('start_date');
             $end_date = request()->input('end_date');
 
-            $with = ['blog_category_id'];
-            $with = ['writer'];
+            $with = ['blog_category_id', 'writer'];
 
             $condition = [];
 

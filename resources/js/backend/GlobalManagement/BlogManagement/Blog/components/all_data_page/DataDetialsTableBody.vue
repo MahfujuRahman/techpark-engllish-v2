@@ -7,18 +7,17 @@
       <th class="text-center">:</th>
       <th class="text-trim">
         <template v-if="row_item === 'image'">
-          <a 
-            :href="item[row_item] || '/avatar.png'" 
-            data-fancybox="detail-gallery" 
-            :data-caption="`${row_item} - Detail View`"
-          >
-            <img
-              :src="item[row_item] || '/avatar.png'"
-              @error="handleImageError($event)"
-              style="width: 120px; height: 120px; object-fit: cover"
-              alt="image"
-            />
+          <a :href="item[row_item] || '/avatar.png'" data-fancybox="detail-gallery"
+            :data-caption="`${row_item} - Detail View`">
+            <img :src="item[row_item] || '/avatar.png'" @error="handleImageError($event)"
+              style="width: 120px; height: 120px; object-fit: cover" alt="image" />
           </a>
+        </template>
+        <template v-else-if="row_item === 'is_featured'">
+          {{ yesNo(item[row_item]) }}
+        </template>
+        <template v-else-if="row_item === 'is_published'">
+          {{ yesNo(item[row_item]) }}
         </template>
         <template v-else>
           {{ trim_content(item[row_item], row_item) }}
@@ -120,7 +119,7 @@ export default {
             second: "2-digit",
           }).format(new Date(content));
         }
-        return content.length > 50 ? content.substring(0, 50) + "..." : content;
+        return content.length > 50 ? content.substring(0, 25) + "..." : content;
       }
       if (content && typeof content === "object") {
         for (const key of Object.keys(content)) {
@@ -134,6 +133,9 @@ export default {
       }
 
       return content || "";
+    },
+    yesNo(val) {
+      return val === 1 ? 'Yes' : 'No';
     },
   },
 };

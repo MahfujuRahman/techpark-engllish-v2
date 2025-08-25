@@ -55,15 +55,8 @@ class Model extends EloquentModel
         return $this->belongsTo("App\Modules\Management\BlogManagement\BlogWriter\Models\Model", "writer");
     }
 
-     public function category() {
-        return $this->belongsToMany(BlogsCategories::class);
-    }
-
-    public function tag() {
-        return $this->belongsToMany(BlogTags::class, 'blog_blog_tag', 'blog_id', 'blog_tag_id');
-    }
-
-    public function writers() {
-        return $this->belongsToMany(BlogWriters::class, 'blog_blog_writer', 'blog_id', 'blog_writer_id');
+    public function category()
+    {
+        return $this->belongsTo(BlogsCategories::class, 'blog_category_id', 'id');
     }
 }
