@@ -57,6 +57,7 @@ Route::get('/course/{slug}', [WebsiteController::class, 'course_details'])->name
 
 Route::get('/blog', [BlogController::class, 'blog'])->name("blog");
 Route::get('/blog/{slug}', [BlogController::class, 'blog_details'])->name("blog_details");
+Route::post('/subscribed', [BlogController::class, 'subscribe'])->name("blog.subscribe");
 
 Route::get('/seminar', [WebsiteController::class, 'seminar'])->name("seminar");
 Route::get('/seminar/details/{id}', [WebsiteController::class, 'seminar_details'])->name("seminar.details");

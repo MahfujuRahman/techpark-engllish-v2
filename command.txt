@@ -152,7 +152,7 @@ php artisan make:module SeminerManagement/SeminerReviews [seminar_id:bigint{Semi
 */  
 //need deafult value 0 in is_seen
 php artisan make:module CommunicationManagement/ContactMessage [full_name:string-100,email:string-100,subject:string-255,message:text,is_seen:boolean] --vue
-php artisan make:table CommunicationManagement/ContactMessage/Subscriber [email:string-255] --model
+php artisan make:module CommunicationManagement/Subscriber [email:string-255] --vue
 
 
 

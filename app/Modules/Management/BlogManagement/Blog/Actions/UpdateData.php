@@ -18,6 +18,10 @@ class UpdateData
                 $file = $request->file('images');
                 $requestData['images'] = uploader($file, 'uploads/Blog');
             }
+            
+            if (isset($requestData['is_featured']) && $requestData['is_featured'] == 1) {
+                self::$model::query()->update(['is_featured' => 0]);
+            }
 
             $data->update($requestData);
             return messageResponse('Item updated successfully', $data, 201);

@@ -110,11 +110,15 @@
                     <p class="sub_title">Subscribe to our newsletter for regular updates on new blogs.</p>
                 </div>
                 <!-- subscribe_form_area start -->
-                <form action="#">
+                <form action="{{ route('blog.subscribe') }}" method="POST" class="subscribe_form">
+                    @csrf
                     <div class="subscribe_form_area">
-                        <input type="text" placeholder="mail@yourmail.com">
-                        <button type="button" class="subscribe_button">Subscribe Us</button>
+                        <input type="text" name="email" placeholder="mail@yourmail.com" value="{{ old('email') }}">
+                        <button type="submit" class="subscribe_button">Subscribe Us</button>
                     </div>
+                    @error('email')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </form>
                 <!-- subscribe_form_area end -->
             </section>

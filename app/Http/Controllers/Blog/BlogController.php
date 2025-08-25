@@ -9,6 +9,7 @@ use App\Modules\Management\BlogManagement\BlogCategory\Models\Model as BlogsCate
 use App\Modules\Management\BlogManagement\Blog\Models\Model as Blogs;
 use App\Modules\Management\BlogManagement\BlogTag\Models\Model as BlogTags;
 use App\Modules\Management\BlogManagement\BlogWriter\Models\Model as BlogWriters;
+use App\Modules\Management\CommunicationManagement\Subscriber\Models\Model as BlogSubscribers;
 
 
 class BlogController extends Controller
@@ -23,7 +24,7 @@ class BlogController extends Controller
         $blog_writers = BlogWriters::active()->get();
 
         $blog_single = Blogs::where('is_published', 1)
-            ->where('is_featured', '1')
+            ->where('is_featured', 1)
             ->where('status', 'active')
             ->with('category')
             ->latest()
@@ -63,5 +64,19 @@ class BlogController extends Controller
             ->with(['category', 'tag', 'writer'])->first();
 
         return view('frontend.pages.blog-details', compact('blog'));
+    }
+
+    public function subscribe(Request $request)
+    {
+        $validateData = $request->validate([
+            'email' => 'required|email|unique:subscribers,email',
+        ]);
+
+        // Subscribe the user to the blog
+        BlogSubscribers::create([
+            'email' => $request->email,
+        ]);
+
+        return redirect()->back()->with('success', 'You have successfully subscribed to the blog!');
     }
 }

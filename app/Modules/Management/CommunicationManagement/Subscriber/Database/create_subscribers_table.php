@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     php artisan migrate --path='/app/Modules/Management/CommunicationManagement/ContactMessage/Database/create_subscribers_table.php' 
+     php artisan migrate --path='/app/Modules/Management/CommunicationManagement/Subscriber/Database/create_subscribers_table.php'
      * Run the migrations.
      */
     public function up(): void

@@ -190,7 +190,11 @@
           route_name: `AllContactMessage`,
           title: `ContactMessage`,
           icon: `zmdi zmdi-dot-circle-alt`,
-        },
+        },          {
+            route_name: `AllSubscriber`,
+            title: `Subscriber`,
+            icon: `zmdi zmdi-dot-circle-alt`,
+          },
       ]" />
 
       <!-- Management end -->

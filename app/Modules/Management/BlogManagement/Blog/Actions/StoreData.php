@@ -16,6 +16,10 @@ class StoreData
                 $requestData['images'] = uploader($file, 'uploads/Blog');
             }
 
+            if (isset($requestData['is_featured']) && $requestData['is_featured'] == 1) {
+                self::$model::query()->update(['is_featured' => 0]);
+            }
+
             if ($data = self::$model::query()->create($requestData)) {
                 return messageResponse('Item added successfully', $data, 201);
             }
