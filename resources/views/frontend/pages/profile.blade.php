@@ -35,7 +35,7 @@
     <section class="py-5 my-5">
         <div class="container">
             <div class="row justify-content-center align-items-center">
-                <div class="col-12 col-md-10 col-lg-8">
+                <div class="col-12 col-md-10">
                     <div class="card card-custom">
                         <div class="card-header card-header-custom text-center">
                             Edit Profile
@@ -43,51 +43,37 @@
                         <div class="card-body">
                             <form method="POST" action="{{ route('update_profile') }}" enctype="multipart/form-data">
                                 @csrf
-                                <!-- Row 1: First Name, Last Name, Father's Name -->
-                                <div class="row">
-                                    <div class="col-12 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="first_name">First Name <sup
-                                                    class="text-danger">*</sup></label>
-                                            <input type="text" name="first_name" id="first_name"
-                                                value="{{ old('first_name', auth()->user()->first_name) }}"
-                                                class="form-control" placeholder="First Name">
-                                            @error('first_name')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="last_name">Last Name</label>
-                                            <input type="text" name="last_name" id="last_name"
-                                                value="{{ old('last_name', auth()->user()->last_name) }}"
-                                                class="form-control" placeholder="Last Name">
-                                            @error('last_name')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="father_name">Father's Name</label>
-                                            <input type="text" name="father_name" id="father_name"
-                                                value="{{ old('father_name', auth()->user()->father_name) }}"
-                                                class="form-control" placeholder="Father's Name">
-                                            @error('father_name')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <!-- Row 1.5: Gender and Profile Picture -->
-                                <div class="row">
+                                <!-- Personal information -->
+                                <h5 class="mb-3">Personal Information</h5>
+                                <div class="row gx-3">
                                     <div class="col-12 col-md-4">
                                         <div class="mb-3">
-                                            <label class="form-label" for="gender">Gender</label>
-                                            <select name="gender" id="gender" class="form-select">
-                                                <option value="">Select Gender</option>
+                                            <label for="first_name" class="form-label">First name <span
+                                                    class="text-danger">*</span></label>
+                                            <input id="first_name" name="first_name" type="text" class="form-control"
+                                                value="{{ old('first_name', auth()->user()->first_name) }}"
+                                                placeholder="John">
+                                            @error('first_name')
+                                                <div class="text-danger small">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="mb-3">
+                                            <label for="last_name" class="form-label">Last name</label>
+                                            <input id="last_name" name="last_name" type="text" class="form-control"
+                                                value="{{ old('last_name', auth()->user()->last_name) }}" placeholder="Doe">
+                                            @error('last_name')
+                                                <div class="text-danger small">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="mb-3">
+                                            <label for="gender" class="form-label">Gender</label>
+                                            <select id="gender" name="gender" class="form-select">
+                                                <option value="">Choose...</option>
                                                 <option value="Male"
                                                     {{ old('gender', auth()->user()->gender) == 'Male' ? 'selected' : '' }}>
                                                     Male</option>
@@ -99,222 +85,211 @@
                                                     Other</option>
                                             </select>
                                             @error('gender')
-                                                <div class="text-danger">{{ $message }}</div>
+                                                <div class="text-danger small">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="col-12 col-md-8">
-                                        <div class="row align-items-center">
-                                            <div class="col-3">
-                                                @if (auth()->user()->photo)
-                                                    <div class="mb-2">
-                                                        <img src="{{ asset(auth()->user()->photo) }}" alt="Profile Picture"
-                                                            class="img-thumbnail" width="100">
-                                                    </div>
-                                                @endif
+                                </div>
+
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-12 col-md-3 text-center text-md-start">
+                                        @if (auth()->user()->image)
+                                            <img src="{{ asset(auth()->user()->image) }}" alt="avatar"
+                                                class="img-thumbnail" style="width:110px; height:110px; object-fit:cover;">
+                                        @else
+                                            <div class="img-thumbnail d-inline-block"
+                                                style="width:110px; height:110px; background:#f1f5f9;border-radius:6px;">
                                             </div>
-                                            <div class="col-9">
-                                                <div class="mb-3">
-                                                    <label class="form-label" for="photo">Profile Picture</label>
-                                                    <input type="file" name="photo" id="photo"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-12 col-md-9">
+                                        <label for="image" class="form-label">Profile picture</label>
+                                        <input id="image" name="image" type="file" class="form-control">
+                                        @error('image')
+                                            <div class="text-danger small">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
-
-                                <!-- Row 2: Mobile Number, WhatsApp Number, Guardian's Number -->
-                                <div class="row">
-                                    <div class="col-12 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="mobile_number">Mobile Number <sup
-                                                    class="text-danger">*</sup></label>
-                                            <input type="text" name="mobile_number" id="mobile_number"
-                                                value="{{ old('mobile_number', auth()->user()->mobile_number) }}"
-                                                class="form-control" placeholder="Mobile Number">
-                                            @error('mobile_number')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="whatsapp_number">WhatsApp Number</label>
-                                            <input type="text" name="whatsapp_number" id="whatsapp_number"
-                                                value="{{ old('whatsapp_number', auth()->user()->whatsapp_number) }}"
-                                                class="form-control" placeholder="WhatsApp Number">
-                                            @error('whatsapp_number')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="guardian_number">Guardian's Number</label>
-                                            <input type="text" name="guardian_number" id="guardian_number"
-                                                value="{{ old('guardian_number', auth()->user()->guardian_number) }}"
-                                                class="form-control" placeholder="Guardian's Number">
-                                            @error('guardian_number')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Row 3: Address, Email, Blood Group -->
-                                <div class="row">
-                                    <div class="col-12 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="address">Address</label>
-                                            <input type="text" name="address" id="address"
-                                                value="{{ old('address', auth()->user()->address) }}"
-                                                class="form-control" placeholder="Address">
-                                            @error('address')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="email">Email</label>
-                                            <input type="email" name="email" id="email"
-                                                value="{{ old('email', auth()->user()->email) }}" class="form-control"
-                                                placeholder="Email" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="blood_group">Blood Group</label>
-                                            <select name="blood_group" id="blood_group" class="form-select">
-                                                <option value="">Select Blood Group</option>
-                                                <option value="A+"
-                                                    {{ old('blood_group', auth()->user()->blood_group) == 'A+' ? 'selected' : '' }}>
-                                                    A+</option>
-                                                <option value="A-"
-                                                    {{ old('blood_group', auth()->user()->blood_group) == 'A-' ? 'selected' : '' }}>
-                                                    A-</option>
-                                                <option value="B+"
-                                                    {{ old('blood_group', auth()->user()->blood_group) == 'B+' ? 'selected' : '' }}>
-                                                    B+</option>
-                                                <option value="B-"
-                                                    {{ old('blood_group', auth()->user()->blood_group) == 'B-' ? 'selected' : '' }}>
-                                                    B-</option>
-                                                <option value="AB+"
-                                                    {{ old('blood_group', auth()->user()->blood_group) == 'AB+' ? 'selected' : '' }}>
-                                                    AB+</option>
-                                                <option value="AB-"
-                                                    {{ old('blood_group', auth()->user()->blood_group) == 'AB-' ? 'selected' : '' }}>
-                                                    AB-</option>
-                                                <option value="O+"
-                                                    {{ old('blood_group', auth()->user()->blood_group) == 'O+' ? 'selected' : '' }}>
-                                                    O+</option>
-                                                <option value="O-"
-                                                    {{ old('blood_group', auth()->user()->blood_group) == 'O-' ? 'selected' : '' }}>
-                                                    O-</option>
-                                            </select>
-                                            @error('blood_group')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Row 4: Occupation, Institution, Class/Designation -->
-                                <div class="row">
-                                    <div class="col-12 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="occupation">Occupation</label>
-                                            <input type="text" name="occupation" id="occupation"
-                                                value="{{ old('occupation', auth()->user()->occupation) }}"
-                                                class="form-control" placeholder="Occupation">
-                                            @error('occupation')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="institution">Institution</label>
-                                            <input type="text" name="institution" id="institution"
-                                                value="{{ old('institution', auth()->user()->institution) }}"
-                                                class="form-control" placeholder="Institution">
-                                            @error('institution')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="class_designation">Class/Designation</label>
-                                            <input type="text" name="class_designation" id="class_designation"
-                                                value="{{ old('class_designation', auth()->user()->class_designation) }}"
-                                                class="form-control" placeholder="Class or Designation">
-                                            @error('class_designation')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Row 5: Reference Source -->
-                                <div class="row">
+                                <div class="row gx-3">
                                     <div class="col-12">
                                         <div class="mb-3">
-                                            <label class="form-label" for="reference_source">Reference Source</label>
-                                            <select name="reference_source" id="reference_source" class="form-select">
-                                                <option value="Facebook"
-                                                    {{ old('reference_source', auth()->user()->reference_source) == 'Facebook' ? 'selected' : '' }}>
-                                                    Facebook</option>
-                                                <option value="Youtube"
-                                                    {{ old('reference_source', auth()->user()->reference_source) == 'Youtube' ? 'selected' : '' }}>
-                                                    Youtube</option>
-                                                <option value="Organization"
-                                                    {{ old('reference_source', auth()->user()->reference_source) == 'Organization' ? 'selected' : '' }}>
-                                                    Organization</option>
-                                                <option value="Ex-Student"
-                                                    {{ old('reference_source', auth()->user()->reference_source) == 'Ex-Student' ? 'selected' : '' }}>
-                                                    Ex-Student</option>
-                                                <option value="Employee"
-                                                    {{ old('reference_source', auth()->user()->reference_source) == 'Employee' ? 'selected' : '' }}>
-                                                    Employee</option>
-                                                <option value="Telesales"
-                                                    {{ old('reference_source', auth()->user()->reference_source) == 'Telesales' ? 'selected' : '' }}>
-                                                    Telesales</option>
-                                                <option value="Offline Marketing"
-                                                    {{ old('reference_source', auth()->user()->reference_source) == 'Offline Marketing' ? 'selected' : '' }}>
-                                                    Offline Marketing</option>
-                                                <option value="Other"
-                                                    {{ old('reference_source', auth()->user()->reference_source) == 'Other' ? 'selected' : '' }}>
-                                                    Other</option>
-                                                <option value="Friend"
-                                                    {{ old('reference_source', auth()->user()->reference_source) == 'Friend' ? 'selected' : '' }}>
-                                                    Friend</option>
+                                            <label for="reference_source" class="form-label">Reference</label>
+                                            <select id="reference_source" name="reference_source" class="form-select">
+                                                <option value="">Select</option>
+                                                @php $ref = old('reference_source', auth()->user()->reference_source); @endphp
+                                                @foreach (['Facebook', 'Youtube', 'Organization', 'Ex-Student', 'Employee', 'Telesales', 'Offline Marketing', 'Friend', 'Other'] as $r)
+                                                    <option value="{{ $r }}"
+                                                        {{ $ref == $r ? 'selected' : '' }}>{{ $r }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Row 6: Password and Confirm Password -->
-                                <div class="row">
+
+                                <!-- Contact information -->
+                                <hr>
+                                <h5 class="mb-3 mt-2">Contact</h5>
+                                <div class="row gx-3">
+                                    <div class="col-12 col-md-4">
+                                        <div class="mb-3">
+                                            <label for="mobile_number" class="form-label">Mobile number <span
+                                                    class="text-danger">*</span></label>
+                                            <input id="mobile_number" name="mobile_number" type="text"
+                                                class="form-control"
+                                                value="{{ old('mobile_number', auth()->user()->mobile_number) }}"
+                                                placeholder="01XXXXXXXXX">
+                                            @error('mobile_number')
+                                                <div class="text-danger small">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="mb-3">
+                                            <label for="whatsapp_number" class="form-label">WhatsApp</label>
+                                            <input id="whatsapp_number" name="whatsapp_number" type="text"
+                                                class="form-control"
+                                                value="{{ old('whatsapp_number', auth()->user()->whatsapp_number) }}"
+                                                placeholder="01XXXXXXXXX">
+                                            @error('whatsapp_number')
+                                                <div class="text-danger small">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="mb-3">
+                                            <label for="guardian_number" class="form-label">Guardian's number</label>
+                                            <input id="guardian_number" name="guardian_number" type="text"
+                                                class="form-control"
+                                                value="{{ old('guardian_number', auth()->user()->guardian_number) }}"
+                                                placeholder="Optional">
+                                            @error('guardian_number')
+                                                <div class="text-danger small">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Location -->
+                                <hr>
+                                <h5 class="mb-3 mt-2">Location</h5>
+                                <div class="row gx-3">
+                                    <div class="col-6 col-md-3">
+                                        <div class="mb-3">
+                                            <label for="country" class="form-label">Country</label>
+                                            <input id="country" name="country" type="text" class="form-control"
+                                                value="{{ old('country', auth()->user()->country) }}"
+                                                placeholder="Country">
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="mb-3">
+                                            <label for="state" class="form-label">State</label>
+                                            <input id="state" name="state" type="text" class="form-control"
+                                                value="{{ old('state', auth()->user()->state) }}" placeholder="State">
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="mb-3">
+                                            <label for="city" class="form-label">City</label>
+                                            <input id="city" name="city" type="text" class="form-control"
+                                                value="{{ old('city', auth()->user()->city) }}" placeholder="City">
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="mb-3">
+                                            <label for="post" class="form-label">Post/Zip</label>
+                                            <input id="post" name="post" type="text" class="form-control"
+                                                value="{{ old('post', auth()->user()->post) }}" placeholder="Post code">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Professional -->
+                                <hr>
+                                <h5 class="mb-3 mt-2">Professional</h5>
+                                <div class="row gx-3">
+                                    <div class="col-12 col-md-4">
+                                        <div class="mb-3">
+                                            <label for="occupation" class="form-label">Occupation</label>
+                                            <input id="occupation" name="occupation" type="text" class="form-control"
+                                                value="{{ old('occupation', auth()->user()->occupation) }}"
+                                                placeholder="e.g. Student / Developer">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="mb-3">
+                                            <label for="organization" class="form-label">Organization</label>
+                                            <input id="organization" name="organization" type="text"
+                                                class="form-control"
+                                                value="{{ old('organization', auth()->user()->organization) }}"
+                                                placeholder="Organization">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="mb-3">
+                                            <label for="designation" class="form-label">Designation</label>
+                                            <input id="designation" name="designation" type="text"
+                                                class="form-control"
+                                                value="{{ old('designation', auth()->user()->designation) }}"
+                                                placeholder="Job title">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- Institutional -->
+                                <hr>
+                                <h5 class="mb-3 mt-2">Institutional</h5>
+                                <div class="row gx-3">
+                                    <div class="col-12 col-md-4">
+                                        <div class="mb-3">
+                                            <label for="institution" class="form-label">Institution</label>
+                                            <input id="institution" name="institution" type="text"
+                                                class="form-control"
+                                                value="{{ old('institution', auth()->user()->institution) }}"
+                                                placeholder="Organization / School">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="mb-3">
+                                            <label for="class" class="form-label">Class </label>
+                                            <input id="class" name="class" type="text" class="form-control"
+                                                value="{{ old('class', auth()->user()->class) }}" placeholder="Class">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="mb-3">
+                                            <label for="last_certificate_name" class="form-label">Last certificate</label>
+                                            <input id="last_certificate_name" name="last_certificate_name" type="text"
+                                                class="form-control"
+                                                value="{{ old('last_certificate_name', auth()->user()->last_certificate_name) }}"
+                                                placeholder="e.g. HSC / Diploma">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Security -->
+                                <hr>
+                                <h5 class="mb-3 mt-2">Security</h5>
+                                <div class="row gx-3">
                                     <div class="col-12 col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="password">Password</label>
-                                            <input type="password" name="password" id="password" class="form-control"
-                                                placeholder="Password">
+                                            <label for="password" class="form-label">Password</label>
+                                            <input id="password" name="password" type="password" class="form-control"
+                                                placeholder="Leave empty to keep current">
                                             @error('password')
-                                                <div class="text-danger">{{ $message }}</div>
+                                                <div class="text-danger small">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label" for="password_confirmation">Confirm Password</label>
-                                            <input type="password" name="password_confirmation"
-                                                id="password_confirmation" class="form-control"
-                                                placeholder="Confirm Password">
+                                            <label for="password_confirmation" class="form-label">Confirm password</label>
+                                            <input id="password_confirmation" name="password_confirmation"
+                                                type="password" class="form-control" placeholder="Repeat password">
                                             @error('password_confirmation')
-                                                <div class="text-danger">{{ $message }}</div>
+                                                <div class="text-danger small">{{ $message }}</div>
                                             @enderror
                                         </div>
                                     </div>

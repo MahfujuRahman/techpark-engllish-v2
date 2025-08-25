@@ -11,6 +11,7 @@ use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Contact\ContactController;
 use App\Http\Controllers\Gallery\GalleryController;
 
+use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Teacher\TeacherController;
 use App\Modules\Controllers\Frontend\Auth\AuthController as BackendAuthController;
 
@@ -91,6 +92,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/quizes/details/{id}', [WebsiteController::class, 'quiz_details'])->name("website.quizes.details");
     Route::any('/quiz-submit', [WebsiteController::class, 'quiz_submit'])->name("quiz_submit");
 
+
+    // Profile Routes
+    Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+    Route::post('/profile', [ProfileController::class, 'profileUpdate'])->name('update_profile');
+
+
     // // Course Manager Routes
     // Route::prefix('course-manager')->group(function () {
     //     Route::get('/', [CourseManagerController::class, 'dashboard'])->name("course_manager_dashboard");
@@ -126,11 +133,6 @@ Route::middleware(['auth'])->group(function () {
     //     Route::get('/', [SeminarController::class, 'seminar'])->name("backend.seminar");
     // });
 });
-
-
-// Profile Routes
-// Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
-// Route::post('/profile', [ProfileController::class, 'profileUpdate'])->name('update_profile');
 
 // Dashboard Route
 Route::get('/dashboard', function () {

@@ -51,27 +51,23 @@
                                  <a href="/courses">Courses</a>
                              </li>
                              <li>
-                                 <a href="/gallery">
-                                     Gallery
-                                 </a>
+                                 <a href="/gallery">Gallery</a>
                              </li>
                              <li>
-                                 <a href="/blog">
-                                     Blog
-                                 </a>
+                                 <a href="/blog">Blog</a>
                              </li>
                              <li>
                                  <a href="/contact">Contact</a>
                              </li>
-                             @auth
+                             {{-- @auth
                                  <li>
                                      <a href="javascript:void(0)"
-                                         onclick="event.preventDefault();document.getElementById('logout-form').submit();">লগআউট</a>
+                                         onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
                                      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                          @csrf
                                      </form>
                                  </li>
-                             @endauth
+                             @endauth --}}
                          </ul>
                      </nav>
                      <!-- nav_area end -->
@@ -91,7 +87,7 @@
                                          class="fa-regular fa-circle-user fa-lg me-1"></i>
                                      {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</button>
                                  <div id="myDropdown" class="dropdown-content">
-                                     {{-- <a class="dropdown-single-item" href="{{ route('profile') }}">My Profile</a> --}}
+                                     <a class="dropdown-single-item" href="{{ route('profile') }}">My Profile</a>
                                      <a class="dropdown-single-item" href="{{ route('myCourse') }}">My Courses</a>
                                      <a class="dropdown-single-item" href="javascript:void(0)"
                                          onclick="event.preventDefault();document.getElementById('logout-form').submit();">
