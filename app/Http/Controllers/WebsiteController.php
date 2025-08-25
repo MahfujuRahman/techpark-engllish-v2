@@ -358,17 +358,6 @@ class WebsiteController extends Controller
         return response()->json(['message' => 'Registraiton for the seminar completed'], 200);
     }
 
-
-    public function stories()
-    {
-
-        $website_about = WebsiteCoreInformation::where('status', 1)->first();
-        $trainers = CourseInstructors::where('status', 'active')->with('instructor', 'courses', 'batches')->paginate(9);
-        $success_stories = SuccessStory::paginate(12);
-
-        return view('frontend.pages.success_story_all', compact('success_stories'));
-    }
-
     public function career_counseling()
     {
         // dd(request()->all());

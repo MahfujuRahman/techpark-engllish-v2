@@ -37,12 +37,18 @@
             <!-- student_success_video_area end -->
 
             <!-- student_success_history_area_button start-->
-            <div class="success_history_button_area">
-                <a href="{{ route('stories') }}" class="button_all">
-                    <span class="btn_text">আরও দেখুন</span>
-                    <span class="btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
-                </a>
-            </div>
+            @if (request()->routeIs('stories'))
+                <div class="mr-paginate d-flex justify-content-center">
+                    {{ $success_stories->links() }}
+                </div>
+            @else
+                <div class="success_history_button_area">
+                    <a href="{{ route('stories') }}" class="button_all">
+                        <span class="btn_text">আরও দেখুন</span>
+                        <span class="btn_icon"><i class="fa-solid fa-arrow-right"></i></span>
+                    </a>
+                </div>
+            @endif
 
             <div id="story_modal" class="modal fade modal-xl" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
@@ -59,4 +65,3 @@
 </section>
 
 <script src="{{ asset('js/frontend.js') }}"></script>
- 

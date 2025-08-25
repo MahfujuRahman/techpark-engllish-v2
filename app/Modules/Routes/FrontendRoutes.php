@@ -65,7 +65,8 @@ Route::get('/it-solution-services', [WebsiteController::class, 'it_solution_serv
 Route::post('/seminar-registration', [WebsiteController::class, 'registerSeminar'])->name("registerSeminar");
 
 
-Route::get('/stories', [WebsiteController::class, 'stories'])->name("stories");
+Route::get('/stories', [HomeController::class, 'stories'])->name("stories");
+
 Route::post('/career-counseling', [WebsiteController::class, 'career_counseling'])->name("career.counseling");
 
 // Policy Routes
