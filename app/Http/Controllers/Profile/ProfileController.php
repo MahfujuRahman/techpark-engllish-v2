@@ -17,6 +17,7 @@ class ProfileController extends Controller
 
     public function profileUpdate(Request $request)
     {
+        dd($request->all());
         $validatedData = $request->validate([
             'first_name'        => 'required|string|max:255',
             'last_name'         => 'nullable|string|max:255',
