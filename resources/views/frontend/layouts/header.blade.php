@@ -91,8 +91,8 @@
                                          class="fa-regular fa-circle-user fa-lg me-1"></i>
                                      {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</button>
                                  <div id="myDropdown" class="dropdown-content">
-                                     {{-- <a class="dropdown-single-item" href="{{ route('profile') }}">My Profile</a>
-                                     <a class="dropdown-single-item" href="{{ route('myCourse') }}">My Courses</a> --}}
+                                     {{-- <a class="dropdown-single-item" href="{{ route('profile') }}">My Profile</a> --}}
+                                     <a class="dropdown-single-item" href="{{ route('myCourse') }}">My Courses</a>
                                      <a class="dropdown-single-item" href="javascript:void(0)"
                                          onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                          Logout

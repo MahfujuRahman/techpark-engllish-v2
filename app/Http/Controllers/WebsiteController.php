@@ -200,34 +200,6 @@ class WebsiteController extends Controller
         ]);
     }
 
-    public function myCourse()
-    {
-        $user = User::find(auth()->user()->id);
-        $userWithCourses = $user->load([
-            'batchStudents' => function ($query) {
-                $query->select('course_id', 'id', 'batch_id', 'student_id', 'course_percent', 'is_complete');
-            },
-            'batchStudents.course' => function ($query) {
-                $query->select('id', 'title', 'image', 'slug');
-            },
-            'batchStudents.batch' => function ($q2) {
-                $q2->select('id', 'batch_name', 'class_days', 'class_start_time', 'class_end_time');
-            }
-        ]);
-
-        // Use collection methods to split courses based on 'is_complete'
-        $completedCourses = $userWithCourses->batchStudents->where('is_complete', 'complete');
-        $incompleteCourses = $userWithCourses->batchStudents->where('is_complete', 'incomplete');
-        // dd($userWithCourses, $completedCourses, $incompleteCourses);
-
-        return view('frontend.pages.mycourse', [
-            'user_course' => $userWithCourses->batchStudents,
-            'complete_courses' => $completedCourses,
-            'incomplete_courses' => $incompleteCourses,
-        ]);
-    }
-
-
 
     public function routine_details($course_id)
     {

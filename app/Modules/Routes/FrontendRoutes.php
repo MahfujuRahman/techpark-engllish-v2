@@ -7,10 +7,11 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\About\AboutController;
+use App\Http\Controllers\Course\CourseController;
 use App\Http\Controllers\Contact\ContactController;
 use App\Http\Controllers\Gallery\GalleryController;
-use App\Http\Controllers\Teacher\TeacherController;
 
+use App\Http\Controllers\Teacher\TeacherController;
 use App\Modules\Controllers\Frontend\Auth\AuthController as BackendAuthController;
 
 
@@ -83,7 +84,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/course/enroll/submit/{slug}', [WebsiteController::class, 'course_enroll_submit'])->name("course_enroll_submit");
 
     // User Course Routes
-    Route::get('/my-course', [WebsiteController::class, 'myCourse'])->name("myCourse");
+    Route::get('/my-course', [CourseController::class, 'myCourse'])->name("myCourse");
     Route::get('/my-course/{slug}', [WebsiteController::class, 'myCourseDetails'])->name("mycourse_details");
     Route::get('/quizes', [WebsiteController::class, 'quizes'])->name("website.quizes");
     Route::get('/quiz-attend/{id}', [WebsiteController::class, 'quiz_attend'])->name("website.quiz_attend");

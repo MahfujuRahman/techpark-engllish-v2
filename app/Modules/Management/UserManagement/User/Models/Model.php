@@ -27,6 +27,7 @@ class Model extends Authenticatable
     static $UserAddressModel = \App\Modules\Management\UserManagement\User\Models\UserAddressModel::class;
     static $UserLogModel = \App\Modules\Management\UserManagement\User\Models\UserLogModel::class;
     static $UserSocialLinkModel = \App\Modules\Management\UserManagement\User\Models\UserSocialLinkModel::class;
+    static $CourseBatchStudentModel = \App\Modules\Management\CourseManagement\CourseBatchStudent\Models\Model::class;
 
     protected static function booted()
     {
@@ -62,7 +63,7 @@ class Model extends Authenticatable
     {
         return $this->belongsTo(self::$roleModel);
     }
-  
+
     public function address()
     {
         return $this->hasOne(self::$UserAddressModel, 'user_id', 'id');
@@ -78,5 +79,10 @@ class Model extends Authenticatable
     public function social_links()
     {
         return $this->hasMany(self::$UserSocialLinkModel, 'user_id', 'id');
+    }
+
+    public function batchStudents()
+    {
+        return $this->hasMany(self::$CourseBatchStudentModel, 'student_id', 'id');
     }
 }
