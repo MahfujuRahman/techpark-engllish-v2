@@ -15,6 +15,8 @@ class BlogController extends Controller
 {
     public function blog()
     {
+        $category = request()->get('category');
+        $cat_id = BlogsCategories::where('slug', $category)->value('id');
 
         $blog_categories = BlogsCategories::active()->get();
         $blog_tags = BlogTags::active()->get();
@@ -27,15 +29,13 @@ class BlogController extends Controller
             ->latest()
             ->first();
 
-        // dd($blog_single);
-
         $blogs = Blogs::where('is_published', 1)
             ->select([
                 'id',
                 'title',
                 'is_featured',
-                'short_description',
-                'image',
+                'blog_category_id',
+                'images',
                 'is_published',
                 'slug',
                 'creator',
@@ -45,11 +45,15 @@ class BlogController extends Controller
             ->when($blog_single, function ($query) use ($blog_single) {
                 return $query->whereNotIn('id', [$blog_single->id]);
             })
-            ->with('category')->paginate(6);
+            ->with('category');
 
-        // dd($blogs->toArray());
+        if ($category) {
+            $blogs->where('blog_category_id', $cat_id);
+        }
 
-        return view('frontend.pages.blog', compact('blog_categories', 'blog_tags', 'blog_writers', 'blog_single', 'blogs'));
+        $blogs = $blogs->paginate(6);
+
+        return view('frontend.pages.blog.blog', compact('blog_categories', 'blog_tags', 'blog_writers', 'blog_single', 'blogs'));
     }
 
     public function blog_details($slug)
