@@ -14,28 +14,22 @@
                 <!-- title_area start -->
                 <div class="title_area">
                     <div class="title">
-                        <p class="text">{{ strtoupper($blog->category[0]->title) ?? 0 }}</p>
-                        {{-- <p class="text">{{ $blog->category[0]->title ?? 0 }}</p> --}}
+                        <p class="text">{{ strtoupper($blog->category->title) ?? 0 }}</p>
                     </div>
                     <div class="content_text">
-                        <h2 class="text">{{ $blog->title }}</h2>
+                        <h2 class="text">{{ $blog?->title }}</h2>
                     </div>
                 </div>
                 <!-- title_area end -->
 
                 <!-- title_image start -->
                 <div class="title_image">
-                    <img src="/{{ $blog->image }}" alt="tech park it">
+                    <img class="blog_img ounded rounded-sm" src="{{ assetHelper(optional($blog)->images) }}"
+                        alt="{{ $blog->title }}" loading="lazy">
                 </div>
-                {{-- @dd($blog->writer()) --}}
-                {{-- <div>
-                    <p>Posted By: <P>{{ $blog->writer[0]->title }}</P> </p>
-                </div> --}}
-                <!-- title_image end -->
 
                 <div>
-                    {!! $blog->description  !!}
-
+                    {!! $blog->description !!}
                 </div>
                 <!--advantages_of_technology section_area end -->
             </div>

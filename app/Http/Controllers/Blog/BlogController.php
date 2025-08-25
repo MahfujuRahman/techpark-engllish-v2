@@ -59,11 +59,11 @@ class BlogController extends Controller
 
     public function blog_details($slug)
     {
-        $blog = Blogs::where('slug', $slug)->where('published', 1)
+        $blog = Blogs::where('slug', $slug)->where('is_published', 1)
             ->where('status', 'active')
-            ->with(['category', 'tag', 'writer'])->first();
+            ->with(['category'])->first();
 
-        return view('frontend.pages.blog-details', compact('blog'));
+        return view('frontend.pages.blog.blog-details', compact('blog'));
     }
 
     public function subscribe(Request $request)
