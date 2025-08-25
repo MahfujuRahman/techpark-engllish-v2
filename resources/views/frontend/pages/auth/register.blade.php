@@ -22,9 +22,7 @@
         <div class="container h-custom">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-md-9 col-lg-6 col-xl-5">
-                    <img src="{{ $website_about->login_image }}" class="img-fluid" alt="Sample image">
-                    {{-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                    class="img-fluid" alt="Sample image"> --}}
+                    @include('frontend.pages.auth.svg')
                 </div>
                 <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                     <form method="POST" action="{{ route('register_sumbit') }}">
@@ -77,13 +75,13 @@
                         </div>
 
                         <div class="form-outline my-4">
-                            <label class="form-label" for="mobile_number">
+                            <label class="form-label" for="phone_number">
                                 Mobile Number
                                 <sup class="text-danger">*</sup>
                             </label>
-                            <input type="text" name="mobile_number" id="mobile_number" value="{{ old('mobile_number') }}"
+                            <input type="text" name="phone_number" id="phone_number" value="{{ old('phone_number') }}"
                                 class="form-control" placeholder="Enter your mobile number" />
-                            @error('mobile_number')
+                            @error('phone_number')
                                 <div class="text-danger pt-2">
                                     {{ $message }}
                                 </div>

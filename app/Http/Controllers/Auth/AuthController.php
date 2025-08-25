@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\WebsiteCoreInformation;
+use App\Modules\Management\UserManagement\User\Models\Model as User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -90,8 +89,8 @@ class AuthController extends Controller
         if (auth()->check()) {
             return redirect('/');
         }
-        $website_about = WebsiteCoreInformation::where('status', 1)->first();
-        return view('frontend.pages.register', compact('website_about'));
+
+        return view('frontend.pages.auth.register');
     }
 
     public function register_sumbit()
@@ -99,20 +98,25 @@ class AuthController extends Controller
         $this->validate(request(), [
             "first_name" => ["required"],
             "last_name" => ["required"],
-            "mobile_number" => ["required", "unique:users"],
-            "email" => ["unique:users"],
+            "phone_number" => ["required", "unique:user_addresses,phone_number"],
+            "email" => ["required", "unique:users,email"],
             "password" => ["required"],
         ]);
 
         $user = User::create([
+            'role_id' => config('roleManagement.student'),
             "first_name" => request()->first_name,
             "last_name" => request()->last_name,
             "email" => request()->email,
-            "mobile_number" => request()->mobile_number,
             "password" => Hash::make(request()->password),
         ]);
 
-        $user->roles()->attach([6]);
+        DB::table('user_addresses')->insert([
+            'user_id' => $user->id,
+            'phone_number' => json_encode(request()->phone_number),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
 
         Auth::login($user, true);
 
@@ -123,7 +127,5 @@ class AuthController extends Controller
         } else {
             return redirect()->route('myCourse');
         }
-        // $redirect_url = $urls['intended'];
-        // return redirect($redirect_url);
     }
 }
