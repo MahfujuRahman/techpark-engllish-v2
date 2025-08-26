@@ -331,16 +331,6 @@ class WebsiteController extends Controller
     }
 
 
-    public function affiliation()
-    {
-        $website_about = WebsiteCoreInformation::where('status', 1)->select('affiliation')->first();
-        return view('frontend.pages.extra.affiliation', compact('website_about'));
-    }
-
-    public function sitemap()
-    {
-        return view('frontend.pages.extra.sitemap');
-    }
 
 
     public function quizes()

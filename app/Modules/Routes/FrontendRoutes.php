@@ -77,8 +77,7 @@ Route::get('/privacy-policy', [PolicyController::class, 'privacy_policy'])->name
 Route::get('/refund-policy', [PolicyController::class, 'refund_policy'])->name("refund.policy");
 Route::get('/cookies-policy', [PolicyController::class, 'cookies_policy'])->name("cookies.policy");
 Route::get('/terms-policy', [PolicyController::class, 'terms_policy'])->name("terms.policy");
-Route::get('/affiliation', [WebsiteController::class, 'affiliation'])->name("affiliation.policy");
-Route::get('/sitemap', [WebsiteController::class, 'sitemap'])->name("sitemap.policy");
+Route::get('/sitemap', [PolicyController::class, 'sitemap'])->name("sitemap.policy");
 
 // Authenticated Routes
 Route::middleware(['auth'])->group(function () {

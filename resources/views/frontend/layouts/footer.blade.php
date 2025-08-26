@@ -10,8 +10,8 @@
                         <!-- footer_logo area start -->
                         <div class="footer_logo_area">
                             <a href="/">
-                                <img style="width: 90%; class="rounded rounded-sm" src="{{ assetHelper(setting('image')) }}" alt="logo"
-                                    loading="lazy">
+                                <img style="width: 90%; class="rounded rounded-sm"
+                                    src="{{ assetHelper(setting('image')) }}" alt="logo" loading="lazy">
                             </a>
                         </div>
                         <!-- footer_logo area end -->
@@ -178,14 +178,6 @@
                                         <li>
                                             <a href="{{ route('refund.policy') }}">
                                                 <span class="text"> রিফান্ড পলিসি</span>
-                                                <div class="icon">
-                                                    <i class="fa-solid fa-arrow-right"></i>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('affiliation.policy') }}">
-                                                <span class="text">এফিলিয়েশন</span>
                                                 <div class="icon">
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </div>

@@ -82,14 +82,6 @@
                                         </ul>
                                     </div>
                                     <div class="sitemap_info">
-                                        <h2 class="info_title">
-                                            এফিলিয়েশন
-                                        </h2>
-                                        <ul>
-                                            <li><a href="{{ route('affiliation.policy') }}">এফিলিয়েশন</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="sitemap_info">
                                         <h2 class="info_title">যোগাযোগ</h2>
                                         <ul>
                                             <li><a href="/contact#jojajog_number">যোগাযোগ নাম্বার</a></li>

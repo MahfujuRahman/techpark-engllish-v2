@@ -34,4 +34,9 @@ class PolicyController extends Controller
         $website_about = CookiePolicy::where('status', 1)->first();
         return view('frontend.pages.extra.cookies_policy', compact('website_about'));
     }
+
+    public function sitemap()
+    {
+        return view('frontend.pages.extra.sitemap');
+    }
 }
