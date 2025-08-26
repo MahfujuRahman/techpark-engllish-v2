@@ -10,7 +10,7 @@
                         <!-- footer_logo area start -->
                         <div class="footer_logo_area">
                             <a href="/">
-                                <img style="width: 90%; class="rounded rounded-sm"
+                                <img style="width: 90%;" class="rounded rounded-sm"
                                     src="{{ assetHelper(setting('image')) }}" alt="logo" loading="lazy">
                             </a>
                         </div>
@@ -21,14 +21,14 @@
 
                             <!-- contact_title start -->
                             <div class="contact_title">
-                                <p class="title_text">যোগাযোগ করুন</p>
+                                <p class="title_text">Contact Us</p>
                             </div>
                             <!-- contact_title end -->
 
                             <!-- contact_number_and_email_area start -->
                             <ul class="contact_number_and_email_area">
                                 <li>
-                                    <div href="#" class="contact align-items-start">
+                                    <div class="contact align-items-start">
                                         <div class="logo phone">
                                             <i class="fa-solid fa-phone"></i>
                                         </div>
@@ -106,7 +106,7 @@
                             <!-- social_media_area start -->
                             <div class="social_media_area">
                                 <div class="social_media_title">
-                                    <p class="text">আমাদের সোসাল মিডিয়া লিংক</p>
+                                    <p class="text">Our Social Media Links</p>
                                 </div>
 
                                 <div class="social_media">
@@ -161,39 +161,63 @@
                                         <div class="logo">
                                             <i class="fa-solid fa-link"></i>
                                         </div>
-                                        <p class="title_text">কুইক লিংক</p>
+                                        <p class="title_text">Quick Link</p>
                                     </div>
                                     <!-- quick_link_title end -->
 
                                     <!-- blog_item start -->
                                     <ul class="blog_item">
                                         <li>
-                                            <a href="#">
-                                                <span class="text"> ব্লগ</span>
+                                            <a href="{{ route('website') }}">
+                                                <span class="text"> Home</span>
                                                 <div class="icon">
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </div>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{ route('refund.policy') }}">
-                                                <span class="text"> রিফান্ড পলিসি</span>
+                                            <a href="{{ route('about') }}">
+                                                <span class="text"> About</span>
                                                 <div class="icon">
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </div>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">
-                                                <span class="text"> ক্যারিয়ার</span>
+                                            <a href="{{ route('courses') }}">
+                                                <span class="text"> Courses</span>
                                                 <div class="icon">
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </div>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">
-                                                <span class="text"> শিক্ষক হিসেবে জয়েন করুন</span>
+                                            <a href="{{ route('gallery') }}">
+                                                <span class="text"> Gallery</span>
+                                                <div class="icon">
+                                                    <i class="fa-solid fa-arrow-right"></i>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('blog') }}">
+                                                <span class="text"> Blog</span>
+                                                <div class="icon">
+                                                    <i class="fa-solid fa-arrow-right"></i>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('contact') }}">
+                                                <span class="text"> Contact</span>
+                                                <div class="icon">
+                                                    <i class="fa-solid fa-arrow-right"></i>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('login') }}">
+                                                <span class="text"> Login</span>
                                                 <div class="icon">
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </div>
@@ -206,27 +230,27 @@
                                 <div class="col-xs-12 col-md-6">
 
                                     <!-- importent_link_title start -->
-                                    {{-- <div class="quick_and_importent_link_title">
-                                            <div class="logo">
-                                                <i class="fa-solid fa-link"></i>
-                                            </div>
-                                            <p class="title_text">জরুরী লিংক</p>
-                                        </div> --}}
+                                    <div class="quick_and_importent_link_title">
+                                        <div class="logo">
+                                            <i class="fa-solid fa-link"></i>
+                                        </div>
+                                        <p class="title_text">Important Links</p>
+                                    </div>
                                     <!-- importent_link_title end -->
 
                                     <!-- blog_item running -->
                                     <ul class="blog_item">
-                                        {{-- <li>
-                                                <a href="#">
-                                                    <span class="text"> সার্টিফিকেট ভেরিফাই</span>
-                                                    <div class="icon">
-                                                        <i class="fa-solid fa-arrow-right"></i>
-                                                    </div>
-                                                </a>
-                                            </li> --}}
+                                        <li>
+                                            <a href="{{ route('refund.policy') }}">
+                                                <span class="text">Refund Policy</span>
+                                                <div class="icon">
+                                                    <i class="fa-solid fa-arrow-right"></i>
+                                                </div>
+                                            </a>
+                                        </li>
                                         <li>
                                             <a href="{{ route('terms.policy') }}">
-                                                <span class="text"> টার্মস এন্ড কন্ডিশন</span>
+                                                <span class="text">Terms & Conditions</span>
                                                 <div class="icon">
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </div>
@@ -234,7 +258,7 @@
                                         </li>
                                         <li>
                                             <a href="{{ route('cookies.policy') }}">
-                                                <span class="text"> কুকিস পলিসি</span>
+                                                <span class="text">Cookies Policy</span>
                                                 <div class="icon">
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </div>
@@ -242,7 +266,7 @@
                                         </li>
                                         <li>
                                             <a href="{{ route('privacy.policy') }}">
-                                                <span class="text"> প্রাইভেসি পলিসি</span>
+                                                <span class="text">Privacy Policy</span>
                                                 <div class="icon">
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </div>
@@ -250,7 +274,7 @@
                                         </li>
                                         <li>
                                             <a href="{{ route('sitemap.policy') }}">
-                                                <span class="text">সাইট ম্যাপ</span>
+                                                <span class="text">Site Map</span>
                                                 <div class="icon">
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </div>
@@ -277,7 +301,7 @@
                                 <i class="fa-solid fa-location-dot"></i>
                             </div>
                             <div class="title">
-                                <p class="text">ঠিকানা</p>
+                                <p class="text">Address</p>
                             </div>
                         </div>
                         <!-- address_title_area end -->
@@ -291,15 +315,11 @@
                         <!-- map_area start -->
                         <div class="map_area">
                             <div class="map_title">
-                                <p class="text">ম্যাপে দেখুন</p>
+                                <p class="text">View on Map</p>
                             </div>
 
                             <div class="full_map">
                                 {!! setting(key: 'map_link') !!}
-                                {{-- <iframe
-                                        src="{{setting(key:'map_link')}}"
-                                        width="100%" height="" style="border:0;" allowfullscreen=""
-                                        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> --}}
                             </div>
                         </div>
                         <!-- map_area end -->
