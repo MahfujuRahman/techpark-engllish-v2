@@ -8,9 +8,10 @@ use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\About\AboutController;
 use App\Http\Controllers\Course\CourseController;
+use App\Http\Controllers\Policy\PolicyController;
 use App\Http\Controllers\Contact\ContactController;
-use App\Http\Controllers\Gallery\GalleryController;
 
+use App\Http\Controllers\Gallery\GalleryController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Teacher\TeacherController;
 use App\Modules\Controllers\Frontend\Auth\AuthController as BackendAuthController;
@@ -72,10 +73,10 @@ Route::get('/stories', [HomeController::class, 'stories'])->name("stories");
 Route::post('/career-counseling', [WebsiteController::class, 'career_counseling'])->name("career.counseling");
 
 // Policy Routes
-Route::get('/privacy-policy', [WebsiteController::class, 'privacy_policy'])->name("privacy.policy");
-Route::get('/refund-policy', [WebsiteController::class, 'refund_policy'])->name("refund.policy");
-Route::get('/cookies-policy', [WebsiteController::class, 'cookies_policy'])->name("cookies.policy");
-Route::get('/terms-policy', [WebsiteController::class, 'terms_policy'])->name("terms.policy");
+Route::get('/privacy-policy', [PolicyController::class, 'privacy_policy'])->name("privacy.policy");
+Route::get('/refund-policy', [PolicyController::class, 'refund_policy'])->name("refund.policy");
+Route::get('/cookies-policy', [PolicyController::class, 'cookies_policy'])->name("cookies.policy");
+Route::get('/terms-policy', [PolicyController::class, 'terms_policy'])->name("terms.policy");
 Route::get('/affiliation', [WebsiteController::class, 'affiliation'])->name("affiliation.policy");
 Route::get('/sitemap', [WebsiteController::class, 'sitemap'])->name("sitemap.policy");
 

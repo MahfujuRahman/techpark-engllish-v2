@@ -331,30 +331,6 @@ class WebsiteController extends Controller
     }
 
 
-    public function privacy_policy()
-    {
-        $website_about = WebsiteCoreInformation::where('status', 1)->select('privacy_policy')->first();
-        return view('frontend.pages.extra.privacy_policy', compact('website_about'));
-    }
-
-    public function refund_policy()
-    {
-        $website_about = WebsiteCoreInformation::where('status', 1)->select('refund_policy')->first();
-        return view('frontend.pages.extra.refund_policy', compact('website_about'));
-    }
-
-    public function terms_policy()
-    {
-        $website_about = WebsiteCoreInformation::where('status', 1)->select('terms_condition')->first();
-        return view('frontend.pages.extra.terms_policy', compact('website_about'));
-    }
-
-    public function cookies_policy()
-    {
-        $website_about = WebsiteCoreInformation::where('status', 1)->select('cookies_policy')->first();
-        return view('frontend.pages.extra.cookies_policy', compact('website_about'));
-    }
-
     public function affiliation()
     {
         $website_about = WebsiteCoreInformation::where('status', 1)->select('affiliation')->first();
