@@ -56,7 +56,23 @@
             }
         }
     </style>
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <section class="py-5 my-5">
         <div class="container">
             <div class="row justify-content-center align-items-center">
@@ -96,19 +112,20 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                      
                                         <div class="col-12 col-md-4">
                                             <div class="mb-3">
                                                 <label for="gender" class="form-label">Gender</label>
                                                 <select id="gender" name="gender" class="form-select">
                                                     <option value="">Choose...</option>
                                                     <option value="Male"
-                                                        {{ old('gender', auth()->user()->gender) == 'Male' ? 'selected' : '' }}>
+                                                        {{ old('gender', $user->studentDetails->gender) == 'Male' ? 'selected' : '' }}>
                                                         Male</option>
                                                     <option value="Female"
-                                                        {{ old('gender', auth()->user()->gender) == 'Female' ? 'selected' : '' }}>
+                                                        {{ old('gender', $user->studentDetails->gender) == 'Female' ? 'selected' : '' }}>
                                                         Female</option>
                                                     <option value="Other"
-                                                        {{ old('gender', auth()->user()->gender) == 'Other' ? 'selected' : '' }}>
+                                                        {{ old('gender', $user->studentDetails->gender) == 'Other' ? 'selected' : '' }}>
                                                         Other</option>
                                                 </select>
                                                 @error('gender')
@@ -141,12 +158,23 @@
                                         </div>
                                     </div>
                                     <div class="row gx-3">
-                                        <div class="col-12">
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input id="email" name="email" type="text" class="form-control"
+                                                    value="{{ old('email', auth()->user()->email) }}"
+                                                    placeholder="Doe">
+                                                @error('email')
+                                                    <div class="text-danger small">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
                                             <div class="mb-3">
                                                 <label for="reference_source" class="form-label">Reference</label>
                                                 <select id="reference_source" name="reference_source" class="form-select">
                                                     <option value="">Select</option>
-                                                    @php $ref = old('reference_source', auth()->user()->reference_source); @endphp
+                                                    @php $ref = old('reference_source', $user->studentDetails->reference_source); @endphp
                                                     @foreach (['Facebook', 'Youtube', 'Organization', 'Ex-Student', 'Employee', 'Telesales', 'Offline Marketing', 'Friend', 'Other'] as $r)
                                                         <option value="{{ $r }}"
                                                             {{ $ref == $r ? 'selected' : '' }}>{{ $r }}
@@ -164,13 +192,13 @@
                                     <div class="row gx-3">
                                         <div class="col-12 col-md-4">
                                             <div class="mb-3">
-                                                <label for="mobile_number" class="form-label">Mobile number <span
+                                                <label for="phone_number" class="form-label">Mobile number <span
                                                         class="text-danger">*</span></label>
-                                                <input id="mobile_number" name="mobile_number" type="text"
+                                                <input id="phone_number" name="phone_number" type="text"
                                                     class="form-control"
-                                                    value="{{ old('mobile_number', auth()->user()->mobile_number) }}"
+                                                    value="{{ old('phone_number', is_array(json_decode($user->address->phone_number)) ? json_decode($user->address->phone_number)[0] : '') }}"
                                                     placeholder="01XXXXXXXXX">
-                                                @error('mobile_number')
+                                                @error('phone_number')
                                                     <div class="text-danger small">{{ $message }}</div>
                                                 @enderror
                                             </div>
@@ -180,7 +208,7 @@
                                                 <label for="whatsapp_number" class="form-label">WhatsApp</label>
                                                 <input id="whatsapp_number" name="whatsapp_number" type="text"
                                                     class="form-control"
-                                                    value="{{ old('whatsapp_number', auth()->user()->whatsapp_number) }}"
+                                                    value="{{ old('whatsapp_number', is_array(json_decode($user->address->phone_number)) ? json_decode($user->address->phone_number)[1] : '') }}"
                                                     placeholder="01XXXXXXXXX">
                                                 @error('whatsapp_number')
                                                     <div class="text-danger small">{{ $message }}</div>
@@ -192,7 +220,7 @@
                                                 <label for="guardian_number" class="form-label">Guardian's number</label>
                                                 <input id="guardian_number" name="guardian_number" type="text"
                                                     class="form-control"
-                                                    value="{{ old('guardian_number', auth()->user()->guardian_number) }}"
+                                                    value="{{ old('guardian_number', $user->studentDetails->guardian_number) }}"
                                                     placeholder="Optional">
                                                 @error('guardian_number')
                                                     <div class="text-danger small">{{ $message }}</div>
@@ -210,7 +238,7 @@
                                             <div class="mb-3">
                                                 <label for="country" class="form-label">Country</label>
                                                 <input id="country" name="country" type="text" class="form-control"
-                                                    value="{{ old('country', auth()->user()->country) }}"
+                                                    value="{{ old('country', $user->address->country) }}"
                                                     placeholder="Country">
                                             </div>
                                         </div>
@@ -218,7 +246,7 @@
                                             <div class="mb-3">
                                                 <label for="state" class="form-label">State</label>
                                                 <input id="state" name="state" type="text" class="form-control"
-                                                    value="{{ old('state', auth()->user()->state) }}"
+                                                    value="{{ old('state', $user->address->state) }}"
                                                     placeholder="State">
                                             </div>
                                         </div>
@@ -226,14 +254,14 @@
                                             <div class="mb-3">
                                                 <label for="city" class="form-label">City</label>
                                                 <input id="city" name="city" type="text" class="form-control"
-                                                    value="{{ old('city', auth()->user()->city) }}" placeholder="City">
+                                                    value="{{ old('city', $user->address->city) }}" placeholder="City">
                                             </div>
                                         </div>
                                         <div class="col-6 col-md-3">
                                             <div class="mb-3">
                                                 <label for="post" class="form-label">Post/Zip</label>
                                                 <input id="post" name="post" type="text" class="form-control"
-                                                    value="{{ old('post', auth()->user()->post) }}"
+                                                    value="{{ old('post', $user->address->post) }}"
                                                     placeholder="Post code">
                                             </div>
                                         </div>
@@ -249,7 +277,7 @@
                                                 <label for="occupation" class="form-label">Occupation</label>
                                                 <input id="occupation" name="occupation" type="text"
                                                     class="form-control"
-                                                    value="{{ old('occupation', auth()->user()->occupation) }}"
+                                                    value="{{ old('occupation', $user->studentDetails->occupation) }}"
                                                     placeholder="e.g. Student / Developer">
                                             </div>
                                         </div>
@@ -258,7 +286,7 @@
                                                 <label for="organization" class="form-label">Organization</label>
                                                 <input id="organization" name="organization" type="text"
                                                     class="form-control"
-                                                    value="{{ old('organization', auth()->user()->organization) }}"
+                                                    value="{{ old('organization', $user->studentDetails->organization) }}"
                                                     placeholder="Organization">
                                             </div>
                                         </div>
@@ -267,7 +295,7 @@
                                                 <label for="designation" class="form-label">Designation</label>
                                                 <input id="designation" name="designation" type="text"
                                                     class="form-control"
-                                                    value="{{ old('designation', auth()->user()->designation) }}"
+                                                    value="{{ old('designation', $user->studentDetails->designation) }}"
                                                     placeholder="Job title">
                                             </div>
                                         </div>
@@ -283,7 +311,7 @@
                                                 <label for="institution" class="form-label">Institution</label>
                                                 <input id="institution" name="institution" type="text"
                                                     class="form-control"
-                                                    value="{{ old('institution', auth()->user()->institution) }}"
+                                                    value="{{ old('institution', $user->studentDetails->institution) }}"
                                                     placeholder="Organization / School">
                                             </div>
                                         </div>
@@ -291,7 +319,7 @@
                                             <div class="mb-3">
                                                 <label for="class" class="form-label">Class </label>
                                                 <input id="class" name="class" type="text" class="form-control"
-                                                    value="{{ old('class', auth()->user()->class) }}"
+                                                    value="{{ old('class', $user->studentDetails->class) }}"
                                                     placeholder="Class">
                                             </div>
                                         </div>
@@ -301,7 +329,7 @@
                                                     certificate</label>
                                                 <input id="last_certificate_name" name="last_certificate_name"
                                                     type="text" class="form-control"
-                                                    value="{{ old('last_certificate_name', auth()->user()->last_certificate_name) }}"
+                                                    value="{{ old('last_certificate_name', $user->studentDetails->last_certificate_name) }}"
                                                     placeholder="e.g. HSC / Diploma">
                                             </div>
                                         </div>

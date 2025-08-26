@@ -157,10 +157,9 @@ php artisan make:module CommunicationManagement/Subscriber [email:string-255] --
 
 
 
+php artisan make:table UserManagement/User/StudentDetails [user_id:bigint,father_name:string-100,mother_name:string-100,gender:enum-Male.Female.Other,guardian_number:string:20,blood_group:enum-A+.A-.B+.B-.AB+.AB-.O+.O-,occupation:string-100,designation:string-100,organization:string-100,institution:string-100,class:string-100,last_certificate_name:string-100,reference_source:string-100] --model
 
-
-
-
+                                                                                                                                                                                            
 
 
 

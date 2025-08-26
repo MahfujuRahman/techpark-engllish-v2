@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Modules\Management\UserManagement\User\Models;
+use App\Modules\Management\UserManagement\User\Models\StudentDetailsModel as StudentDetails;
+
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Str;
@@ -84,5 +86,9 @@ class Model extends Authenticatable
     public function batchStudents()
     {
         return $this->hasMany(self::$CourseBatchStudentModel, 'student_id', 'id');
+    }
+    public function studentDetails()
+    {
+        return $this->hasOne(StudentDetails::class, 'user_id', 'id');
     }
 }
