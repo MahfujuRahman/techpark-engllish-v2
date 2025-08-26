@@ -83,3 +83,7 @@ include_once base_path("app/Modules/Management/CourseManagement/CourseModuleClas
 include_once base_path("app/Modules/Management/WebsiteManagement/OurTeam/Routes/Route.php");
 include_once base_path("app/Modules/Management/WebsiteManagement/Faq/Routes/Route.php");
 include_once base_path("app/Modules/Management/CommunicationManagement/Subscriber/Routes/Route.php");
+include_once base_path("app/Modules/Management/WebsiteManagement/PrivacyPolicy/Routes/Route.php");
+include_once base_path("app/Modules/Management/WebsiteManagement/RefundPolicy/Routes/Route.php");
+include_once base_path("app/Modules/Management/WebsiteManagement/CookiePolicy/Routes/Route.php");
+include_once base_path("app/Modules/Management/WebsiteManagement/TermConditionPolicy/Routes/Route.php");

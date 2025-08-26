@@ -7,6 +7,10 @@ import SettingsRoutes from "../Management/Settings/setup/routes.js";
 //UserRoutes
 import UserRoutes from "../Management/UserManagement/User/setup/routes.js";
 //routes
+import TermConditionPolicyRoutes from '../../../GlobalManagement/WebsiteManagement/TermConditionPolicy/setup/routes.js';
+import CookiePolicyRoutes from '../../../GlobalManagement/WebsiteManagement/CookiePolicy/setup/routes.js';
+import RefundPolicyRoutes from '../../../GlobalManagement/WebsiteManagement/RefundPolicy/setup/routes.js';
+import PrivacyPolicyRoutes from '../../../GlobalManagement/WebsiteManagement/PrivacyPolicy/setup/routes.js';
 import SubscriberRoutes from '../../../GlobalManagement/CommunicationManagement/Subscriber/setup/routes.js';
 import FaqRoutes from '../../../GlobalManagement/WebsiteManagement/Faq/setup/routes.js';
 import OurTeamRoutes from '../../../GlobalManagement/WebsiteManagement/OurTeam/setup/routes.js';
@@ -53,6 +57,10 @@ const routes = {
       name: "adminDashboard",
     },
     //management routes
+        TermConditionPolicyRoutes,
+        CookiePolicyRoutes,
+        RefundPolicyRoutes,
+        PrivacyPolicyRoutes,
         SubscriberRoutes,
         FaqRoutes,
         OurTeamRoutes,

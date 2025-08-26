@@ -330,42 +330,6 @@ class WebsiteController extends Controller
         return response()->json(['message' => 'Registraiton for the seminar completed'], 200);
     }
 
-    public function career_counseling()
-    {
-        // dd(request()->all());
-        $validator = Validator::make(request()->all(), [
-            'name' => ['required'],
-            'email' => ['email'],
-            'phone' => ['required'],
-            'description' => ['required'],
-            'category' => ['required'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'err_message' => 'validation error',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $data = new CareerCounseling();
-        $data->name = request()->name;
-        $data->email = request()->email ?? '';
-        $data->phone = request()->phone;
-        $data->description = request()->description;
-        $data->category = request()->category;
-        $data->save();
-
-
-        // return response()->json($data, 200);
-        return response()->json(
-            [
-                'data' => $data,
-            ],
-            200
-        );
-    }
-
 
     public function privacy_policy()
     {

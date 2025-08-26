@@ -131,6 +131,23 @@
           title: `Faqs`,
           icon: `zmdi zmdi-dot-circle-alt`,
         },
+        {
+          route: { name: `EditPrivacyPolicy`, params: { id: 'privacy-policy' } },
+          title: `PrivacyPolicy`,
+          icon: `zmdi zmdi-dot-circle-alt`,
+        }, {
+          route: { name: `EditRefundPolicy`, params: { id: 'refund-policy' } },
+          title: `RefundPolicy`,
+          icon: `zmdi zmdi-dot-circle-alt`,
+        }, {
+          route: { name: `EditCookiePolicy`, params: { id: 'cookie-policy' } },
+          title: `CookiePolicy`,
+          icon: `zmdi zmdi-dot-circle-alt`,
+        }, {
+          route: { name: `EditTermConditionPolicy`, params: { id: 'term-condition-policy' } },
+          title: `TermConditionPolicy`,
+          icon: `zmdi zmdi-dot-circle-alt`,
+        },
       ]" />
       <side-bar-drop-down-menus :icon="`fa fa-plus`" :menu_title="`BlogManagement`" :menus="[
         {
@@ -190,11 +207,11 @@
           route_name: `AllContactMessage`,
           title: `ContactMessage`,
           icon: `zmdi zmdi-dot-circle-alt`,
-        },          {
-            route_name: `AllSubscriber`,
-            title: `Subscriber`,
-            icon: `zmdi zmdi-dot-circle-alt`,
-          },
+        }, {
+          route_name: `AllSubscriber`,
+          title: `Subscriber`,
+          icon: `zmdi zmdi-dot-circle-alt`,
+        },
       ]" />
 
       <!-- Management end -->

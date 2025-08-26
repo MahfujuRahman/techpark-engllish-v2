@@ -85,6 +85,10 @@ php artisan make:module WebsiteManagement/OurVision [title:string-255,descriptio
 php artisan make:module WebsiteManagement/OurTeam [title:string-255,description:text] --vue
 
 php artisan make:module WebsiteManagement/Faq [title:string-255,description:text] --vue
+php artisan make:module WebsiteManagement/PrivacyPolicy [title:string-255,description:text] --vue
+php artisan make:module WebsiteManagement/RefundPolicy [title:string-255,description:text] --vue
+php artisan make:module WebsiteManagement/CookiePolicy [title:string-255,description:text] --vue
+php artisan make:module WebsiteManagement/TermConditionPolicy [title:string-255,description:text] --vue
 
 
 /*
