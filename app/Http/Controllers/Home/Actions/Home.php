@@ -23,12 +23,12 @@ class Home
     public static function execute()
     {
         $cacheKey = 'home_page_html_v1';
-        $ttlMinutes = 60; // cache time-to-live
+        // $ttlMinutes = 60; // cache time-to-live
 
-        if (Cache::has($cacheKey)) {
-            $html = Cache::get($cacheKey);
-            return response($html)->header('X-Cache-Status', 'HIT');
-        }
+        // if (Cache::has($cacheKey)) {
+        //     $html = Cache::get($cacheKey);
+        //     return response($html)->header('X-Cache-Status', 'HIT');
+        // }
 
         $banners = Banner::where('is_featured', 1)->where('status', 1)->orderBy('id', 'desc')->get();
         $subBanners = SubBanner::where('status', 1)->orderBy('id', 'desc')->get();
@@ -58,12 +58,12 @@ class Home
         ];
 
 
-        $html = view('frontend.pages.home.home', $data)->render();
-        Cache::put($cacheKey, $html, now()->addMinutes($ttlMinutes));
+        // $html = view('frontend.pages.home.home', $data)->render();
+        // Cache::put($cacheKey, $html, now()->addMinutes($ttlMinutes));
 
-        return response($html)->header('X-Cache-Status', 'MISS');
-        // Cache::forget($cacheKey);
+        // return response($html)->header('X-Cache-Status', 'MISS');
+        Cache::forget($cacheKey);
 
-        // return view('frontend.pages.home.home', $data);
+        return view('frontend.pages.home.home', $data);
     }
 }
