@@ -229,9 +229,9 @@ class SeminerController extends Controller
      * Recursively search the payload (array of nodes) by reference and insert replyData into the node with id == parentId.
      * Returns true if inserted.
      */
-    protected function insertReplyIntoPayload(array & $nodes, $parentId, array $replyData)
+    protected function insertReplyIntoPayload(array &$nodes, $parentId, array $replyData)
     {
-        foreach ($nodes as $idx => & $node) {
+        foreach ($nodes as $idx => &$node) {
             if (isset($node['id']) && $node['id'] == $parentId) {
                 if (!isset($node['replies']) || !is_array($node['replies'])) {
                     $node['replies'] = [];

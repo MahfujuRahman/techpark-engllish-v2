@@ -202,6 +202,18 @@
     </script>
 @endsection
 
+<style>
+    .logo_area{
+        height: unset!important;
+    }
+    .science_and_technology_content{
+        width: unset!important;
+    }
+    .title_image{
+        width: unset!important;
+    }
+</style>
+
 <script>
     // Reply form toggle and wiring
     document.addEventListener('click', function(e) {
