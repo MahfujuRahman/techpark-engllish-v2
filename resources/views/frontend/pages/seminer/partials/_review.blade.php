@@ -187,6 +187,7 @@
     {{-- Replies container --}}
     @if ($showRepliesButton && $replies->count() > 0)
         <div class="replies-container {{ $level === 0 ? 'main-replies' : 'nested-replies' }}" 
+             {{-- style="display: none;" --}}
              style="{{ $level >= 1 ? 'display: none;' : '' }}"
              data-level="{{ $level }}">
             @foreach ($replies as $reply)

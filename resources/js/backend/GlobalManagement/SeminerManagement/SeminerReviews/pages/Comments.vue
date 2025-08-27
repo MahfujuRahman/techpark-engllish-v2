@@ -112,10 +112,10 @@ export default {
                                     <small class="text-muted"> · {{ formatDate(reply.created_at) }}</small>
                                 </div>
                                 <div class="mt-1">{{ reply.comment }}</div>
-                                <div class="mt-2">
+                                <div class="mt-2" v-if="level < 2">
                                     <button @click="$emit('toggle-reply', reply.id)" class="btn btn-sm btn-link">Reply</button>
                                 </div>
-                                <div v-if="replyForms[reply.id]" class="mt-2">
+                                <div v-if="level < 2 && replyForms[reply.id]" class="mt-2">
                                     <form @submit.prevent="$emit('submit-reply', reply.id)">
                                         <div class="mb-2">
                                             <textarea v-model="replyTexts[reply.id]" class="form-control" rows="3" placeholder="Write a reply..." required></textarea>
@@ -124,7 +124,7 @@ export default {
                                         <button type="button" @click="$emit('toggle-reply', reply.id)" class="btn btn-sm btn-link">Cancel</button>
                                     </form>
                                 </div>
-                                <ReplyThread 
+                                <ReplyThread v-if="level < 2"
                                     :replies="reply.replies" 
                                     :level="level + 1"
                                     @toggle-reply="$emit('toggle-reply', $event)"
