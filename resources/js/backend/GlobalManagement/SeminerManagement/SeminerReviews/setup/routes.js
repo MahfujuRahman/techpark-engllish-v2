@@ -2,6 +2,7 @@ import setup from ".";
 import All from "../pages/All.vue";
 import Form from "../pages/Form.vue";
 import Details from "../pages/Details.vue";
+import Comments from "../pages/Comments.vue";
 import Layout from "../pages/Layout.vue";
 
 let route_prefix = setup.route_prefix;
@@ -30,6 +31,11 @@ const routes = {
             path: "edit/:id",
             name: "Edit" + route_prefix,
             component: Form,
+        },
+        {
+            path: "comments/:id",
+            name: "Comments" + route_prefix,
+            component: Comments,
         },
     ],
 };

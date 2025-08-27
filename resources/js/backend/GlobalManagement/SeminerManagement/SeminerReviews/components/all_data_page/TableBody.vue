@@ -32,6 +32,9 @@
           </a>
         </template>
       </td>
+      <td v-else-if="row_item === 'comment_reply'">
+        <button @click="navigateToComments(item)" class="btn btn-sm btn-primary">Manage Comments</button>
+      </td>
       <td v-else class="text-wrap max-w-120">
         {{ trim_content(item[row_item], row_item) }}
       </td>
@@ -80,6 +83,12 @@ export default {
       if (parentLink) {
         parentLink.href = '/avatar.png';
       }
+    },
+
+    navigateToComments(item) {
+      // Navigate to the comments page for this seminar
+      const seminarId = item.seminar_id?.id || item.seminar_id;
+      this.$router.push(`/seminer-reviews/comments/${seminarId}`);
     },
 
     initFancybox() {

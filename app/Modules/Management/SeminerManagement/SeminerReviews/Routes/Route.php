@@ -4,7 +4,7 @@ use App\Modules\Management\SeminerManagement\SeminerReviews\Controller\Controlle
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
-    Route::prefix('seminer-reviews')->group(function () {
+    Route::prefix('seminer-reviews')->middleware(['auth:api'])->group(function () {
         Route::get('', [Controller::class,'index']);
         Route::get('{slug}', [Controller::class,'show']);
         Route::post('store', [Controller::class,'store']);
@@ -15,5 +15,9 @@ Route::prefix('v1')->group(function () {
         Route::post('restore', [Controller::class,'restore']);
         Route::post('import', [Controller::class,'import']);
         Route::post('bulk-action', [Controller::class, 'bulkAction']);
+        
+        // API routes for comment management
+        Route::get('/seminar-details/{id}', [Controller::class, 'getSeminarDetails']);
+        Route::post('/reply/{id}', [Controller::class, 'submitReply']);
     });
 });

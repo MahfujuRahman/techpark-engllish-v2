@@ -67,6 +67,8 @@ class SeminerController extends Controller
             });
         }
 
+
+
         return view('frontend.pages.seminer.seminar-details', compact('seminar', 'seminars'));
     }
 
@@ -191,6 +193,7 @@ class SeminerController extends Controller
             'name' => auth()->user()->first_name ?? request()->name,
             'email' => auth()->user()->email ?? request()->email,
             'user_id' => auth()->id(),
+            'is_admin' => false,
             'rating' => 0,
             'comment' => request()->comment,
             'created_at' => now()->toDateTimeString(),

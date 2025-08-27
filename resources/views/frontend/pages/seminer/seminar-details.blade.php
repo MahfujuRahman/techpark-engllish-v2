@@ -125,15 +125,6 @@
                 <div class="card-body">
                     <h5 class="card-title mb-3">Review this seminar</h5>
 
-                    {{-- Show existing reviews --}}
-                    <div id="reviews-list">
-                        @foreach ($seminar->reviews ?? collect() as $review)
-                            @include('frontend.pages.seminer.partials._review', ['review' => $review])
-                        @endforeach
-                    </div>
-
-                    <hr>
-
                     {{-- New review form --}}
                     <form method="POST" action="{{ route('seminar.review', $seminar->id) }}" id="new-review-form">
                         @csrf
@@ -169,6 +160,16 @@
 
                         <button type="submit" class="btn btn-outline-primary w-100">Submit review</button>
                     </form>
+                    
+                    <hr>
+                    {{-- Show existing reviews --}}
+                    <div id="reviews-list">
+                        @foreach ($seminar->reviews ?? collect() as $review)
+                            @include('frontend.pages.seminer.partials._review', ['review' => $review])
+                        @endforeach
+                    </div>
+
+
                 </div>
             </div>
         </div>
