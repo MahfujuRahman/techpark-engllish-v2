@@ -13,6 +13,7 @@ use App\Http\Controllers\Contact\ContactController;
 
 use App\Http\Controllers\Gallery\GalleryController;
 use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\Seminer\SeminerController;
 use App\Http\Controllers\Teacher\TeacherController;
 use App\Modules\Controllers\Frontend\Auth\AuthController as BackendAuthController;
 
@@ -62,11 +63,14 @@ Route::get('/blog', [BlogController::class, 'blog'])->name("blog");
 Route::get('/blog/{slug}', [BlogController::class, 'blog_details'])->name("blog_details");
 Route::post('/subscribed', [BlogController::class, 'subscribe'])->name("blog.subscribe");
 
-Route::get('/seminar', [WebsiteController::class, 'seminar'])->name("seminar");
-Route::get('/seminar/details/{id}', [WebsiteController::class, 'seminar_details'])->name("seminar.details");
-Route::get('/it-solution-services', [WebsiteController::class, 'it_solution_services'])->name("it_solution_services");
-Route::post('/seminar-registration', [WebsiteController::class, 'registerSeminar'])->name("registerSeminar");
+Route::get('/seminar', [SeminerController::class, 'seminar'])->name("seminar");
+Route::get('/seminar/details/{id}', [SeminerController::class, 'seminar_details'])->name("seminar.details");
+Route::post('/seminar-registration', [SeminerController::class, 'registerSeminar'])->name("registerSeminar");
+Route::post('/seminar-subscribe', [SeminerController::class, 'subscribe'])->name("seminar.subscribe");
+Route::post('/seminar-review', [SeminerController::class, 'review'])->name("seminar.review");
+Route::post('/seminar-review-reply/{id}', [SeminerController::class, 'review_reply'])->name("seminar.review.reply");
 
+Route::get('/it-solution-services', [WebsiteController::class, 'it_solution_services'])->name("it_solution_services");
 
 Route::get('/stories', [HomeController::class, 'stories'])->name("stories");
 

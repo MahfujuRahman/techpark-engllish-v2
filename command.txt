@@ -149,6 +149,7 @@ php artisan make:module SeminerManagement/SeminerParticipant [seminar_id:bigint{
 php artisan make:module SeminerManagement/SeminerSubscribers [seminar_id:bigint{SeminerManagement/Seminer},email:string-255] --vue
 php artisan make:module SeminerManagement/SeminerReviews [seminar_id:bigint{SeminerManagement/Seminer},comment:string-255,rating:float,comment_reply:json] --vue
 
+
 /*
 |--------------------------------------------------------------------------
 | Communication Messages

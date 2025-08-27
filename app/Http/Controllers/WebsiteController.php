@@ -177,20 +177,7 @@ class WebsiteController extends Controller
         ]);
     }
 
-   
 
-    public function seminar()
-    {
-        $seminars = Seminars::whereDate('date_time', '>', Carbon::today())->where('status', 'active')->get();
-        return view('frontend.pages.seminar', compact('seminars'));
-    }
-
-    public function seminar_details($id)
-    {
-        $seminars = Seminars::whereDate('date_time', '>', Carbon::today())->get();
-        $seminar_detail = Seminars::where('id', $id)->first();
-        return view('frontend.pages.seminar-details', compact('seminars', 'seminar_detail'));
-    }
 
     public function it_solution_services()
     {
@@ -301,33 +288,6 @@ class WebsiteController extends Controller
         // ddd($data->toArray());
 
         return view('frontend.pages.my_course_details', ['course' => $data]);
-    }
-
-    public function registerSeminar()
-    {
-        $validator = Validator::make(request()->all(), [
-            'full_name' => ['required'],
-            'phone_number' => ['required'],
-            'email' => ['email', 'nullable'],
-            'address' => ['string'],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'err_message' => 'validation error',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $seminar = new SeminarParticipants();
-        $seminar->seminar_id = request()->seminar_id;
-        $seminar->full_name = request()->full_name;
-        $seminar->email = request()->email;
-        $seminar->phone_number = request()->phone_number;
-        $seminar->address = request()->address;
-        $seminar->save();
-
-        return response()->json(['message' => 'Registraiton for the seminar completed'], 200);
     }
 
 

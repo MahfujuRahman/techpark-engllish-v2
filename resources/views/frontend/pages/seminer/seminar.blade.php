@@ -63,20 +63,7 @@
                             </div>
                         </div>
 
-                        
-                        {{-- <iframe src="{{ $item->promo_video }}" frameborder="0"></iframe> --}}
-                        {{-- <div class="join_button join_button_copy d-flex gap-3">
-                            <button type="button" class="success_video_area" onclick="showVideo(`{{$item->promo_video}}`)">
-                                <div class="promo-iframe">
-                                    rrewrewrewrwe
-                                </div>
-                            </button>
-                            <button class="button_all button_all_copy" onclick="showSeminarModel({{ $item }})">
-                                <span class="btn_text"> জয়েন</span>
-                            </button>
-                        </div> --}}
-                        
-
+                
                         <div class="join_button d-flex gap-3">
                             <button type="button" class="button_all p-0 success_video_area" onclick="showVideo(`{{$item->promo_video}}`)">
                                 <div class="promo-iframe">                                                                                    
@@ -170,13 +157,6 @@
         seminar_modal.toggle();
         // console.log(seminar);
     }
-
-    // function showSeminarDetails(seminar) {
-    //     window.seminar_id = seminar.id;
-    //     document.getElementById('seminar_form').reset();
-    //     seminar_modal.toggle();
-    //     // console.log(seminar);
-    // }
 
     function registerSeminar(event) {
         event.preventDefault();
