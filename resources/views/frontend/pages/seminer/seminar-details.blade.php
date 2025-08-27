@@ -160,7 +160,7 @@
 
                         <button type="submit" class="btn btn-outline-primary w-100">Submit review</button>
                     </form>
-                    
+
                     <hr>
                     {{-- Show existing reviews --}}
                     <div id="reviews-list">

@@ -32,41 +32,24 @@ class SeminerController extends Controller
             ->where('id', '!=', $seminar->id)
             ->get();
 
-        // For each top-level review, attach replies from the JSON column and any legacy child rows
-        $reviewModel = SeminarReviews::class;
+        // For each top-level review, attach replies from the JSON column
         foreach ($seminar->reviews as $review) {
-            // replies from JSON column
+            // Get replies from JSON column (ensure it's never null)
             $jsonReplies = [];
             if (!empty($review->comment_reply)) {
-                $jsonReplies = json_decode($review->comment_reply, true) ?: [];
-            }
-
-            // legacy replies stored as separate rows (parent_id)
-            $legacyReplies = [];
-            try {
-                $legacy = $reviewModel::where('id', $review->id)->orderBy('id', 'asc')->get();
-                foreach ($legacy as $lr) {
-                    $legacyReplies[] = [
-                        'id' => $lr->id,
-                        'name' => $lr->name,
-                        'email' => $lr->email,
-                        'user_id' => $lr->user_id,
-                        'comment' => $lr->comment,
-                        'rating' => $lr->rating,
-                        'created_at' => optional($lr->created_at)->toDateTimeString(),
-                    ];
+                try {
+                    $decoded = json_decode($review->comment_reply, true);
+                    $jsonReplies = is_array($decoded) ? $decoded : [];
+                } catch (\Exception $e) {
+                    $jsonReplies = [];
                 }
-            } catch (\Exception $e) {
-                $legacyReplies = [];
             }
 
-            $all = array_merge($jsonReplies, $legacyReplies);
-            // attach as collection of simple objects so the view partial can iterate
-            $review->replies = collect($all)->map(function ($r) {
+            // Convert to collection of objects for the view
+            $review->replies = collect($jsonReplies)->map(function ($r) {
                 return (object) $r;
             });
         }
-
 
 
         return view('frontend.pages.seminer.seminar-details', compact('seminar', 'seminars'));
@@ -188,23 +171,29 @@ class SeminerController extends Controller
 
         // Try direct DB row first
         $parent = SeminarReviews::find($parentId);
+        // Build reply data with admin check
         $replyData = [
             'id' => uniqid('r_'),
             'name' => auth()->user()->first_name ?? request()->name,
             'email' => auth()->user()->email ?? request()->email,
             'user_id' => auth()->id(),
-            'is_admin' => false,
-            'rating' => 0,
+            'is_admin' => auth()->check() && auth()->user()->first_name === (env('ADMIN_NAME', 'Admin')),
+            'rating' => null,
             'comment' => request()->comment,
             'created_at' => now()->toDateTimeString(),
             'replies' => [],
         ];
 
         if ($parent) {
-            // append as top-level parent's JSON replies
+            // Replying to a top-level review - add to its JSON replies
             $existing = [];
             if (!empty($parent->comment_reply)) {
-                $existing = json_decode($parent->comment_reply, true) ?: [];
+                try {
+                    $decoded = json_decode($parent->comment_reply, true);
+                    $existing = is_array($decoded) ? $decoded : [];
+                } catch (\Exception $e) {
+                    $existing = [];
+                }
             }
             $existing[] = $replyData;
             $parent->comment_reply = json_encode($existing);
@@ -212,15 +201,20 @@ class SeminerController extends Controller
             return redirect()->back()->with('success', 'You have successfully submitted your reply!');
         }
 
-        // If not a DB row, search through top-level reviews to find which one contains this JSON id
+        // If not a DB row, search through top-level reviews to find nested reply
         $topLevel = SeminarReviews::where('seminar_id', request()->seminar_id)->get();
         foreach ($topLevel as $tl) {
             $payload = [];
             if (!empty($tl->comment_reply)) {
-                $payload = json_decode($tl->comment_reply, true) ?: [];
+                try {
+                    $decoded = json_decode($tl->comment_reply, true);
+                    $payload = is_array($decoded) ? $decoded : [];
+                } catch (\Exception $e) {
+                    $payload = [];
+                }
             }
 
-            // attempt recursive insert by reference
+            // Attempt recursive insert
             if ($this->insertReplyIntoPayload($payload, $parentId, $replyData)) {
                 $tl->comment_reply = json_encode($payload);
                 $tl->save();
